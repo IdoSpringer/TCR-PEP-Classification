@@ -7,6 +7,8 @@ from handle_params import arguments
 """
 TO DO:
 
+BUG FIXES
+
 MULTIPLE GPUs IN PYTORCH
 EARLY STOPPING
 GRID RUN:
