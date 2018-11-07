@@ -18,14 +18,14 @@ def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, de
         optimizer.zero_grad()
 
         x_train, y_train = zip(*batch_)
-        input_seq, sequences_len = get_batch(x_train, word_to_ix)
+        input_seq, sequences_len = hd.get_batch(x_train, word_to_ix)
         if device.type != 'cpu':
             input_seq = input_seq.to(device)
             sequences_len = sequences_len.to(device)
 
         lst_of_pep_ix = [epoch_pep] * len(y_train)
         lst_of_pep = [peptides_list[i] for i in lst_of_pep_ix]
-        input_pep, peptides_len = get_batch(lst_of_pep, pep_to_ix)
+        input_pep, peptides_len = hd.get_batch(lst_of_pep, pep_to_ix)
         if device.type != 'cpu':
             input_pep = input_pep.to(device)
             peptides_len = peptides_len.to(device)
@@ -92,7 +92,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
     for epoch in range(250 * num_of_peptides):  # params should be in params file
         # shuffling and divide data
         random.shuffle(data)
-        data_divided = chunks(data, 10)  # param file ?
+        data_divided = hd.chunks(data, 10)  # param file ?
         specific_batch = list(data_divided)
         # choose peptide
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
@@ -150,7 +150,7 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
     specific_batch_test = list(data_divided_test)
     for batch_test in specific_batch_test:
         x, y = zip(*batch_test)
-        input_seq, sequences_len = get_batch(x, word_to_ix)
+        input_seq, sequences_len = hd.get_batch(x, word_to_ix)
         if device.type != 'cpu':
             input_seq = input_seq.to(device)
             sequences_len = sequences_len.to(device)
@@ -158,7 +158,7 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
         current_pep_ = np.random.choice(num_of_lbl, 1, replace=False, p=p_vec)[0]
         lst_of_pep_ix = [current_pep_] * len(y)
         lst_of_pep = [peptides_list[i] for i in lst_of_pep_ix]
-        input_pep, peptides_len = get_batch(lst_of_pep, pep_to_ix)
+        input_pep, peptides_len = hd.get_batch(lst_of_pep, pep_to_ix)
         if device.type != 'cpu':
             input_pep = input_pep.to(device)
             peptides_len = peptides_len.to(device)
