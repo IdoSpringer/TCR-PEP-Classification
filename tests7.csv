@@ -1,0 +1,5 @@
+Two embedding matrix Embedding(21, 20, padding_idx=0) 40  2,0.87593,0.92145,0.89812,train
+Two embedding matrix Embedding(21, 20, padding_idx=0) 40  2,0.81109,0.9186,0.8615,dev
+
+Two embedding matrix Embedding(21, 20, padding_idx=0) 40  3,0.66043,0.81004,0.72762,train
+Two embedding matrix Embedding(21, 20, padding_idx=0) 40  3,0.72471,0.84615,0.78074,dev

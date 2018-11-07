@@ -1,0 +1,15 @@
+{
+    "bi_lstm": "",
+    "cuda": 0,
+    "dropout": 0,
+    "file_name": "tests8.csv",
+    "num_layers": 1,
+    "num_lstm": 1,
+    "num_of_peptides": "all",
+    "save_to_file": "True",
+    "test":"no",
+    "saving model":"True",
+    "model file name":"my_model2.json",
+    "embedding_dim":"20",
+    "hidden_dim":"40"
+}
