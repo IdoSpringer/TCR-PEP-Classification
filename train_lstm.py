@@ -72,8 +72,10 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         model = DoubleLSTMClassifier(embedding_dim, hidden_dim, len(letter_to_ix), 1, len(pep_to_ix), device)
     elif model_name == 'upgrade':
         model = DoubleLSTMClassifierUpgrade(embedding_dim, hidden_dim, len(letter_to_ix), 1, len(pep_to_ix), device, n_layers, bi_lstm)
-    if device.type != 'cpu':
-        model = model.to(device)
+    if torch.cuda.device_count() > 1:
+        print("Let's use", torch.cuda.device_count(), "GPUs!")
+        model = nn.DataParallel(model)
+    model.to(device)
 
     # Loss and optimization
     loss_function = nn.BCELoss()
