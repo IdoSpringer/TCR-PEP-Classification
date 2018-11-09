@@ -3,7 +3,7 @@ import json
 
 def set_model(arguments):
     # classifier model to use
-    arguments['divide'] = arguments == 'yes'     # ??????
+    arguments['divide'] = arguments['test'] == 'yes'
     if bool(arguments['bi_lstm']):
         arguments['num_layers'] = int(arguments['num_layers'])
         arguments['bi_lstm'] = bool(arguments['bi_lstm'])

@@ -76,7 +76,7 @@ def main():
                 arguments['hidden_dim'] = hidden_dim
                 arguments['mode_name'] = model_name
 
-                for trial in range(4):  # unnecessary?
+                for trial in range(3):  # unnecessary?
                     if divide:
                         fit_model, train_line, dev_line, test_line_best, test_line = do_one_train(model_name,
                                                                                                  peptides_list,
@@ -89,7 +89,7 @@ def main():
                     curr_result = float(test_line.split(',')[-2])
                     print(curr_result)
 
-                    with open("save_main_results_grid.txt", "a+") as my_file:
+                    with open("save_main_results_grid2.txt", "a+") as my_file:
                         my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + train_line + 'train' + '\n')
                         my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + dev_line + 'dev' + '\n')
                         if divide:

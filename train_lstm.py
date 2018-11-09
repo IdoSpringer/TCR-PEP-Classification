@@ -86,8 +86,9 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
 
     p_vec = np.array([len(train_lst[x]) for x in peptides_lst]) / sum([len(train_lst[x]) for x in peptides_lst])
     ts_ = time.time()
+    stop_early = 0
     # Training
-    for epoch in range(250 * num_of_peptides):  # params should be in params file
+    for epoch in range(100 * num_of_peptides):  # params should be in params file
         # shuffling and divide data
         random.shuffle(data)
         data_divided = hd.chunks(data, 10)  # param file ?
@@ -96,19 +97,32 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
         lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
 
-        if epoch % 2 == 0:
-            print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
 
-            if epoch > 60:
-                lst_result_train.append(
-                    epoch_measures(x_train, y_train, aux_data, model, True, num_of_peptides, device, p_vec))
-                lst_result_dev.append(
-                    epoch_measures(x_dev, y_dev, aux_data, model, True, num_of_peptides, device, p_vec))
-                if divide:
-                    lst_result_test.append(
-                        epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
+        print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
 
-    print(time.time() - ts_)
+        lst_result_train.append(
+            epoch_measures(x_train, y_train, aux_data, model, True, num_of_peptides, device, p_vec))
+        lst_result_dev.append(
+            epoch_measures(x_dev, y_dev, aux_data, model, True, num_of_peptides, device, p_vec))
+        if divide:
+            lst_result_test.append(
+                epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
+
+        if epoch > 50:
+            # Early stopping
+            epoch_dev_accuracy = lst_result_dev[-1][1]
+            previous_dev_accuracy = lst_result_dev[-2][1]
+            if epoch_dev_accuracy < previous_dev_accuracy:
+                stop_early += 1
+                if stop_early == 10:
+                    with open("epoch_time.txt", 'a+') as file:
+                            file.write("stopped early at epoch: " + str(epoch))
+                    break
+            else:
+                stop_early = 0
+
+    with open("epoch_time.txt", 'a+') as file:
+        file.write("train time: " + str(time.time() - ts_))
 
     # Print best results
     precision_t, recall_t, f1_t, _ = best_results(lst_result_train)
@@ -144,7 +158,7 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
     # y_pred_auc=[]
     word_to_ix, peptides_list, pep_to_ix = aux_data
     data_test = list(zip(x_data, y_data))
-    data_divided_test = chunks(data_test, 10)
+    data_divided_test = hd.chunks(data_test, 10)
     specific_batch_test = list(data_divided_test)
     for batch_test in specific_batch_test:
         x, y = zip(*batch_test)
