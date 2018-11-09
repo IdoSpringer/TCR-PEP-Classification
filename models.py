@@ -15,7 +15,7 @@ class LSTMClassifierSimple(nn.Module):
         self.word_embeddings = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
         self.word_embeddings_2 = nn.Embedding(vocab_size2, embedding_dim, padding_idx=0)
         # LStm
-        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers=1, batch_first=True) ############ FIX BAG
+        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers=1)
         # The linear layer that connected to dense
         self.hidden1 = nn.Linear(hidden_dim + hidden_dim, hidden_dim // 2)
         self.relu = torch.nn.LeakyReLU()
