@@ -108,10 +108,11 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
             lst_result_test.append(
                 epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
 
-        if epoch > 50:
+        print("do one train lst_results_dev_: ", lst_result_dev)
+        if epoch > 3:
             # Early stopping
-            epoch_dev_accuracy = lst_result_dev[-1][1]
-            previous_dev_accuracy = lst_result_dev[-2][1]
+            epoch_dev_accuracy = lst_result_dev[-1][0][1]
+            previous_dev_accuracy = lst_result_dev[-2][0][1]
             if epoch_dev_accuracy < previous_dev_accuracy:
                 stop_early += 1
                 if stop_early == 10:
@@ -196,6 +197,6 @@ def epoch_measures(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, devic
           for i in range(20)])
     max_ind, min_ind = np.argmax(fbeta_lst), np.argmin(fbeta_lst)
     lst_result_.append((fbeta_lst[max_ind], precision_lst[max_ind], recall_lst[max_ind]))
-
+    print("epoch measures lst_results_: ", lst_result_)
     return lst_result_
 

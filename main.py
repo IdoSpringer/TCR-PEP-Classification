@@ -42,7 +42,7 @@ def main():
     model_file_name = arguments['model file name']
 
     # Grid run Chosen parameters
-    num_of_peptides = 15  # We use all peptides
+    num_of_peptides = 3  # PARAM FILE
     embedding_dims_list = [10, 35, 100]  # ? find smart numbers
     hidden_dims_list = [10, 35, 100]
     model_list = ['one', 'double', 'upgrade']
@@ -65,7 +65,7 @@ def main():
     sorted_train_lst = sorted(train_lst, key=lambda k: len(train_lst[k]), reverse=True)
 
     # Training
-    peptides_list = sorted_train_lst
+    peptides_list = sorted_train_lst[:num_of_peptides]
     best_f1_test = 0.
     best_model = None
 
