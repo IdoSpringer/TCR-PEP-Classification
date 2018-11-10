@@ -109,7 +109,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
                 epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
 
         print("do one train lst_results_dev_: ", lst_result_dev)
-        if epoch > 3:
+        if epoch > 50:
             # Early stopping
             epoch_dev_accuracy = lst_result_dev[-1][0][1]
             previous_dev_accuracy = lst_result_dev[-2][0][1]
