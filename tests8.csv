@@ -1,0 +1,4 @@
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  3,0.70246,0.74259,0.72197,train
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  3,0.6383,0.81081,0.71429,dev
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  3,0.60772,0.7875,0.68603,test
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  3,0.69784,0.82906,0.75781,test best
