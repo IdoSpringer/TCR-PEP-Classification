@@ -1,0 +1,12 @@
+
+# 15 PEPTIDES - OTHER CODE, IRRELEVANT TO GRID
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.48371,0.79267,0.60079,train
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.53991,0.68452,0.60367,dev
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.51131,0.70186,0.59162,test
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.52033,0.79012,0.62745,test best
+
+# 15 PEPTIDES - OTHER CODE, IRRELEVANT TO GRID
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.55838,0.62029,0.58771,train
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.5625,0.61875,0.58929,dev
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.47791,0.68,0.56132,test
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.54455,0.74324,0.62857,test best

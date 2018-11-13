@@ -11,6 +11,10 @@ import handle_data as hd
 
 # TODO try to write training in Keras?
 
+# TODO loss in time plot - see how much epochs are needed?
+# TODO Why is the running so slow? try running without learning to see what's the problem
+# TODO embedding with (much) lower dimensions
+
 
 def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, device):
     model.train()
