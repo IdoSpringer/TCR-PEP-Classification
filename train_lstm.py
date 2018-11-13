@@ -9,6 +9,9 @@ from sklearn.model_selection import train_test_split
 import handle_data as hd
 
 
+# TODO try to write training in Keras?
+
+
 def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, device):
     model.train()
     word_to_ix, peptides_list, pep_to_ix = aux_data

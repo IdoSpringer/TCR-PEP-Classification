@@ -32,3 +32,4 @@ plt.title("Embedding dim = 35, hidden dim = 10, simple model")
 
 plt.show()
 
+# TODO Wait for more results and make grid-bar-graphs (3*3, each graph has 4*3 bars)
