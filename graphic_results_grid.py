@@ -2,47 +2,59 @@ import matplotlib.pyplot as plt
 
 names = ['train', 'dev', 'test', 'best test']
 values = []
-values35 = []
+
 colors = ['gray', 'blue', 'red', 'green']
 width = 0.35
 
-with open("tests8.csv", 'r') as file:
-    for k in range(7):  # Waiting for more result, should be 9
-        values.append([])
-        for i in range(4):
-            line = file.readline()
-            score = (line.split(","))[-2]
-            values[k].append(float(score))
-        _ = file.readline()
+embedding_dims = [10, 35, 100]
+hidden_dims = [10, 35, 100]
 
-print(values)
-print(list(range(1, 8)))
+
+with open("tests8.csv", 'r') as file:
+    for i in range(3):
+        values.append([])
+        for j in range(3):
+            values[i].append([])
+            for k in range(4):
+                line = file.readline()
+                score = (line.split(","))[-2]
+                values[i][j].append(float(score))
+            _ = file.readline()
+
+
+rows = ['embedding dim'+str(dim) for dim in embedding_dims]
+cols = ['hidden dim'+str(dim) for dim in hidden_dims]
+
 
 fig, axs = plt.subplots(3, 3)
 
-# loop when all results are in file
-axs[0, 0].bar(names, values[0], color=colors, width=width)
-axs[0, 0].set_ylim(0.6, 0.8)
-axs[0, 1].bar(names, values[0], color=colors, width=width)
-axs[0, 1].set_ylim(0.6, 0.8)
-axs[0, 2].bar(names, values[0], color=colors, width=width)
-axs[0, 2].set_ylim(0.6, 0.8)
-axs[1, 0].bar(names, values[0], color=colors, width=width)
-axs[1, 0].set_ylim(0.6, 0.8)
-axs[1, 1].bar(names, values[0], color=colors, width=width)
-axs[1, 1].set_ylim(0.6, 0.8)
-axs[1, 2].bar(names, values[0], color=colors, width=width)
-axs[1, 2].set_ylim(0.6, 0.8)
-axs[2, 0].bar(names, values[0], color=colors, width=width)
-axs[2, 0].set_ylim(0.6, 0.8)
+plt.setp(axs.flat, ylabel='accuracy')
+
+pad = 5  # in points
+
+for ax, col in zip(axs[0], cols):
+    ax.set_title(col)
+
+
+for ax, row in zip(axs[:,0], rows):
+    #ax.set_ylabel(row)
+    ax.annotate(row, xy=(0, 0.5), xytext=(-ax.yaxis.labelpad - pad, 0),
+                xycoords=ax.yaxis.label, textcoords='offset points',
+                size='large', ha='right', va='center', rotation='vertical')
+
+for i in range(3):
+    for j in range(3):
+        axs[i, j].bar(names, values[i][j], color=colors, width=width)
+        axs[i, j].set_ylim(0.65, 0.8)
+        # axs[i, j].set_yticks("a")
+        # axs[i, j].set_title(str(embedding_dims[i]) + ", " + str(hidden_dims[j]))
+
+fig.suptitle("First model, 3 peptides, changing embedding and hidden dims")
 
 
 # plt.ylabel("accuracy")
-# plt.title("Simple model")
-
+'''
+'''
 fig.tight_layout()
 plt.show()
 
-
-
-# TODO Wait for more results and make grid-bar-graphs (3*3, each graph has 4*3 bars)

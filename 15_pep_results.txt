@@ -10,3 +10,20 @@ Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.55838,0.62029,0.5
 Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.5625,0.61875,0.58929,dev
 Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.47791,0.68,0.56132,test
 Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.54455,0.74324,0.62857,test best
+
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.50968,0.70606,0.59201,train
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.52444,0.74214,0.61458,dev
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.46215,0.725,0.56448,test
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.5625,0.72973,0.63529,test best
+
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.48371,0.79267,0.60079,train
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.53991,0.68452,0.60367,dev
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.51131,0.70186,0.59162,test
+Two embedding matrix Embedding(21, 10, padding_idx=0) 10  15,0.52033,0.79012,0.62745,test best
+
+Two embedding matrix Embedding(21, 10, padding_idx=0) 35  15,0.55448,0.60849,0.58023,train
+Two embedding matrix Embedding(21, 10, padding_idx=0) 35  15,0.48689,0.74286,0.58824,dev
+Two embedding matrix Embedding(21, 10, padding_idx=0) 35  15,0.51429,0.40909,0.4557,test
+Two embedding matrix Embedding(21, 10, padding_idx=0) 35  15,0.65306,0.59259,0.62136,test best
+
+
