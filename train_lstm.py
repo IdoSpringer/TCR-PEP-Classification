@@ -104,6 +104,9 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
         lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
 
+        # save loss for graphics
+        with open('epoch_loss', 'a+') as file:
+            file.write("epoch: " + str(epoch) + "loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
 
         print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
 
@@ -115,22 +118,22 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
             lst_result_test.append(
                 epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
 
-        print("do one train lst_results_dev_: ", lst_result_dev)
+        # print("do one train lst_results_dev_: ", lst_result_dev)
         if epoch > 50:
             # Early stopping
-            epoch_dev_accuracy = lst_result_dev[-1][0][1]
-            previous_dev_accuracy = lst_result_dev[-2][0][1]
+            epoch_dev_accuracy = lst_result_dev[-1][0][0]
+            previous_dev_accuracy = lst_result_dev[-2][0][0]
             if epoch_dev_accuracy < previous_dev_accuracy:
                 stop_early += 1
                 if stop_early == 10:
-                    with open("epoch_time.txt", 'a+') as file:
+                    with open("epoch_time2.txt", 'a+') as file:
                             file.write("stopped early at epoch: " + str(epoch))
                     break
             else:
                 stop_early = 0
 
-    with open("epoch_time.txt", 'a+') as file:
-        file.write("train time: " + str(time.time() - ts_))
+    with open("epoch_time2.txt", 'a+') as file:
+        file.write("train time: " + str(time.time() - ts_) + '\n')
 
     # Print best results
     precision_t, recall_t, f1_t, _ = best_results(lst_result_train)
@@ -204,6 +207,6 @@ def epoch_measures(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, devic
           for i in range(20)])
     max_ind, min_ind = np.argmax(fbeta_lst), np.argmin(fbeta_lst)
     lst_result_.append((fbeta_lst[max_ind], precision_lst[max_ind], recall_lst[max_ind]))
-    print("epoch measures lst_results_: ", lst_result_)
+    # print("epoch measures lst_results_: ", lst_result_)
     return lst_result_
 

@@ -43,9 +43,9 @@ def main():
 
     # Grid run Chosen parameters
     num_of_peptides = 3  # PARAM FILE
-    embedding_dims_list = [10, 35, 100]  # ? find smart numbers
-    hidden_dims_list = [10, 35, 100]
-    model_list = ['one', 'double', 'upgrade']
+    embedding_dims_list = [3, 5, 7]  # ? find smart numbers
+    hidden_dims_list = [3, 5, 7]
+    model_list = ['upgrade', 'double', 'one']
 
     # GPU
     cuda_device_num = "cuda:" + cuda
@@ -89,7 +89,7 @@ def main():
                     curr_result = float(test_line.split(',')[-2])
                     print(curr_result)
 
-                    with open("save_main_results_grid2.txt", "a+") as my_file:
+                    with open("save_main_results_grid3.txt", "a+") as my_file:
                         my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + train_line + 'train' + '\n')
                         my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + dev_line + 'dev' + '\n')
                         if divide:

@@ -1,8 +1,8 @@
 {
     "bi_lstm": "",
-    "cuda": 1,
+    "cuda": 3,
     "dropout": 0.05,
-    "file_name": "tests8.csv",
+    "file_name": "tests9.csv",
     "num_layers": 1,
     "num_lstm": 1,
     "num_of_peptides": "3",
