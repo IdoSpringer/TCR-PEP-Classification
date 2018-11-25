@@ -9,13 +9,6 @@ from sklearn.model_selection import train_test_split
 import handle_data as hd
 
 
-# TODO try to write training in Keras?
-
-# TODO loss in time plot - see how much epochs are needed?
-# TODO Why is the running so slow? try running without learning to see what's the problem
-# TODO embedding with (much) lower dimensions
-
-
 def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, device):
     model.train()
     word_to_ix, peptides_list, pep_to_ix = aux_data
@@ -84,7 +77,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
 
     # Loss and optimization
     loss_function = nn.BCELoss()
-    opt = optim.Adam(model.parameters(), weight_decay=1e-3)
+    opt = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-3)
 
     # Results
     lst_result_train = []
@@ -102,13 +95,17 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         specific_batch = list(data_divided)
         # choose peptide
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
+        # Train epoch and get loss
         lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
-
+        '''
+        # CHECK RUNNING WITHOUT LEARNING
+        lss_ = torch.Tensor([0.5])
+        '''
         # save loss for graphics
-        with open('epoch_loss', 'a+') as file:
-            file.write("epoch: " + str(epoch) + "loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
+        with open(params['loss_file'], 'a+') as file:
+            file.write("epoch: " + str(epoch) + " loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
 
-        print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
+        # print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
 
         lst_result_train.append(
             epoch_measures(x_train, y_train, aux_data, model, True, num_of_peptides, device, p_vec))
@@ -126,13 +123,13 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
             if epoch_dev_accuracy < previous_dev_accuracy:
                 stop_early += 1
                 if stop_early == 10:
-                    with open("epoch_time2.txt", 'a+') as file:
+                    with open(params['time_file'], 'a+') as file:
                             file.write("stopped early at epoch: " + str(epoch))
                     break
             else:
                 stop_early = 0
 
-    with open("epoch_time2.txt", 'a+') as file:
+    with open(params['time_file'], 'a+') as file:
         file.write("train time: " + str(time.time() - ts_) + '\n')
 
     # Print best results
@@ -141,10 +138,10 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
     precision_, recall_, f1_, max_ind = best_results(lst_result_dev)
     dev_line = print_line(precision_, recall_, f1_)
     if divide:
-        precision_, recall_, f1_, max_ind = best_results(lst_result_test)
-        test_line_best = print_line(precision_, recall_, f1_)
-        f1, precision, recall = np.round(lst_result_dev[max_ind][0], 5)
+        f1, precision, recall = np.round(lst_result_test[max_ind][0], 5)   # MAJOR CHANGE. CHECK IF TRUE (dev-->test)
         test_line = print_line(precision, recall, f1)
+        precision_, recall_, f1_, max_ind = best_results(lst_result_test)    # SWAPPED THE ORDER. MAJOR CHANGE. CHECK IF TRUE
+        test_line_best = print_line(precision_, recall_, f1_)
 
         return model, train_line, dev_line, test_line_best, test_line
     else:

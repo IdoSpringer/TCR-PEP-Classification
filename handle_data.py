@@ -56,7 +56,7 @@ def get_letters_seq(data):
     return letter, letter_to_ix, ix_to_letter
 
 
-# UNNECESSARY - Same as above?
+# Same as above?
 # Get letter list and letter-index dicts
 def get_letters_pep(peptides_lst):
     """

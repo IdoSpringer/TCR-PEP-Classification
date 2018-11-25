@@ -7,11 +7,11 @@ def set_model(arguments):
     if bool(arguments['bi_lstm']):
         arguments['num_layers'] = int(arguments['num_layers'])
         arguments['bi_lstm'] = bool(arguments['bi_lstm'])
-        arguments['mode_name'] = 'upgrade'
+        arguments['model_name'] = 'upgrade'
     elif arguments['num_lstm'] == 2:
-        arguments['mode_name'] = 'double'
+        arguments['model_name'] = 'double'
     else:
-        arguments['mode_name'] = 'one'
+        arguments['model_name'] = 'one'
 
 
 def set_dims(arguments):
@@ -39,5 +39,3 @@ with open("param_file.json", 'r') as param_file:
     set_model(arguments)
     set_training(arguments)
     set_dims(arguments)
-
-
