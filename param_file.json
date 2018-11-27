@@ -5,7 +5,7 @@
     "file_name": "tests.csv",
     "num_layers": 1,
     "num_lstm": 1,
-    "num_of_peptides": "2",
+    "num_of_peptides": "1",
     "save_to_file": "True",
     "test":"yes",
     "saving model":"False",

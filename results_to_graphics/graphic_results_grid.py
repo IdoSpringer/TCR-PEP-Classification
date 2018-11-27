@@ -9,6 +9,8 @@ width = 0.35
 embedding_dims = [10, 35, 100]
 hidden_dims = [10, 35, 100]
 
+# (high dims are in tests8.csv)
+# (low dims are in low_dims_3peps_all.txt)
 with open("tests8.csv", 'r') as file:
     for i in range(3):
         values.append([])
@@ -20,8 +22,8 @@ with open("tests8.csv", 'r') as file:
                 values[i][j].append(float(score))
             _ = file.readline()
 
-rows = ['embedding dim'+str(dim) for dim in embedding_dims]
-cols = ['hidden dim'+str(dim) for dim in hidden_dims]
+rows = ['embedding dim='+str(dim) for dim in embedding_dims]
+cols = ['hidden dim='+str(dim) for dim in hidden_dims]
 
 fig, axs = plt.subplots(3, 3)
 
@@ -43,7 +45,7 @@ for i in range(3):
         axs[i, j].bar(names, values[i][j], color=colors, width=width)
         axs[i, j].set_ylim(0.65, 0.8)
 
-fig.suptitle("First model, 3 peptides, changing embedding and hidden dims")
+fig.suptitle("High dimension embedding accuracy with 3 peptides")
 
 fig.tight_layout()
 plt.show()

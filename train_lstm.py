@@ -106,16 +106,16 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
             file.write("epoch: " + str(epoch) + " loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
 
         # print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
-
-        lst_result_train.append(
-            epoch_measures(x_train, y_train, aux_data, model, True, num_of_peptides, device, p_vec))
-        lst_result_dev.append(
-            epoch_measures(x_dev, y_dev, aux_data, model, True, num_of_peptides, device, p_vec))
-        if divide:
-            lst_result_test.append(
-                epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
-
+        if epoch % 50 == 49:
+            lst_result_train.append(
+                epoch_measures(x_train, y_train, aux_data, model, True, num_of_peptides, device, p_vec))
+            lst_result_dev.append(
+                epoch_measures(x_dev, y_dev, aux_data, model, True, num_of_peptides, device, p_vec))
+            if divide:
+                lst_result_test.append(
+                    epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
         # print("do one train lst_results_dev_: ", lst_result_dev)
+        '''
         if epoch > 50:
             # Early stopping
             epoch_dev_accuracy = lst_result_dev[-1][0][0]
@@ -128,7 +128,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
                     break
             else:
                 stop_early = 0
-
+        '''
     with open(params['time_file'], 'a+') as file:
         file.write("train time: " + str(time.time() - ts_) + '\n')
 
