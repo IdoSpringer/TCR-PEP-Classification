@@ -5,14 +5,15 @@
     "file_name": "tests.csv",
     "num_layers": 1,
     "num_lstm": 1,
-    "num_of_peptides": "1",
+    "num_of_peptides": "3",
     "save_to_file": "True",
     "test":"yes",
     "saving model":"False",
-    "model file name":"my_model.json",
-    "embedding_dim":"5",
-    "hidden_dim":"5",
-    "loss_file":"loss_2pep2",
-    "time_file":"time_file_2pep2",
-    "profile_file":"profile_2pep"
+    "model file name":"my_model_ignore.json",
+    "embedding_dim":"7",
+    "hidden_dim":"7",
+    "loss_file":"loss_3pep_cut",
+    "time_file":"time_file_3pep_ignore",
+    "profile_file":"profile_ignore",
+    "batch_size":"10"
 }

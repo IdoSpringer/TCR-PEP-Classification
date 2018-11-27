@@ -5,13 +5,13 @@ import torch.autograd as autograd
 
 
 # Load data from files
-def load_data():
+def load_data(train_file, test_file):
     """
         Open the data files
     """
     # Open pickle files
-    with open('train sequences.pickle', 'rb') as file_1,\
-         open('test sequences.pickle', 'rb') as file_2,\
+    with open(train_file, 'rb') as file_1,\
+         open(test_file, 'rb') as file_2,\
          open('triplets before.pickle', 'rb') as file_3,\
          open('triplets after.pickle', 'rb') as file_4:
         train_lst = pickle.load(file_1)

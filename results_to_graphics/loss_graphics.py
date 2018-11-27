@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 
 loss = []
 
-file_name = "loss_1pep"
-epochs = 100
+file_name = "loss_2pep_cut"
+number_of_peptides = 2
+epochs = 100 * number_of_peptides
 
 with open(file_name, 'r') as file:
     for j in range(1):
@@ -15,7 +16,7 @@ with open(file_name, 'r') as file:
         plt.plot(range(epochs), loss[j], 'bo')
         plt.xlabel("epoch")
         plt.ylabel('loss')
-        plt.ylim(0.0, 0.01)
+        # plt.ylim(0.5, 0.7)
 
-plt.title("loss (BCE) per epoch, 1 peptide, lr=0.001")
+plt.title("loss (BCE) per epoch, 2 fixed peptides, lr=0.001")
 plt.show()

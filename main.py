@@ -52,7 +52,7 @@ def main():
     print(gpu)
 
     # Load the data from files
-    train_lst, test_lst, dict_before, dict_after = hd.load_data()
+    train_lst, test_lst, dict_before, dict_after = hd.load_data('cut_train.pickle', 'test sequences.pickle')
     # Get letters list and letter-index dictionaries
     letters, letter_to_ix, ix_to_letter = hd.get_letters_seq(train_lst)
     # Set data
