@@ -77,7 +77,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
 
     # Loss and optimization
     loss_function = nn.BCELoss()
-    opt = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-3)
+    opt = optim.Adam(model.parameters(), lr=params['lr'], weight_decay=params['wd'])
 
     # Results
     lst_result_train = []

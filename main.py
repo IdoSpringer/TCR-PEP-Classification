@@ -75,53 +75,59 @@ def main():
                 arguments['mode_name'] = model_name
     '''
 
-    for trial in range(1):  # unnecessary?
-        if divide:
-            fit_model, train_line, dev_line, test_line_best, test_line = do_one_train(model_name,
-                                                                                      peptides_list,
-                                                                                      data, device,
-                                                                                      arguments)
-        else:
-            fit_model, train_line, dev_line = do_one_train(model_name, peptides_list, data, device,
-                                                           arguments)
-            test_line = dev_line
-        curr_result = float(test_line.split(',')[-2])
-        print(curr_result)
+    # Grid on lr and wd
+    for wd in [1e-9,1e-8,1e-7,1e-6,1e-5,1e-4,1e-3]:
+        for lr in [1e-2, 1e-3, 1e-4]:
+            arguments['lr'] = lr
+            arguments['wd'] = wd
+            for trial in range(1):
+                if divide:
+                    fit_model, train_line, dev_line, test_line_best, test_line = do_one_train(model_name,
+                                                                                              peptides_list,
+                                                                                              data, device,
+                                                                                              arguments)
+                else:
+                    fit_model, train_line, dev_line = do_one_train(model_name, peptides_list, data, device,
+                                                                   arguments)
+                    test_line = dev_line
+                curr_result = float(test_line.split(',')[-2])
+                print(curr_result)
 
-        # Write results in file
-        with open("save_results.txt", "a+") as my_file:
-            my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + train_line + 'train' + '\n')
-            my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + dev_line + 'dev' + '\n')
-            if divide:
-                my_file.write(
-                    fit_model.name_model() + ' ' + str(num_of_peptides) + test_line + 'test' + '\n')
-                my_file.write(fit_model.name_model() + ' ' + str(
-                    num_of_peptides) + test_line_best + 'test best' + '\n')
+                # Write results in file
+                with open("save_results.txt", "a+") as my_file:
+                    my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + train_line + 'train' + '\n')
+                    my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + dev_line + 'dev' + '\n')
+                    if divide:
+                        my_file.write(
+                            fit_model.name_model() + ' ' + str(num_of_peptides) + test_line + 'test' + '\n')
+                        my_file.write(fit_model.name_model() + ' ' + str(
+                            num_of_peptides) + test_line_best + 'test best' + '\n')
 
-        # Best results and model
-        if curr_result > best_f1_test:
-            best_f1_test = curr_result
+                # Best results and model
+                if curr_result > best_f1_test:
+                    best_f1_test = curr_result
+                    if divide:
+                        best_model = fit_model, train_line, dev_line, test_line_best, test_line
+                    else:
+                        best_model = fit_model, train_line, dev_line
+
             if divide:
-                best_model = fit_model, train_line, dev_line, test_line_best, test_line
+                fit_model, train_line, dev_line, test_line_best, test_line = best_model
             else:
-                best_model = fit_model, train_line, dev_line
+                fit_model, train_line, dev_line = best_model
+            print(test_line)
 
-    if divide:
-        fit_model, train_line, dev_line, test_line_best, test_line = best_model
-    else:
-        fit_model, train_line, dev_line = best_model
-    print(test_line)
-
-    # Save results to file
-    if save_to_file:
-        with open(file_name, "a") as my_file:
-            my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + train_line + 'train' + '\n')
-            my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + dev_line + 'dev' + '\n')
-            if divide:
-                my_file.write(
-                    fit_model.name_model() + ' ' + str(num_of_peptides) + test_line + 'test' + '\n')
-                my_file.write(fit_model.name_model() + ' ' + str(
-                    num_of_peptides) + test_line_best + 'test best' + '\n')
+            # Save results to file
+            if save_to_file:
+                with open(file_name, "a") as my_file:
+                    my_file.write("lr: " + str(lr) + "wd: " + str(wd) + '\n')
+                    my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + train_line + 'train' + '\n')
+                    my_file.write(fit_model.name_model() + ' ' + str(num_of_peptides) + dev_line + 'dev' + '\n')
+                    if divide:
+                        my_file.write(
+                            fit_model.name_model() + ' ' + str(num_of_peptides) + test_line + 'test' + '\n')
+                        my_file.write(fit_model.name_model() + ' ' + str(
+                            num_of_peptides) + test_line_best + 'test best' + '\n')
 
     # saving model
     if saving_model:
