@@ -30,17 +30,17 @@ with open('grid_lr_wd_acc', 'r') as file:
     print(f1_score)
 
 
-rows = ['weight decay='+str(wd) for wd in wds]
+rows = ['wd='+str(wd) for wd in wds]
 cols = ['learning rate='+str(lr) for lr in lrs]
 
 fig = plt.figure()
-gs = gridspec.GridSpec(len(wds), len(lrs))
+#gs = gridspec.GridSpec(len(wds), len(lrs))
 
-# fig, axs = plt.subplots(len(wds), len(lrs))
+fig, axs = plt.subplots(len(wds), len(lrs))
 
 # plt.setp(axs.flat, ylabel='accuracy')
 
-'''
+
 pad = 5  # in points
 
 for ax, col in zip(axs[0], cols):
@@ -50,19 +50,23 @@ for ax, row in zip(axs[:,0], rows):
     # ax.set_ylabel(row)
     ax.annotate(row, xy=(0, 0.5), xytext=(-ax.yaxis.labelpad - pad, 0),
                 xycoords=ax.yaxis.label, textcoords='offset points',
-                size='large', ha='right', va='center', rotation='vertical')
-'''
+                size='small', ha='right', va='center', rotation='vertical')
+
 
 for i in range(len(wds)):
     for j in range(len(lrs)):
-        ax1 = plt.subplot(gs[i, j])
-        #ax2 = plt.subplot(gs[i, j])
+        X = list(range(3))
+        width = 0.35
+        # ax2 = plt.subplot(gs[i, j])
         acc_train = [precision[i][j][0], recall[i][j][0], f1_score[i][j][0]]
         acc_test = [precision[i][j][1], recall[i][j][1], f1_score[i][j][1]]
-        r1 = ax1.bar(names, acc_train, color='SkyBlue', label='train', width=0.25)
-        r2 = ax1.bar(names, acc_test, color='IndianRed', label='test', width=0.25)
-        # axs[i, j].bar(names, values[i][j], color=colors, width=width)
-        # axs[i, j].set_ylim(0.65, 0.8)
+        # r1 = ax1.bar(names, acc_train, color='SkyBlue', label='train', width=0.25)
+        # r2 = ax1.bar(names, acc_test, color='IndianRed', label='test', width=0.25)
+        axs[i, j].bar(X, acc_train, color='IndianRed', width=width)
+        axs[i, j].bar([sum(x) for x in zip(X,[width]*3)], acc_test, color='SkyBlue', width=width)
+        # axs[i, j].set_xticks(X, ['precision', 'recall', 'F1_score'])
+        axs[i, j].set_xticklabels(['sss', 'precision', 'recall', 'F1_score'])
+        axs[i, j].set_ylim(0, 1)
 
 fig.suptitle("Accuracy of 2 peptides with different learning rates and regularization")
 

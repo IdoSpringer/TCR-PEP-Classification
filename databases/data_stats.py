@@ -58,7 +58,7 @@ with open("20tcr_per_peptide_shugay.csv", 'w+') as file:
 '''
 
 
-def tcr_length_distribution_w():
+def length_distribution_w():
     tcr_len = {}
     pep_len = {}
     with open(weizmann, 'r') as data:
@@ -93,7 +93,7 @@ def tcr_length_distribution_w():
     plt.show()
 
 
-def tcr_length_distribution_s():
+def length_distribution_s():
     tcr_len = {}
     pep_len = {}
     with open(shugay, 'r') as data:
@@ -126,16 +126,96 @@ def tcr_length_distribution_s():
     ax.bar(lens_tcr, num_len_tcr, color='SkyBlue', label='TCR')
     ax.bar(lens_pep, num_len_pep, color='IndianRed', label='peptide')
     ax.legend()
-    plt.xticks(range(7,27))
+    plt.xticks(range(7, 27))
     plt.title("TCR and peptide length distribution, Shugay database")
     plt.show()
 
+# length_distribution_w()
+# length_distribution_s()
 
-tcr_length_distribution_w()
-tcr_length_distribution_s()
+'''
+# list, peptides = tcr_per_peptide_w()
+list, peptides = tcr_per_peptide_s()
+print(list)
+print(peptides)
+print(len([pep for pep in peptides.keys()]))
+print(len([pep for pep in peptides.keys() if peptides[pep] > 100]))
+print(len([pep for pep in peptides.keys() if peptides[pep] > 500]))
+'''
 
-def pep_length_distribution_w():
-    pass
 
-def pep_length_distribution_s():
-    pass
+def pep_and_tcr_per_disease_w():
+    diseases_tcr = {}
+    diseases_pep = {}
+    with open(weizmann, 'r') as data:
+        next(data)
+        for line in data:
+            line = line.split(',')
+            print(line)
+            cdr_beta = line[2]
+            if cdr_beta == 'NA':
+                continue
+            peptide = line[12]
+            if peptide == 'NA':
+                continue
+            disease = line[5]
+            try:
+                diseases_tcr[disease].append(cdr_beta)
+            except KeyError:
+                diseases_tcr[disease] = [cdr_beta]
+            try:
+                diseases_pep[disease].add(peptide)
+            except KeyError:
+                diseases_pep[disease] = set()
+                diseases_pep[disease].add(peptide)
+    list_tcr = sorted(diseases_tcr, key=lambda k: len(diseases_tcr[k]), reverse=True)
+    with open('disease_tcr_w.csv', 'w+') as file:
+        file.write('"Number of TCR", "Disease"'+'\n')
+        for disease in list_tcr[:20]:
+            file.write('"'+str(len(diseases_tcr[disease]))+'"'+","+disease+'\n')
+    print(disease ,len(diseases_tcr[disease]))
+    list_pep = sorted(diseases_pep, key=lambda k: len(diseases_pep[k]), reverse=True)
+    with open('disease_pep_w.csv', 'w+') as file:
+        file.write('"Number of peptides", "Disease"'+'\n')
+        for disease in list_pep[:15]:
+            file.write('"' + str(len(diseases_pep[disease])) + '"' + "," + disease + '\n')
+        print(disease, len(diseases_pep[disease]))
+    return diseases_tcr, diseases_pep
+
+
+def pep_and_tcr_per_disease_s():
+    diseases_tcr = {}
+    diseases_pep = {}
+    with open(shugay, 'r') as data:
+        next(data)
+        for line in data:
+            line = line.split('\t')
+            print(line)
+            cdr_type = line[1]
+            if cdr_type != "TRB":
+                continue
+            cdr_beta = line[2]
+            peptide = line[9]
+            disease = line[11]
+            try:
+                diseases_tcr[disease].append(cdr_beta)
+            except KeyError:
+                diseases_tcr[disease] = [cdr_beta]
+            try:
+                diseases_pep[disease].add(peptide)
+            except KeyError:
+                diseases_pep[disease] = set()
+                diseases_pep[disease].add(peptide)
+    list_tcr = sorted(diseases_tcr, key=lambda k: len(diseases_tcr[k]), reverse=True)
+    for disease in list_tcr[:20]:
+        print(disease ,len(diseases_tcr[disease]))
+    list_pep = sorted(diseases_pep, key=lambda k: len(diseases_pep[k]), reverse=True)
+    for disease in list_pep[:15]:
+        print(disease, len(diseases_pep[disease]))
+    #print(list_tcr[:20])
+    return diseases_tcr, diseases_pep
+    #list = sorted(peptides, key=lambda k: peptides[k], reverse=True)
+
+
+print(pep_and_tcr_per_disease_w())
+# print(pep_and_tcr_per_disease_s())
