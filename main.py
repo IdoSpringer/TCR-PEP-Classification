@@ -85,11 +85,11 @@ def main():
         file.write('"Embedding dimension","LSTM dimension","Learning rate","Weight decay",' +
                    '"Train ROC AUC","Train precision","Train recall","Train F1 score",' +
                    '"Test ROC AUC","Test precision","Test recall","Test F1 score",' +
-                   '"Loss expectation","Loss variance"' + '\n')
-    for ed in [5]:
-        for hid in [5]:
-            for wd in [1e-5]:
-                for lr in [1e-3]:
+                   '"Loss mean","Loss variance"' + '\n')
+    for ed in [3,5,7,10]:
+        for hid in [3,5,7,10]:
+            for wd in [1e-3,1e-4,1e-5,1e-6,1e-7,1e-8]:
+                for lr in [1e-2,1e-3,1e-4,1e-5]:
                     arguments['lr'] = lr
                     arguments['wd'] = wd
                     arguments['embedding_dim'] = ed
@@ -98,12 +98,12 @@ def main():
                     # best_model = None
                     for trial in range(1):
                         if divide:
-                            fit_model, train_line, dev_line, test_line_best, test_line = do_one_train(model_name,
+                            fit_model, train_line, dev_line, test_line_best, test_line, loss_mean, loss_var = do_one_train(model_name,
                                                                                                       peptides_list,
                                                                                                       data, device,
                                                                                                       arguments)
                         else:
-                            fit_model, train_line, dev_line = do_one_train(model_name, peptides_list, data, device,
+                            fit_model, train_line, dev_line, loss_mean, loss_var = do_one_train(model_name, peptides_list, data, device,
                                                                            arguments)
                             test_line = dev_line
                         # roc_auc_score
@@ -119,7 +119,7 @@ def main():
                             test_results = test_line.split(',')
                             file.write('"' + str(test_results[0]) + '",' + '"' + str(test_results[1]) + '",' + '"' +
                                        str(test_results[2]) + '",' + '"' + str(test_results[3]) + '",')
-                            file.write('"loss exp","loss var"' + '\n')
+                            file.write('"'+str(loss_mean)+'",'+'"'+str(loss_var)+'"'+'\n')
                         print(test_line)
                         '''
                         # Write results in file

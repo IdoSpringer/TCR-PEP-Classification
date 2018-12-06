@@ -88,6 +88,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
     ts_ = time.time()
     stop_early = 0
     # Training
+    losses = []
     for epoch in range(100 * num_of_peptides):  # params should be in params file
         # shuffling and divide data
         random.shuffle(data)
@@ -97,11 +98,13 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
         # Train epoch and get loss
         lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
-
+        if 100 * num_of_peptides - epoch <= 20:
+            losses.append(round(lss_.item() / len(specific_batch), 5))
+        '''
         # save loss for graphics
         with open(params['loss_file'], 'a+') as file:
             file.write("epoch: " + str(epoch) + " loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
-
+        '''
         # print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
         if epoch % 50 == 49:
             lst_result_train.append(
@@ -126,9 +129,14 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
             else:
                 stop_early = 0
         '''
+    '''
     with open(params['time_file'], 'a+') as file:
         file.write("train time: " + str(time.time() - ts_) + '\n')
-
+    '''
+    # print(losses)
+    loss_mean = np.mean(losses)
+    loss_var = np.var(losses)
+    # print(loss_mean, loss_var)
     # Print best results
     roc_auc_t, precision_t, recall_t, f1_t, _ = best_results(lst_result_train)
     train_line = print_line(roc_auc_t, precision_t, recall_t, f1_t)
@@ -140,9 +148,9 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         roc_auc_, precision_, recall_, f1_, max_ind = best_results(lst_result_test)
         test_line_best = print_line(roc_auc_, precision_, recall_, f1_)
 
-        return model, train_line, dev_line, test_line_best, test_line
+        return model, train_line, dev_line, test_line_best, test_line, loss_mean, loss_var
     else:
-        return model, train_line, dev_line
+        return model, train_line, dev_line, loss_mean, loss_var
 
 
 def best_results(lst_):
