@@ -97,10 +97,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
         # Train epoch and get loss
         lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
-        '''
-        # CHECK RUNNING WITHOUT LEARNING
-        lss_ = torch.Tensor([0.5])
-        '''
+
         # save loss for graphics
         with open(params['loss_file'], 'a+') as file:
             file.write("epoch: " + str(epoch) + " loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
@@ -133,15 +130,15 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         file.write("train time: " + str(time.time() - ts_) + '\n')
 
     # Print best results
-    precision_t, recall_t, f1_t, _ = best_results(lst_result_train)
-    train_line = print_line(precision_t, recall_t, f1_t)
-    precision_, recall_, f1_, max_ind = best_results(lst_result_dev)
-    dev_line = print_line(precision_, recall_, f1_)
+    roc_auc_t, precision_t, recall_t, f1_t, _ = best_results(lst_result_train)
+    train_line = print_line(roc_auc_t, precision_t, recall_t, f1_t)
+    roc_auc_, precision_, recall_, f1_, max_ind = best_results(lst_result_dev)
+    dev_line = print_line(roc_auc_, precision_, recall_, f1_)
     if divide:
-        f1, precision, recall = np.round(lst_result_test[max_ind][0], 5)   # MAJOR CHANGE. CHECK IF TRUE (dev-->test)
-        test_line = print_line(precision, recall, f1)
-        precision_, recall_, f1_, max_ind = best_results(lst_result_test)    # SWAPPED THE ORDER. MAJOR CHANGE. CHECK IF TRUE
-        test_line_best = print_line(precision_, recall_, f1_)
+        roc_auc, precision, recall, f1 = np.round(lst_result_test[max_ind][0], 5)
+        test_line = print_line(roc_auc, precision, recall, f1)
+        roc_auc_, precision_, recall_, f1_, max_ind = best_results(lst_result_test)
+        test_line_best = print_line(roc_auc_, precision_, recall_, f1_)
 
         return model, train_line, dev_line, test_line_best, test_line
     else:
@@ -149,28 +146,32 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
 
 
 def best_results(lst_):
-    max_ind = np.argmax(np.asarray(lst_).reshape((len(lst_), 3))[:, 0])
-    f1, precision, recall = np.round(lst_[max_ind][0], 5)
+    max_ind = np.argmax(np.asarray(lst_).reshape((len(lst_), 4))[:, 0])
+    roc_auc, precision, recall, f1 = np.round(lst_[max_ind][0], 5)
 
-    return precision, recall, f1, max_ind
+    return roc_auc, precision, recall, f1, max_ind
 
 
-def print_line(precision_, recall_, f1_):
-    return ',' + str(precision_) + ',' + str(recall_) + ',' + str(f1_) + ','
+def print_line(roc_auc_, precision_, recall_, f1_):
+    return str(roc_auc_) + ',' + str(precision_) + ',' + str(recall_) + ',' + str(f1_)
 
 
 def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, device, p_vec):
     model_.eval()
     y_hat = []
+    y_hat_rounded = []
     y_true = []
     # y_pred_auc=[]
     word_to_ix, peptides_list, pep_to_ix = aux_data
     data_test = list(zip(x_data, y_data))
+    #print("x data: ", x_data, "y data: ", y_data)
     data_divided_test = hd.chunks(data_test, 10)
     specific_batch_test = list(data_divided_test)
     for batch_test in specific_batch_test:
         x, y = zip(*batch_test)
+        # print("x data: ", x, "y data: ", y)
         input_seq, sequences_len = hd.get_batch(x, word_to_ix)
+        # print("input seq: ", input_seq, "seq len: ", sequences_len)
         if device.type != 'cpu':
             input_seq = input_seq.to(device)
             sequences_len = sequences_len.to(device)
@@ -179,6 +180,7 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
         lst_of_pep_ix = [current_pep_] * len(y)
         lst_of_pep = [peptides_list[i] for i in lst_of_pep_ix]
         input_pep, peptides_len = hd.get_batch(lst_of_pep, pep_to_ix)
+        # print("input pep: ", input_pep, "pep len: ", peptides_len)
         if device.type != 'cpu':
             input_pep = input_pep.to(device)
             peptides_len = peptides_len.to(device)
@@ -188,22 +190,28 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
 
         y_predict_ = model_.forward(input_seq, sequences_len, input_pep, peptides_len)
         y_true.extend((np.asarray(lst_of_pep_ix) == np.asarray(y).astype(int)).astype(int))
-
+        # print("y predict: ", y_predict_)
         # y_pred_auc.append(y_predict_.data[0])
-        y_hat.extend(y_predict_.view(-1).cpu().data.numpy().round())
-
-    precision, recall, fbeta_score, _ = metrics.precision_recall_fscore_support(y_true, y_hat, average='binary')
-
-    return precision, recall, fbeta_score
+        y_hat.extend(y_predict_.view(-1).cpu().data.numpy())
+        y_hat_rounded.extend(y_predict_.view(-1).cpu().data.numpy().round())
+    # print("y true: ", y_true)
+    # print("y hat: ", y_hat)
+    # print("y hat rounded: ", y_hat_rounded)
+    precision, recall, fbeta_score, _ = metrics.precision_recall_fscore_support(y_true, y_hat_rounded, average='binary')
+    # An evaluation for a continuous binary classifier (because rounding the sigmoid is bad)
+    roc_auc = metrics.roc_auc_score(y_true, y_hat)
+    # print(roc_auc)
+    return precision, recall, fbeta_score, roc_auc
 
 
 def epoch_measures(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, device, P):
     lst_result_ = []
-    precision_lst, recall_lst, fbeta_lst = zip(
+    precision_lst, recall_lst, fbeta_lst, roc_auc_lst = zip(
         *[evaluation_model(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, device, P)
           for i in range(20)])
-    max_ind, min_ind = np.argmax(fbeta_lst), np.argmin(fbeta_lst)
-    lst_result_.append((fbeta_lst[max_ind], precision_lst[max_ind], recall_lst[max_ind]))
+    # max_ind, min_ind = np.argmax(fbeta_lst), np.argmin(fbeta_lst)
+    max_ind = np.argmax(roc_auc_lst)
+    lst_result_.append((roc_auc_lst[max_ind], precision_lst[max_ind], recall_lst[max_ind], fbeta_lst[max_ind]))
     # print("epoch measures lst_results_: ", lst_result_)
     return lst_result_
 

@@ -1,0 +1,4 @@
+"Embedding dimension","LSTM dimension","Learning rate","Weight decay","Train ROC AUC","Train precision","Train recall","Train F1 score","Test ROC AUC","Test precision","Test recall","Test F1 score","Loss expectation","Loss variance"
+"5","5","0.001","1e-05","0.56518","0.46179","0.5732","0.5115","0.60249","0.5","0.02273","0.04348","loss exp","loss var"
+"Embedding dimension","LSTM dimension","Learning rate","Weight decay","Train ROC AUC","Train precision","Train recall","Train F1 score","Test ROC AUC","Test precision","Test recall","Test F1 score","Loss expectation","Loss variance"
+"5","5","0.001","1e-05","0.82933","0.69849","0.7809","0.7374","0.63342","0.60526","0.45098","0.51685","loss exp","loss var"
