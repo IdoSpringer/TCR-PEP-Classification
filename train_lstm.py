@@ -100,11 +100,13 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
         if 100 * num_of_peptides - epoch <= 20:
             losses.append(round(lss_.item() / len(specific_batch), 5))
+
         '''
         # save loss for graphics
         with open(params['loss_file'], 'a+') as file:
             file.write("epoch: " + str(epoch) + " loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
         '''
+
         # print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
         if epoch % 50 == 49:
             lst_result_train.append(

@@ -1,4 +1,0 @@
-Two embedding matrix Embedding(21, 35, padding_idx=0) 100  15,0.50267,0.65545,0.56898,train
-Two embedding matrix Embedding(21, 35, padding_idx=0) 100  15,0.50424,0.68,0.57908,dev
-Two embedding matrix Embedding(21, 35, padding_idx=0) 100  15,0.53731,0.5,0.51799,test
-Two embedding matrix Embedding(21, 35, padding_idx=0) 100  15,0.56757,0.68852,0.62222,test best

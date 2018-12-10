@@ -1,0 +1,2 @@
+"Number of peptides","Embedding dimension","LSTM dimension","Learning rate","Weight decay","Train ROC AUC","Train precision","Train recall","Train F1 score","Test ROC AUC","Test precision","Test recall","Test F1 score","Loss mean","Loss variance"
+"2","3","5","0.01","1e-06","0.85104","0.80538","0.86573","0.83447","0.78968","0.65848","0.90847","0.76353","0.4870075","0.00030539056875000006"
