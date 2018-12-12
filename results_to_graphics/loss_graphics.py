@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 loss = []
 
-file_name = "loss_check"
-number_of_peptides = 2
+file_name = "loss_check_4pep"
+number_of_peptides = 4
 epochs = 100 * number_of_peptides
 
 with open(file_name, 'r') as file:
@@ -18,5 +18,5 @@ with open(file_name, 'r') as file:
         plt.ylabel('loss')
         # plt.ylim(0.5, 0.7)
 
-plt.title("loss (BCE) per epoch, 2 peptides")
+plt.title("loss (BCE) per epoch, 4 peptides")
 plt.show()

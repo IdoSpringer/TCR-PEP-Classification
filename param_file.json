@@ -1,6 +1,6 @@
 {
     "bi_lstm": "",
-    "cuda": 2,
+    "cuda": 3,
     "dropout": 0.05,
     "file_name": "ignore.csv",
     "num_layers": 1,
@@ -12,7 +12,7 @@
     "model file name":"my_model_ignore.json",
     "embedding_dim":"3",
     "hidden_dim":"5",
-    "loss_file":"loss_check",
+    "loss_file":"loss_check_2",
     "time_file":"time_ignore",
     "profile_file":"profile_ignore",
     "batch_size":"10",

@@ -68,17 +68,17 @@ def main():
     # Grid run
 
     # Write results in file
-    grid_file = "save_results_grid_experiment.csv"
+    grid_file = "save_results_grid_5.csv"
     with open(grid_file, "a+") as file:
         file.write('"Number of peptides","Embedding dimension","LSTM dimension","Learning rate","Weight decay",' +
                    '"Train ROC AUC","Train precision","Train recall","Train F1 score",' +
                    '"Test ROC AUC","Test precision","Test recall","Test F1 score",' +
                    '"Loss mean","Loss variance"' + '\n')
     for pep_num in [2,3,4,5,6]:
-        for ed in [3]:
-            for hid in [5]:
-                for wd in [1e-6]:
-                    for lr in [1e-2]:
+        for ed in [3,5]:
+            for hid in [5,7,10]:
+                for wd in [1e-6,1e-7,1e-8]:
+                    for lr in [1e-2,1e-3]:
                         num_of_peptides = pep_num
                         peptides_list = sorted_train_lst[:num_of_peptides]
                         arguments['lr'] = lr
