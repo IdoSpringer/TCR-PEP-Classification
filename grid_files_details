@@ -34,10 +34,34 @@ save_results_grid_original_data.csv:
 save_results_grid_experiment.csv:
     peptides 2,3,4,5,6
     hanan train data
-    no test split
+    no dev split
     embedding dims 3
     hidden dims 5
     learning rate 1e-2
     weight decay 1e-6
+
+
+save_results_grid_5.csv:
+    peptides 2,3,4,5,6
+    hanan train data
+    no dev split
+    embedding dims 3,5
+    hidden dims 5,7,10
+    learning rate 1e-2,1e-3
+    weight decay 1e-6,1e-7,1e-8
+
+
+save_results_grid_6.csv:
+    peptides 15,10
+    hanan train data
+    no dev split
+    embedding dims 3
+    hidden dims 7
+    learning rate 1e-2,1e-3
+    weight decay 1e-6,1e-7,1e-8
+
+save_results_grid_7.csv:
+    peptides 2
+    check weizmann data
 
 #######################

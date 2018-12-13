@@ -45,6 +45,7 @@ def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, de
 
 
 def do_one_train(model_name, peptides_lst, data, device, params=None):
+    st = time.time()
     # Read arguments
     divide = params['divide']
     n_layers = params['num_layers']
@@ -85,7 +86,6 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
     lst_result_test = []
 
     p_vec = np.array([len(train_lst[x]) for x in peptides_lst]) / sum([len(train_lst[x]) for x in peptides_lst])
-    ts_ = time.time()
     stop_early = 0
     # Training
     losses = []
@@ -101,11 +101,11 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         if 100 * num_of_peptides - epoch <= 20:
             losses.append(round(lss_.item() / len(specific_batch), 5))
 
-
+        '''
         # save loss for graphics
         with open(params['loss_file'], 'a+') as file:
             file.write("epoch: " + str(epoch) + " loss: "+str(round(lss_.item() / len(specific_batch), 4))+'\n')
-
+        '''
 
         # print('num of labels: ', num_of_peptides, round(lss_.item() / len(specific_batch), 4))
         if epoch % 50 == 49:
@@ -131,10 +131,11 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
             else:
                 stop_early = 0
         '''
-    '''
+
     with open(params['time_file'], 'a+') as file:
-        file.write("train time: " + str(time.time() - ts_) + '\n')
-    '''
+        file.write('pep:'+str(num_of_peptides)+', ed:'+str(embedding_dim)+', lstmd:'+str(hidden_dim)+', lr:'+str(params['lr'])+', wd:'+str(params['wd']))
+        file.write(", train time: " + str(time.time() - st) + '\n')
+
     # print(losses)
     loss_mean = np.mean(losses)
     loss_var = np.var(losses)
@@ -165,7 +166,7 @@ def best_results(lst_):
 def print_line(roc_auc_, precision_, recall_, f1_):
     return str(roc_auc_) + ',' + str(precision_) + ',' + str(recall_) + ',' + str(f1_)
 
-
+# TODO: overall evaluation?
 def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, device, p_vec):
     model_.eval()
     y_hat = []
@@ -174,7 +175,7 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
     # y_pred_auc=[]
     word_to_ix, peptides_list, pep_to_ix = aux_data
     data_test = list(zip(x_data, y_data))
-    #print("x data: ", x_data, "y data: ", y_data)
+    # print("x data: ", x_data, "y data: ", y_data)
     data_divided_test = hd.chunks(data_test, 10)
     specific_batch_test = list(data_divided_test)
     for batch_test in specific_batch_test:
@@ -187,6 +188,7 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
             sequences_len = sequences_len.to(device)
 
         current_pep_ = np.random.choice(num_of_lbl, 1, replace=False, p=p_vec)[0]
+        # print(current_pep_)
         lst_of_pep_ix = [current_pep_] * len(y)
         lst_of_pep = [peptides_list[i] for i in lst_of_pep_ix]
         input_pep, peptides_len = hd.get_batch(lst_of_pep, pep_to_ix)
@@ -218,7 +220,7 @@ def epoch_measures(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, devic
     lst_result_ = []
     precision_lst, recall_lst, fbeta_lst, roc_auc_lst = zip(
         *[evaluation_model(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, device, P)
-          for i in range(20)])
+          for i in range(10)])
     # max_ind, min_ind = np.argmax(fbeta_lst), np.argmin(fbeta_lst)
     max_ind = np.argmax(roc_auc_lst)
     lst_result_.append((roc_auc_lst[max_ind], precision_lst[max_ind], recall_lst[max_ind], fbeta_lst[max_ind]))

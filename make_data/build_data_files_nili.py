@@ -3,8 +3,8 @@ import cProfile, pstats, io
 
 
 # Profiling
-pr = cProfile.Profile()
-pr.enable()
+# pr = cProfile.Profile()
+# pr.enable()
 
 pep_tcr_dict = {}
 with open('McPAS-TCR.csv', 'r') as file:
@@ -33,8 +33,8 @@ for peptide in pep_tcr_dict:
 print(large_peps)
 print(len(large_peps))
 
-pr.disable()
-pr.dump_stats('profiling_1pep_learning')
+# pr.disable()
+# pr.dump_stats('profiling_1pep_learning')
 '''
 s = io.StringIO()
 sortby = 'cumulative'
@@ -43,8 +43,8 @@ with open('profiling_1pep_learning', 'w') as stream:
     stats = pstats.Stats('path/to/input', stream=stream)
     stats.print_stats()
 '''
-p = pstats.Stats('profiling_1pep_learning')
-p.sort_stats('cumulative').print_stats(10)
+# p = pstats.Stats('profiling_1pep_learning')
+# p.sort_stats('cumulative').print_stats(10)
 
 
 '''
