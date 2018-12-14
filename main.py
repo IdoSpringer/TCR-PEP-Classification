@@ -67,7 +67,7 @@ def main():
     # Grid run
 
     # Write results in file
-    grid_file = "save_results_grid_8.csv"
+    grid_file = "save_results_grid_9.csv"
     with open(grid_file, "a+") as file:
         file.write('"Number of peptides","Embedding dimension","LSTM dimension","Learning rate","Weight decay",' +
                    '"Train ROC AUC","Train precision","Train recall","Train F1 score",' +
@@ -80,7 +80,7 @@ def main():
     good_params.append({'ed': 5, 'hid': 5, 'lr': 1e-2, 'wd': 1e-8})
     good_params.append({'ed': 10, 'hid': 7, 'lr': 1e-2, 'wd': 1e-7})
 
-    for pep_num in [2,3,4,5,6,7,8,9,10]:
+    for pep_num in [11,12,13,14,15,16]:
         for param_dict in good_params:
             num_of_peptides = pep_num
             peptides_list = sorted_train_lst[:num_of_peptides]
@@ -110,16 +110,11 @@ def main():
                 # Write results in file
                 with open(grid_file, "a+") as file:
                     file.write('"' + str(num_of_peptides) + '",')
-                    file.write(
-                        '"' + str(ed) + '",' + '"' + str(hid) + '",' + '"' + str(lr) + '",' + '"' + str(
-                            wd) + '",')
+                    file.write('"' + str(param_dict['ed']) + '",' + '"' + str(param_dict['hid']) + '",' + '"' + str(param_dict['lr']) + '",' + '"' + str(param_dict['wd']) + '",')
                     train_results = train_line.split(',')
-                    file.write(
-                        '"' + str(train_results[0]) + '",' + '"' + str(train_results[1]) + '",' + '"' +
-                        str(train_results[2]) + '",' + '"' + str(train_results[3]) + '",')
+                    file.write('"' + str(train_results[0]) + '",' + '"' + str(train_results[1]) + '",' + '"' +str(train_results[2]) + '",' + '"' + str(train_results[3]) + '",')
                     test_results = test_line.split(',')
-                    file.write('"' + str(test_results[0]) + '",' + '"' + str(test_results[1]) + '",' + '"' +
-                               str(test_results[2]) + '",' + '"' + str(test_results[3]) + '",')
+                    file.write('"' + str(test_results[0]) + '",' + '"' + str(test_results[1]) + '",' + '"' +str(test_results[2]) + '",' + '"' + str(test_results[3]) + '",')
                     file.write('"' + str(loss_mean) + '",' + '"' + str(loss_var) + '"' + '\n')
                 print(test_line)
                 '''

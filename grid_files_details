@@ -64,4 +64,13 @@ save_results_grid_7.csv:
     peptides 2
     check weizmann data
 
+save_results_grid_8.csv:
+    good_params
+    {'ed': 10, 'hid': 10, 'lr': 1e-2, 'wd': 1e-6}
+    {'ed': 10, 'hid': 10, 'lr': 1e-3, 'wd': 1e-6}
+    {'ed': 5, 'hid': 10, 'lr': 1e-2, 'wd': 1e-5}
+    {'ed': 5, 'hid': 5, 'lr': 1e-2, 'wd': 1e-8}
+    {'ed': 10, 'hid': 7, 'lr': 1e-2, 'wd': 1e-7}
+    for pep_num in [2,3,4,5,6,7,8,9,10]
+    weizmann data
 #######################
