@@ -117,20 +117,6 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
                 lst_result_test.append(
                     epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
         # print("do one train lst_results_dev_: ", lst_result_dev)
-        '''
-        if epoch > 50:
-            # Early stopping
-            epoch_dev_accuracy = lst_result_dev[-1][0][0]
-            previous_dev_accuracy = lst_result_dev[-2][0][0]
-            if epoch_dev_accuracy < previous_dev_accuracy:
-                stop_early += 1
-                if stop_early == 10:
-                    with open(params['time_file'], 'a+') as file:
-                            file.write("stopped early at epoch: " + str(epoch))
-                    break
-            else:
-                stop_early = 0
-        '''
 
     with open(params['time_file'], 'a+') as file:
         file.write('pep:'+str(num_of_peptides)+', ed:'+str(embedding_dim)+', lstmd:'+str(hidden_dim)+', lr:'+str(params['lr'])+', wd:'+str(params['wd']))
@@ -166,7 +152,8 @@ def best_results(lst_):
 def print_line(roc_auc_, precision_, recall_, f1_):
     return str(roc_auc_) + ',' + str(precision_) + ',' + str(recall_) + ',' + str(f1_)
 
-# TODO: overall evaluation?
+
+# todo: confusion matrix
 def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, device, p_vec):
     model_.eval()
     y_hat = []
@@ -213,6 +200,17 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
     # An evaluation for a continuous binary classifier (because rounding the sigmoid is bad)
     roc_auc = metrics.roc_auc_score(y_true, y_hat)
     # print(roc_auc)
+    # why it is 0 often?
+    '''
+    print("y true: ", y_true)
+    print("y hat: ", y_hat)
+    print("y hat rounded: ", y_hat_rounded)
+    print(precision, recall, fbeta_score)
+    print(roc_auc)
+    assert precision != 0.0
+    assert recall != 0.0
+    assert fbeta_score != 0.0
+    '''
     return precision, recall, fbeta_score, roc_auc
 
 

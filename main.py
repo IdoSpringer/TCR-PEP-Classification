@@ -5,6 +5,10 @@ import handle_data as hd
 from handle_params import arguments
 
 
+# TODO: shugay data runs
+# TODO: confusion matrix
+
+
 def main():
     """
     num_lstm: number of lstm (max 2),
@@ -67,18 +71,19 @@ def main():
     # Grid run
 
     # Write results in file
-    grid_file = "save_results_grid_9.csv"
+    grid_file = arguments['output_file']
     with open(grid_file, "a+") as file:
         file.write('"Number of peptides","Embedding dimension","LSTM dimension","Learning rate","Weight decay",' +
                    '"Train ROC AUC","Train precision","Train recall","Train F1 score",' +
                    '"Test ROC AUC","Test precision","Test recall","Test F1 score",' +
                    '"Loss mean","Loss variance"' + '\n')
     good_params = []
-    good_params.append({'ed': 10, 'hid': 10, 'lr': 1e-2, 'wd': 1e-6})
+    # good_params.append({'ed': 10, 'hid': 10, 'lr': 1e-2, 'wd': 1e-6})
+    # parameters that give high auc for all peps in weizmann:
     good_params.append({'ed': 10, 'hid': 10, 'lr': 1e-3, 'wd': 1e-6})
-    good_params.append({'ed': 5, 'hid': 10, 'lr': 1e-2, 'wd': 1e-5})
-    good_params.append({'ed': 5, 'hid': 5, 'lr': 1e-2, 'wd': 1e-8})
-    good_params.append({'ed': 10, 'hid': 7, 'lr': 1e-2, 'wd': 1e-7})
+    # good_params.append({'ed': 5, 'hid': 10, 'lr': 1e-2, 'wd': 1e-5})
+    # good_params.append({'ed': 5, 'hid': 5, 'lr': 1e-2, 'wd': 1e-8})
+    # good_params.append({'ed': 10, 'hid': 7, 'lr': 1e-2, 'wd': 1e-7})
 
     for pep_num in [11,12,13,14,15,16]:
         for param_dict in good_params:

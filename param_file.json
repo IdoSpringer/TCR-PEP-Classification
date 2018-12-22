@@ -1,6 +1,7 @@
 {
-    "train_file":"weizmann_train.pickle",
-    "test_file":"weizmann_test.pickle",
+    "train_file":"data/shugay_train.pickle",
+    "test_file":"data/shugay_test.pickle",
+    "output_file":"shugay_11-16",
     "bi_lstm": "",
     "cuda": 3,
     "dropout": 0.05,
@@ -12,12 +13,12 @@
     "test":"no",
     "saving model":"False",
     "model file name":"my_model_ignore.json",
-    "embedding_dim":"3",
-    "hidden_dim":"5",
-    "loss_file":"loss_check",
-    "time_file":"time_for_training_2",
+    "embedding_dim":"10",
+    "hidden_dim":"10",
+    "loss_file":"loss_ignore",
+    "time_file":"time_training_shugay_11-16",
     "profile_file":"profile_ignore",
     "batch_size":"10",
-    "lr":"0.01",
-    "wd":"0.00001"
+    "lr":"0.001",
+    "wd":"1e-6"
 }

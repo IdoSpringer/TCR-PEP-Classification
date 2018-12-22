@@ -12,8 +12,8 @@ def load_data(train_file, test_file):
     # Open pickle files
     with open(train_file, 'rb') as file_1,\
          open(test_file, 'rb') as file_2,\
-         open('triplets before.pickle', 'rb') as file_3,\
-         open('triplets after.pickle', 'rb') as file_4:
+         open('data/triplets before.pickle', 'rb') as file_3,\
+         open('data/triplets after.pickle', 'rb') as file_4:
         train_lst = pickle.load(file_1)
         test_lst = pickle.load(file_2)
         dict_before = pickle.load(file_3)
