@@ -85,7 +85,7 @@ def main():
     # good_params.append({'ed': 5, 'hid': 5, 'lr': 1e-2, 'wd': 1e-8})
     # good_params.append({'ed': 10, 'hid': 7, 'lr': 1e-2, 'wd': 1e-7})
 
-    for pep_num in [11,12,13,14,15,16]:
+    for pep_num in [2,3,4,5,6]:
         for param_dict in good_params:
             num_of_peptides = pep_num
             peptides_list = sorted_train_lst[:num_of_peptides]

@@ -154,6 +154,7 @@ def print_line(roc_auc_, precision_, recall_, f1_):
 
 
 # todo: confusion matrix
+
 def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, device, p_vec):
     model_.eval()
     y_hat = []
@@ -165,6 +166,10 @@ def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, de
     # print("x data: ", x_data, "y data: ", y_data)
     data_divided_test = hd.chunks(data_test, 10)
     specific_batch_test = list(data_divided_test)
+
+    # Initialize confusion matrix
+    # confusion_matrix = np.zeros([num_of_lbl, num_of_lbl])
+
     for batch_test in specific_batch_test:
         x, y = zip(*batch_test)
         # print("x data: ", x, "y data: ", y)
