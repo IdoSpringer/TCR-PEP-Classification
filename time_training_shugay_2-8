@@ -1,0 +1,8 @@
+NOTE: this is union data grid
+
+pep:2, ed:10, lstmd:10, lr:0.01, wd:1e-06, train time: 1836.3709118366241
+pep:2, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 1747.8408417701721
+pep:2, ed:10, lstmd:10, lr:0.001, wd:1e-05, train time: 1732.0931413173676
+pep:3, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 3268.5747492313385
+pep:3, ed:10, lstmd:10, lr:0.001, wd:1e-05, train time: 3333.7356610298157
+pep:4, ed:10, lstmd:10, lr:0.01, wd:1e-06, train time: 5108.397271633148

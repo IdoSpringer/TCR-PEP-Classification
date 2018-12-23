@@ -1,0 +1,7 @@
+"Number of peptides","Embedding dimension","LSTM dimension","Learning rate","Weight decay","Train ROC AUC","Train precision","Train recall","Train F1 score","Test ROC AUC","Test precision","Test recall","Test F1 score","Loss mean","Loss variance"
+"2","10","10","0.001","1e-06","0.92042","0.86174","0.87754","0.86957","0.81655","0.63959","0.81818","0.71795","0.32955949999999995","0.00020112128475000004"
+"3","10","10","0.001","1e-06","0.89733","0.76793","0.78","0.77392","0.85053","0.69689","0.7642","0.729","0.39315449999999996","0.00376088456475"
+"4","10","10","0.001","1e-06","0.86242","0.76442","0.53661","0.63057","0.84457","0.64815","0.49123","0.55888","0.4061855","0.0016905640247499999"
+"5","10","10","0.001","1e-06","0.90575","0.73147","0.71903","0.72519","0.86782","0.66228","0.49186","0.56449","0.288473","0.011506463631"
+"6","10","10","0.001","1e-06","0.86272","0.66706","0.52066","0.58484","0.84318","0.67857","0.21923","0.3314","0.29542650000000004","0.011227455602749997"
+"Number of peptides","Embedding dimension","LSTM dimension","Learning rate","Weight decay","Train ROC AUC","Train precision","Train recall","Train F1 score","Test ROC AUC","Test precision","Test recall","Test F1 score","Loss mean","Loss variance"

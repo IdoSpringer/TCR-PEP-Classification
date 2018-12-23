@@ -118,6 +118,14 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
                     epoch_measures(x_test, y_test, aux_data, model, True, num_of_peptides, device, p_vec))
         # print("do one train lst_results_dev_: ", lst_result_dev)
 
+    # Test confusion matrix
+    conf_matrix = confusion_matrix(x_test, y_test, aux_data, num_of_peptides, model, device)
+    # print('confusion matrix:')
+    # print(conf_matrix)
+    with open(params['confusion_matrix_file'], 'a+') as file:
+        file.write('confusion matrix:' + '\n')
+        file.write(str(conf_matrix) + '\n')
+
     with open(params['time_file'], 'a+') as file:
         file.write('pep:'+str(num_of_peptides)+', ed:'+str(embedding_dim)+', lstmd:'+str(hidden_dim)+', lr:'+str(params['lr'])+', wd:'+str(params['wd']))
         file.write(", train time: " + str(time.time() - st) + '\n')
@@ -152,8 +160,6 @@ def best_results(lst_):
 def print_line(roc_auc_, precision_, recall_, f1_):
     return str(roc_auc_) + ',' + str(precision_) + ',' + str(recall_) + ',' + str(f1_)
 
-
-# todo: confusion matrix
 
 def evaluation_model(x_data, y_data, aux_data, model_, type_eval, num_of_lbl, device, p_vec):
     model_.eval()
@@ -230,3 +236,52 @@ def epoch_measures(x_dat, y_dat, aux_data, model, type_e, num_of_peptides, devic
     # print("epoch measures lst_results_: ", lst_result_)
     return lst_result_
 
+
+# todo: confusion matrix
+def confusion_matrix(x_data, y_data, aux_data, num_of_labels, model_, device):
+    model_.eval()
+    word_to_ix, peptides_list, pep_to_ix = aux_data
+    data_test = list(zip(x_data, y_data))
+    data_divided_test = hd.chunks(data_test, 10)
+    specific_batch_test = list(data_divided_test)
+    # Initialize confusion matrix
+    conf_matrix = np.zeros([num_of_labels, num_of_labels])
+    for batch_test in specific_batch_test:
+        x, y = zip(*batch_test)
+        # print("x data: ", x, "y data: ", y)
+        input_seq, sequences_len = hd.get_batch(x, word_to_ix)
+        # print("input seq: ", input_seq, "seq len: ", sequences_len)
+        if device.type != 'cpu':
+            input_seq = input_seq.to(device)
+            sequences_len = sequences_len.to(device)
+        label_predictions = torch.zeros([len(y), num_of_labels])
+        # print('label predictions:', label_predictions)
+        # Get prediction for every peptide separately (to make it multiclass prediction)
+        for label in range(num_of_labels):
+            current_pep_ = label
+            # current_pep_ = np.random.choice(num_of_lbl, 1, replace=False, p=p_vec)[0]
+            # print('label:', current_pep_)
+            lst_of_pep_ix = [current_pep_] * len(y)
+            lst_of_pep = [peptides_list[i] for i in lst_of_pep_ix]
+            input_pep, peptides_len = hd.get_batch(lst_of_pep, pep_to_ix)
+            # print("input pep: ", input_pep, "pep len: ", peptides_len)
+            if device.type != 'cpu':
+                input_pep = input_pep.to(device)
+                peptides_len = peptides_len.to(device)
+            model_.zero_grad()
+            # opt.zero_grad()
+            y_predict_ = model_.forward(input_seq, sequences_len, input_pep, peptides_len)
+            # print("y predict: ", y_predict_)
+            label_predictions[:, label] = y_predict_.view(-1)
+        # print('label predictions:', label_predictions)
+        # Take the maximum - multiclass prediction
+        prediction = np.asarray(torch.argmax(label_predictions, dim=1)).astype(int)
+        # print('label prediction:', prediction)
+        y_true = np.asarray(y).astype(int)
+        # print('true:', y_true)
+        # Update confusion matrix for every sample
+        for true_label, predicted_label in zip(y_true, prediction):
+            # print(true_label, predicted_label)
+            conf_matrix[true_label][predicted_label] += 1
+    # print('confusion matrix:', conf_matrix)
+    return conf_matrix
