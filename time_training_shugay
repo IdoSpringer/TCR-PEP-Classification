@@ -10,6 +10,6 @@ pep:6, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 5377.627215385437
 pep:7, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 7236.220466375351
 pep:8, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 8352.756971120834
 pep:9, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 9181.441376686096
-
+pep:10, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 10379.885423898697
 pep:11, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 12506.360114097595
 pep:12, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 13253.301327705383
