@@ -1,10 +1,10 @@
 {
     "train_file":"data/weizmann_train.pickle",
     "test_file":"data/weizmann_test.pickle",
-    "output_file":"output_w_2-16",
-    "confusion_matrix_file":"confusion_matrices_weizmann_2-16",
+    "output_file":"output_w_2-6_weighted_loss_inv",
+    "confusion_matrix_file":"confusion_matrices_w_2-6_weighted_loss_inv",
     "bi_lstm": "",
-    "cuda": 0,
+    "cuda": 2,
     "dropout": 0.05,
     "file_name": "ignore.csv",
     "num_layers": 1,

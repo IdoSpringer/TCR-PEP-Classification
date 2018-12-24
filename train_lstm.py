@@ -8,8 +8,9 @@ from sklearn import metrics
 from sklearn.model_selection import train_test_split
 import handle_data as hd
 
+# todo: added weighted loss by p_vec. check if it is helpful
 
-def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, device):
+def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, device, p_vec):
     model.train()
     word_to_ix, peptides_list, pep_to_ix = aux_data
     total_loss = torch.Tensor([0])
@@ -35,7 +36,7 @@ def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, de
         if device.type != 'cpu':
             target = target.to(device)
 
-        loss = loss_function(y_predict.view(-1), target)
+        loss = loss_function(y_predict.view(-1), target) * (1 / p_vec[epoch_pep])
 
         loss.backward()
         optimizer.step()
@@ -97,7 +98,7 @@ def do_one_train(model_name, peptides_lst, data, device, params=None):
         # choose peptide
         current_pep = np.random.choice(num_of_peptides, 1, replace=False, p=p_vec)[0]
         # Train epoch and get loss
-        lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device)
+        lss_ = train(model, specific_batch, aux_data, opt, loss_function, current_pep, device, p_vec)
         if 100 * num_of_peptides - epoch <= 20:
             losses.append(round(lss_.item() / len(specific_batch), 5))
 
