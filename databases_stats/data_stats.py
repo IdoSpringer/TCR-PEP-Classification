@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import csv
 import numpy as np
 
 
@@ -46,12 +47,50 @@ def tcr_per_peptide_s():
     list = sorted(peptides, key=lambda k: peptides[k], reverse=True)
     return list, peptides
 
+
+def tcr_per_peptide_u():
+    peptides = {}
+    with open(weizmann, 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        next(csv_reader)
+        for line in csv_reader:
+            cdr_beta = line[2]
+            if cdr_beta == 'NA':
+                continue
+            peptide = line[12]
+            print(cdr_beta, peptide, 'w')
+            if peptide == 'NA':
+                continue
+            try:
+                peptides[peptide] += 1
+            except KeyError:
+                peptides[peptide] = 1
+    with open(shugay, 'r') as data:
+        next(data)
+        for line in data:
+            line = line.split('\t')
+            cdr_type = line[1]
+            if cdr_type != "TRB":
+                continue
+            cdr_beta = line[2]
+            peptide = line[9]
+            print(cdr_beta, peptide, 's')
+            try:
+                peptides[peptide] += 1
+            except KeyError:
+                peptides[peptide] = 1
+    list = sorted(peptides, key=lambda k: peptides[k], reverse=True)
+    return list, peptides
+    pass
+
+
 # Get number of TCR per peptide
 '''
-list, peptides = tcr_per_peptide_w()
-list, peptides = tcr_per_peptide_s()
+# list, peptides = tcr_per_peptide_w()
+# list, peptides = tcr_per_peptide_s()
+# list, peptides = tcr_per_peptide_u()
 
-with open("20tcr_per_peptide_shugay.csv", 'w+') as file:
+with open("20tcr_per_peptide_union.csv", 'w+') as file:
     file.write('"Number of TCR","Peptide"'+'\n')
     for peptide in list[:20]:
         file.write('"' + str(peptides[peptide]) + '"' + "," + '"'+peptide+'"' + '\n')
@@ -130,12 +169,70 @@ def length_distribution_s():
     plt.title("TCR and peptide length distribution, Shugay database")
     plt.show()
 
+
+def length_distribution_u():
+    tcr_len = {}
+    pep_len = {}
+    with open(weizmann, 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        next(csv_reader)
+        for line in csv_reader:
+            tcr_beta = line[2]
+            if tcr_beta == 'NA':
+                continue
+            peptide = line[12]
+            if peptide == 'NA':
+                continue
+            try:
+                tcr_len[len(tcr_beta)] += 1
+            except KeyError:
+                tcr_len[len(tcr_beta)] = 1
+            try:
+                pep_len[len(peptide)] += 1
+            except KeyError:
+                pep_len[len(peptide)] = 1
+    with open(shugay, 'r') as data:
+        next(data)
+        for line in data:
+            line = line.split('\t')
+            cdr_type = line[1]
+            if cdr_type != "TRB":
+                continue
+            tcr_beta = line[2]
+            peptide = line[9]
+            if len(peptide) > 26 or len(peptide) < 7:
+                continue
+            if len(tcr_beta) > 26 or len(tcr_beta) < 7:
+                continue
+            try:
+                tcr_len[len(tcr_beta)] += 1
+            except KeyError:
+                tcr_len[len(tcr_beta)] = 1
+            try:
+                pep_len[len(peptide)] += 1
+            except KeyError:
+                pep_len[len(peptide)] = 1
+    lens_tcr = sorted(list(tcr_len.keys()))
+    lens_pep = sorted(list(pep_len.keys()))
+    num_len_tcr = [tcr_len[length] for length in lens_tcr]
+    num_len_pep = [pep_len[length] for length in lens_pep]
+    fig, ax = plt.subplots()
+    ax.bar(lens_tcr, num_len_tcr, color='SkyBlue', label='TCR')
+    ax.bar(lens_pep, num_len_pep, color='IndianRed', label='peptide')
+    ax.legend()
+    plt.xticks(range(7, 21))
+    plt.title("TCR and peptide length distribution, Union database")
+    plt.show()
+
+
 # length_distribution_w()
 # length_distribution_s()
+# length_distribution_u()
+
 
 '''
 # list, peptides = tcr_per_peptide_w()
-list, peptides = tcr_per_peptide_s()
+# list, peptides = tcr_per_peptide_s()
 print(list)
 print(peptides)
 print(len([pep for pep in peptides.keys()]))
@@ -216,6 +313,7 @@ def pep_and_tcr_per_disease_s():
     return diseases_tcr, diseases_pep
     #list = sorted(peptides, key=lambda k: peptides[k], reverse=True)
 
-
+'''
 print(pep_and_tcr_per_disease_w())
 # print(pep_and_tcr_per_disease_s())
+'''

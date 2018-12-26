@@ -36,7 +36,7 @@ def train(model, current_data, aux_data, optimizer, loss_function, epoch_pep, de
         if device.type != 'cpu':
             target = target.to(device)
 
-        loss = loss_function(y_predict.view(-1), target) * (1 / p_vec[epoch_pep])
+        loss = loss_function(y_predict.view(-1), target) * ((1 / p_vec[epoch_pep]) ** 2)
 
         loss.backward()
         optimizer.step()
