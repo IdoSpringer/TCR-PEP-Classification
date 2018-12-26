@@ -230,15 +230,17 @@ def length_distribution_u():
 # length_distribution_u()
 
 
-'''
+
 # list, peptides = tcr_per_peptide_w()
 # list, peptides = tcr_per_peptide_s()
+list, peptides = tcr_per_peptide_u()
+
 print(list)
 print(peptides)
 print(len([pep for pep in peptides.keys()]))
-print(len([pep for pep in peptides.keys() if peptides[pep] > 100]))
-print(len([pep for pep in peptides.keys() if peptides[pep] > 500]))
-'''
+print(len([pep for pep in peptides.keys() if peptides[pep] > 125]))
+print(len([pep for pep in peptides.keys() if peptides[pep] > 600]))
+
 
 
 def pep_and_tcr_per_disease_w():
@@ -314,6 +316,6 @@ def pep_and_tcr_per_disease_s():
     #list = sorted(peptides, key=lambda k: peptides[k], reverse=True)
 
 '''
-print(pep_and_tcr_per_disease_w())
+# print(pep_and_tcr_per_disease_w())
 # print(pep_and_tcr_per_disease_s())
 '''
