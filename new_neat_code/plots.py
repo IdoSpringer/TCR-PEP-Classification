@@ -17,16 +17,20 @@ def plot_loss(loss_file):
                 avg = 0
 
     plt.plot(list(range(len(losses))), losses)
-    plt.title('Loss  (Binary-Cross-Entropy)')
+    plt.title('Train loss  (Binary-Cross-Entropy)')
     plt.xlabel('number of examples')
     plt.ylabel('loss')
     plt.show()
 
     plt.plot(list(range(len(avg_losses))), avg_losses)
-    plt.title('Average loss  (Binary-Cross-Entropy)')
+    plt.title('Train average loss  (Binary-Cross-Entropy)')
     plt.xlabel('number of examples / 100')
     plt.ylabel('average loss')
     plt.show()
 
 
 plot_loss('loss_file1')
+plot_loss('loss_file2')
+
+
+

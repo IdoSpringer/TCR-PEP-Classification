@@ -146,7 +146,7 @@ def main(argv):
 
     batches = get_batches(tcrs, peps, signs, batch_size=10)
 
-    device = 'cuda:0'
+    device = argv[3]
     model = train_model(batches, device)
     torch.save({
                 'model_state_dict': model.state_dict(),
