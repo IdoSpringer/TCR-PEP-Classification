@@ -31,6 +31,8 @@ def plot_loss(loss_file):
 
 plot_loss('loss_file1')
 plot_loss('loss_file2')
+plot_loss('loss_file3')
+
 
 
 

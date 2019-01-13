@@ -88,6 +88,7 @@ def train_epoch(batches, model, loss_function, optimizer, device):
         padded_peps = padded_peps.to(device)
         pep_lens = pep_lens.to(device)
         batch_signs = torch.tensor(batch_signs).to(device)
+        model.zero_grad()
         probs = model(padded_tcrs, tcr_lens, padded_peps, pep_lens)
         # Compute loss
         loss = loss_function(probs, batch_signs)
