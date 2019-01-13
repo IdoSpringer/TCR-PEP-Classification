@@ -3,17 +3,32 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import sys
-import time
 from random import shuffle
 import time
 import numpy as np
 import torch.autograd as autograd
-import re
-import pickle
 from new_models import SiameseLSTMClassifier
+import load_data as d
+
+def get_lists_from_pairs(pairs):
+    tcrs = []
+    peps = []
+    signs = []
+    for pair in pairs:
+        tcr, pep, label, weight = pair
+        tcrs.append(tcr)
+        peps.append(pep)
+        if label == 'p':
+            signs.append(1.0)
+        elif label == 'n':
+            signs.append(0.0)
+    return tcrs, peps, signs
+
 
 def convert_data(tcrs, peps, amino_to_ix):
     for i in range(len(tcrs)):
+        if any(letter.islower() for letter in tcrs[i]):
+            print(tcrs[i])
         tcrs[i] = [amino_to_ix[amino] for amino in tcrs[i]]
     for i in range(len(peps)):
         peps[i] = [amino_to_ix[amino] for amino in peps[i]]
@@ -76,12 +91,14 @@ def train_epoch(batches, model, loss_function, optimizer, device):
         probs = model(padded_tcrs, tcr_lens, padded_peps, pep_lens)
         # Compute loss
         loss = loss_function(probs, batch_signs)
+        with open(sys.argv[1], 'a+') as loss_file:
+            loss_file.write(str(loss.item()) + '\n')
         # Update model weights
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
         print('current loss:', loss.item())
-        print(probs)
+        # print(probs, batch_signs)
     # Return average loss
     return total_loss / len(batches)
 
@@ -100,7 +117,7 @@ def train_model(batches, device):
     # We use Adam optimizer
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     # Train several epochs
-    for epoch in range(500):
+    for epoch in range(10):
         # Train model and get loss
         loss = train_epoch(batches, model, loss_function, optimizer, device)
         losses.append(loss)
@@ -110,4 +127,34 @@ def train_model(batches, device):
     # Print train losses
     # print(losses)
     return model
+
+
+def main(argv):
+    amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
+    print(amino_acids)
+    amino_to_ix = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
+    print(amino_to_ix)
+
+    pairs_file = 'pairs_data/weizmann_pairs.txt'
+    train, test = d.load_data(pairs_file)
+    print(len(train), train)
+    print(len(test), test)
+
+    tcrs, peps, signs = get_lists_from_pairs(train)
+
+    convert_data(tcrs, peps, amino_to_ix)
+
+    batches = get_batches(tcrs, peps, signs, batch_size=10)
+
+    device = 'cuda:0'
+    model = train_model(batches, device)
+    torch.save({
+                'model_state_dict': model.state_dict(),
+                'amino_to_ix': amino_to_ix
+                }, argv[2])
+    pass
+
+
+if __name__ == '__main__':
+    main(sys.argv)
 

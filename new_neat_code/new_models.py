@@ -69,11 +69,8 @@ class SiameseLSTMClassifier(nn.Module):
         return output
 
 
-
-class DoubleLSTMClassifier(nn.Module):
-    pass
-
-
+# class DoubleLSTMClassifier(nn.Module):
+#    pass
 
 
 class LSTMClassifierSimple(nn.Module):
@@ -142,7 +139,7 @@ class LSTMClassifierSimple(nn.Module):
     def name_model(self):
         return 'Two embedding matrix '+str(self.word_embeddings)+' '+str(self.hidden_dim)+' '
 
-'''
+
 class DoubleLSTMClassifier(nn.Module):
     def __init__(self, embedding_dim, hidden_dim, vocab_size, tagset_size, vocab_size2, device_):
         super(DoubleLSTMClassifier, self).__init__()
@@ -287,4 +284,3 @@ class DoubleLSTMClassifierUpgrade(nn.Module):
         return 'Two embedding matrix and two lstm with {} num layers and {} directions'.format(self.num_layers,
                                                                                                self.num_direction)+\
                str(self.word_embeddings)+' '+str(self.hidden_dim)+' '
-'''
