@@ -43,7 +43,7 @@ def plot_auc(train_auc, test_auc):
     plt.plot(list(range(len(te_auc))), te_auc, label='test')
 
     plt.title('AUC score per number of epochs')
-    plt.xlabel('epoch')
+    plt.xlabel('epoch. batch_size=100')
     plt.ylabel('auc score')
     plt.legend()
     plt.show()
@@ -53,7 +53,11 @@ def plot_auc(train_auc, test_auc):
 # plot_loss('loss_file2')
 # plot_loss('loss_file3')
 # plot_loss('loss_file100_n')
-plot_auc('train_auc', 'test_auc')
+
+# plot_auc('train_auc', 'test_auc')
+# plot_auc('train_auc_b50', 'test_auc_b50')
+plot_auc('train_auc_b100', 'test_auc_b100')
+
 
 
 

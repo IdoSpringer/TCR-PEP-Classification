@@ -122,7 +122,7 @@ def train_model(batches, test_batches, device):
     # We use Adam optimizer
     optimizer = optim.Adam(model.parameters())
     # Train several epochs
-    for epoch in range(50):
+    for epoch in range(500):
         print('epoch:', epoch + 1)
         epoch_time = time.time()
         # Train model and get loss
@@ -179,11 +179,11 @@ def main(argv):
 
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
     convert_data(train_tcrs, train_peps, amino_to_ix)
-    train_batches = get_batches(train_tcrs, train_peps, train_signs, batch_size=10)
+    train_batches = get_batches(train_tcrs, train_peps, train_signs, batch_size=50)
 
     test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
     convert_data(test_tcrs, test_peps, amino_to_ix)
-    test_batches = get_batches(test_tcrs, test_peps, test_signs, batch_size=10)
+    test_batches = get_batches(test_tcrs, test_peps, test_signs, batch_size=50)
 
     device = argv[3]
     model = train_model(train_batches, test_batches, device)
@@ -197,3 +197,8 @@ def main(argv):
 if __name__ == '__main__':
     main(sys.argv)
 
+# run:
+#   source activate tf_gpu
+#   nohup python new_train.py loss_file model_b50.pt cuda:3 train_auc_b50 test_auc_b50
+
+# todo: 500 epochs. batch_size = 100, 50. check auc. will reach 0.90 ?
