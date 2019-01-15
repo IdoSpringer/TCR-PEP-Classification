@@ -9,6 +9,8 @@ import numpy as np
 import torch.autograd as autograd
 from new_models import SiameseLSTMClassifier
 import load_data as d
+from sklearn.metrics import roc_auc_score, roc_curve
+
 
 def get_lists_from_pairs(pairs):
     tcrs = []
@@ -78,6 +80,7 @@ def pad_batch(seqs):
 
 
 def train_epoch(batches, model, loss_function, optimizer, device):
+    model.train()
     shuffle(batches)
     total_loss = 0
     for batch in batches:
@@ -90,6 +93,7 @@ def train_epoch(batches, model, loss_function, optimizer, device):
         batch_signs = torch.tensor(batch_signs).to(device)
         model.zero_grad()
         probs = model(padded_tcrs, tcr_lens, padded_peps, pep_lens)
+        # print(probs, batch_signs)
         # Compute loss
         loss = loss_function(probs, batch_signs)
         with open(sys.argv[1], 'a+') as loss_file:
@@ -98,13 +102,13 @@ def train_epoch(batches, model, loss_function, optimizer, device):
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
-        print('current loss:', loss.item())
+        # print('current loss:', loss.item())
         # print(probs, batch_signs)
     # Return average loss
     return total_loss / len(batches)
 
 
-def train_model(batches, device):
+def train_model(batches, test_batches, device):
     """
     Train and evaluate the model
     """
@@ -116,39 +120,73 @@ def train_model(batches, device):
     # Move to GPU
     model.to(device)
     # We use Adam optimizer
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
+    optimizer = optim.Adam(model.parameters())
     # Train several epochs
-    for epoch in range(10):
+    for epoch in range(50):
+        print('epoch:', epoch + 1)
+        epoch_time = time.time()
         # Train model and get loss
         loss = train_epoch(batches, model, loss_function, optimizer, device)
         losses.append(loss)
-        # Compute accuracy
-        # evaluate()
-        # Print epoch and accuracy
+        # Compute auc
+        train_auc = evaluate(model, batches, device)
+        print('train auc:', train_auc)
+        with open(sys.argv[4], 'a+') as file:
+            file.write(str(train_auc) + '\n')
+        test_auc = evaluate(model, test_batches, device)
+        print('test auc:', test_auc)
+        with open(sys.argv[5], 'a+') as file:
+            file.write(str(test_auc) + '\n')
+        # print('one epoch time:', time.time() - epoch_time)
     # Print train losses
     # print(losses)
     return model
 
 
+def evaluate(model, batches, device):
+    model.eval()
+    true = []
+    scores = []
+    shuffle(batches)
+    for batch in batches:
+        padded_tcrs, tcr_lens, padded_peps, pep_lens, batch_signs = batch
+        # Move to GPU
+        padded_tcrs = padded_tcrs.to(device)
+        tcr_lens = tcr_lens.to(device)
+        padded_peps = padded_peps.to(device)
+        pep_lens = pep_lens.to(device)
+        probs = model(padded_tcrs, tcr_lens, padded_peps, pep_lens)
+        # print(np.array(batch_signs).astype(int))
+        # print(probs.cpu().data.numpy())
+        true.extend(np.array(batch_signs).astype(int))
+        scores.extend(probs.cpu().data.numpy())
+    # Return auc score
+    auc = roc_auc_score(true, scores)
+    # print('auc:', auc)
+    return auc
+
+
 def main(argv):
     amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
-    print(amino_acids)
+    # print(amino_acids)
     amino_to_ix = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
-    print(amino_to_ix)
+    # print(amino_to_ix)
 
     pairs_file = 'pairs_data/weizmann_pairs.txt'
     train, test = d.load_data(pairs_file)
-    print(len(train), train)
-    print(len(test), test)
+    # print(len(train), train)
+    # print(len(test), test)
 
-    tcrs, peps, signs = get_lists_from_pairs(train)
+    train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
+    convert_data(train_tcrs, train_peps, amino_to_ix)
+    train_batches = get_batches(train_tcrs, train_peps, train_signs, batch_size=10)
 
-    convert_data(tcrs, peps, amino_to_ix)
-
-    batches = get_batches(tcrs, peps, signs, batch_size=10)
+    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
+    convert_data(test_tcrs, test_peps, amino_to_ix)
+    test_batches = get_batches(test_tcrs, test_peps, test_signs, batch_size=10)
 
     device = argv[3]
-    model = train_model(batches, device)
+    model = train_model(train_batches, test_batches, device)
     torch.save({
                 'model_state_dict': model.state_dict(),
                 'amino_to_ix': amino_to_ix

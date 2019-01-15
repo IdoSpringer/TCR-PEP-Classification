@@ -16,7 +16,7 @@ def plot_loss(loss_file):
                 avg_losses.append(avg / 100)
                 avg = 0
 
-    plt.plot(list(range(len(losses))), losses)
+    plt.plot(list(range(len(losses))), losses, 'bp')
     plt.title('Train loss  (Binary-Cross-Entropy)')
     plt.xlabel('number of examples')
     plt.ylabel('loss')
@@ -29,10 +29,31 @@ def plot_loss(loss_file):
     plt.show()
 
 
-plot_loss('loss_file1')
-plot_loss('loss_file2')
-plot_loss('loss_file3')
+def plot_auc(train_auc, test_auc):
+    with open(train_auc, 'r') as file:
+        tr_auc = []
+        for line in file:
+            tr_auc.append(float(line.strip()))
+    with open(test_auc, 'r') as file:
+        te_auc = []
+        for line in file:
+            te_auc.append(float(line.strip()))
 
+    plt.plot(list(range(len(tr_auc))), tr_auc, label='train')
+    plt.plot(list(range(len(te_auc))), te_auc, label='test')
+
+    plt.title('AUC score per number of epochs')
+    plt.xlabel('epoch')
+    plt.ylabel('auc score')
+    plt.legend()
+    plt.show()
+
+
+# plot_loss('loss_file1')
+# plot_loss('loss_file2')
+# plot_loss('loss_file3')
+# plot_loss('loss_file100_n')
+plot_auc('train_auc', 'test_auc')
 
 
 
