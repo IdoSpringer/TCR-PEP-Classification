@@ -10,6 +10,7 @@ import torch.autograd as autograd
 from new_models import SiameseLSTMClassifier
 import load_data as d
 from sklearn.metrics import roc_auc_score, roc_curve
+import csv
 
 
 def get_lists_from_pairs(pairs):
@@ -96,8 +97,8 @@ def train_epoch(batches, model, loss_function, optimizer, device):
         # print(probs, batch_signs)
         # Compute loss
         loss = loss_function(probs, batch_signs)
-        with open(sys.argv[1], 'a+') as loss_file:
-            loss_file.write(str(loss.item()) + '\n')
+        # with open(sys.argv[1], 'a+') as loss_file:
+        #    loss_file.write(str(loss.item()) + '\n')
         # Update model weights
         loss.backward()
         optimizer.step()
@@ -108,7 +109,7 @@ def train_epoch(batches, model, loss_function, optimizer, device):
     return total_loss / len(batches)
 
 
-def train_model(batches, test_batches, device):
+def train_model(batches, test_batches, device, args, params):
     """
     Train and evaluate the model
     """
@@ -120,9 +121,9 @@ def train_model(batches, test_batches, device):
     # Move to GPU
     model.to(device)
     # We use Adam optimizer
-    optimizer = optim.Adam(model.parameters())
+    optimizer = optim.Adam(model.parameters(), lr=params['lr'], weight_decay=params['wd'])
     # Train several epochs
-    for epoch in range(500):
+    for epoch in range(params['epochs']):
         print('epoch:', epoch + 1)
         epoch_time = time.time()
         # Train model and get loss
@@ -131,13 +132,13 @@ def train_model(batches, test_batches, device):
         # Compute auc
         train_auc = evaluate(model, batches, device)
         print('train auc:', train_auc)
-        with open(sys.argv[4], 'a+') as file:
+        with open(args['train_auc_file'], 'a+') as file:
             file.write(str(train_auc) + '\n')
         test_auc = evaluate(model, test_batches, device)
         print('test auc:', test_auc)
-        with open(sys.argv[5], 'a+') as file:
+        with open(args['test_auc_file'], 'a+') as file:
             file.write(str(test_auc) + '\n')
-        # print('one epoch time:', time.time() - epoch_time)
+        print('one epoch time:', time.time() - epoch_time)
     # Print train losses
     # print(losses)
     return model
@@ -167,26 +168,39 @@ def evaluate(model, batches, device):
 
 
 def main(argv):
+    # Word to index dictionary
     amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
-    # print(amino_acids)
     amino_to_ix = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
-    # print(amino_to_ix)
 
+    # Set all parameters and program arguments
+    device = argv[3]
+    args = {}
+    args['train_auc_file'] = argv[4]
+    args['test_auc_file'] = argv[5]
+    params = {}
+    params['lr'] = 1e-3
+    params['wd'] = 0
+    params['epochs'] = 10
+    params['batch_size'] = 100
+
+    # Load data
     pairs_file = 'pairs_data/weizmann_pairs.txt'
     train, test = d.load_data(pairs_file)
-    # print(len(train), train)
-    # print(len(test), test)
 
+    # train
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
     convert_data(train_tcrs, train_peps, amino_to_ix)
-    train_batches = get_batches(train_tcrs, train_peps, train_signs, batch_size=50)
+    train_batches = get_batches(train_tcrs, train_peps, train_signs, params['batch_size'])
 
+    # test
     test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
     convert_data(test_tcrs, test_peps, amino_to_ix)
-    test_batches = get_batches(test_tcrs, test_peps, test_signs, batch_size=50)
+    test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
 
-    device = argv[3]
-    model = train_model(train_batches, test_batches, device)
+    # Train the model
+    model = train_model(train_batches, test_batches, device, args, params)
+
+    # Save trained model
     torch.save({
                 'model_state_dict': model.state_dict(),
                 'amino_to_ix': amino_to_ix
@@ -194,11 +208,58 @@ def main(argv):
     pass
 
 
+def grid(lrs, wds):
+    # Word to index dictionary
+    amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
+    amino_to_ix = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
+
+    # Set all parameters and program arguments
+    device = sys.argv[1]
+    args = {}
+    params = {}
+    params['epochs'] = 500
+    params['batch_size'] = 100
+
+    # Load data
+    pairs_file = 'pairs_data/weizmann_pairs.txt'
+    train, test = d.load_data(pairs_file)
+
+    # train
+    train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
+    convert_data(train_tcrs, train_peps, amino_to_ix)
+    train_batches = get_batches(train_tcrs, train_peps, train_signs, params['batch_size'])
+
+    # test
+    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
+    convert_data(test_tcrs, test_peps, amino_to_ix)
+    test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
+
+    # Grid csv file
+    grid_file = sys.argv[2]
+    with open(grid_file, 'a+') as c:
+        c = csv.writer(c, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+        c.writerow(['learning rate', 'weight decay', 'train auc score', 'test auc score'])
+
+    # Grid run
+    for lr in lrs:
+        for wd in wds:
+            args['train_auc_file'] = 'train_auc' + '_lr' + str(lr) + '_wd' + str(wd)
+            args['test_auc_file'] = 'test_auc' + '_lr' + str(lr) + '_wd' + str(wd)
+            params['lr'] = lr
+            params['wd'] = wd
+            model = train_model(train_batches, test_batches, device, args, params)
+            train_auc = evaluate(model, train_batches, device)
+            test_auc = evaluate(model, test_batches, device)
+            with open(grid_file, 'a+') as c:
+                c = csv.writer(c, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+                c.writerow([params['lr'], params['wd'], train_auc, test_auc])
+    pass
+
+
 if __name__ == '__main__':
-    main(sys.argv)
+    # main(sys.argv)
+    grid(lrs=[1e-3, 1e-4, 1e-5], wds=[0, 1e-5, 1e-4, 1e-3])
 
 # run:
 #   source activate tf_gpu
-#   nohup python new_train.py loss_file model_b50.pt cuda:3 train_auc_b50 test_auc_b50
-
-# todo: 500 epochs. batch_size = 100, 50. check auc. will reach 0.90 ?
+#   nohup python new_train.py loss_file model.pt cuda:1 train_auc test_auc
