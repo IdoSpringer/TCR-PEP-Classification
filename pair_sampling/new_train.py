@@ -7,7 +7,7 @@ from random import shuffle
 import time
 import numpy as np
 import torch.autograd as autograd
-from new_models import SiameseLSTMClassifier
+from new_models import SiameseLSTMClassifier, DoubleLSTMClassifier
 import load_data as d
 from sklearn.metrics import roc_auc_score, roc_curve
 import csv
@@ -117,7 +117,10 @@ def train_model(batches, test_batches, device, args, params):
     # We use Cross-Entropy loss
     loss_function = nn.BCELoss()
     # Set model with relevant parameters
-    model = SiameseLSTMClassifier(10, 10, device)
+    if args['siamese'] is True:
+        model = SiameseLSTMClassifier(10, 10, device)
+    else:
+        model = DoubleLSTMClassifier(10, 10, device)
     # Move to GPU
     model.to(device)
     # We use Adam optimizer
@@ -177,10 +180,11 @@ def main(argv):
     args = {}
     args['train_auc_file'] = argv[4]
     args['test_auc_file'] = argv[5]
+    args['siamese'] = bool(argv[1] == 'siamese')
     params = {}
     params['lr'] = 1e-3
     params['wd'] = 0
-    params['epochs'] = 10
+    params['epochs'] = 500
     params['batch_size'] = 100
 
     # Load data
@@ -257,9 +261,13 @@ def grid(lrs, wds):
 
 
 if __name__ == '__main__':
-    # main(sys.argv)
-    grid(lrs=[1e-3, 1e-4, 1e-5], wds=[0, 1e-5, 1e-4, 1e-3])
+    main(sys.argv)
+    # grid(lrs=[1e-2, 1e-1], wds=[0, 1e-5, 1e-4, 1e-3])
 
 # run:
 #   source activate tf_gpu
-#   nohup python new_train.py loss_file model.pt cuda:1 train_auc test_auc
+#   nohup python new_train.py siamese model.pt cuda:2 train_auc test_auc
+
+# grid
+# source activate tf_gpu
+# nohup python new_train.py cuda:2 grid2_w_lr_wd.csv (siamese do far)

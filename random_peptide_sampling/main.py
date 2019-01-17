@@ -1,8 +1,8 @@
 import cProfile, pstats
-from train_lstm import *
-from models import *
-import handle_data as hd
-from handle_params import arguments
+from random_peptide_sampling.train_lstm import *
+from random_peptide_sampling.models import *
+from random_peptide_sampling import handle_data as hd
+from random_peptide_sampling.handle_params import arguments
 
 
 # TODO: shugay data runs

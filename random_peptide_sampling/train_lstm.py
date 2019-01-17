@@ -1,12 +1,13 @@
 import torch.optim as optim
-from models import *
+from random_peptide_sampling.models import *
 import random
 import torch.autograd as autograd
 import numpy as np
 import time
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-import handle_data as hd
+from random_peptide_sampling import handle_data as hd
+
 
 # todo: added weighted loss by p_vec. check if it is helpful
 
