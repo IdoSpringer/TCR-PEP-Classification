@@ -49,14 +49,14 @@ def plot_auc(train_auc, test_auc):
     plt.show()
 
 
-def plot_mul_auc(auc_files, labels):
+def plot_mul_auc(auc_files, labels, title):
     for auc_file, label in zip(auc_files, labels):
         with open(auc_file, 'r') as file:
             aucs = []
             for line in file:
                 aucs.append(float(line.strip()))
             plt.plot(list(range(len(aucs))), aucs, label=label)
-    plt.title('Test AUC score per number of epochs')
+    plt.title(title)
     plt.xlabel('epoch')
     plt.ylabel('auc score')
     plt.legend()
@@ -78,7 +78,13 @@ plot_mul_auc(['test_auc_lr0.001_wd0', 'test_auc_lr0.001_wd0.001', 'test_auc_lr0.
              ['lr=1e-3, wd=0', 'lr=1e-3, wd=1e-3', 'lr=1e-3, wd=1e-4', 'lr=1e-3, wd=1e-5',
               'lr=1e-4, wd=0', 'lr=1e-4, wd=1e-3', 'lr=1e-4, wd=1e-4', 'lr=1e-4, wd=1e-5',
               'lr=1e-5, wd=0', 'lr=1e-5, wd=1e-3', 'lr=1e-5, wd=1e-4', 'lr=1e-5, wd=1e-5'])
+
+plot_mul_auc(['train_auc_lr0.01_wd0', 'train_auc_lr0.01_wd0.001', 'train_auc_lr0.01_wd0.0001', 'train_auc_lr0.01_wd1e-05',
+              'train_auc_lr0.1_wd0', 'train_auc_lr0.1_wd0.001', 'train_auc_lr0.1_wd0.0001', 'train_auc_lr0.1_wd1e-05'],
+             ['lr=1e-2, wd=0', 'lr=1e-2, wd=1e-3', 'lr=1e-2, wd=1e-4', 'lr=1e-2, wd=1e-5',
+              'lr=1e-1, wd=0', 'lr=1e-1, wd=1e-3', 'lr=1e-1, wd=1e-4', 'lr=1e-1, wd=1e-5'])
 '''
 
-
-
+plot_mul_auc(['train_auc_s', 'train_auc_d', 'test_auc_s', 'test_auc_d'],
+             ['siamese model train', 'double model train', 'siamese model test', 'double model test'],
+             'Train and test AUC for different models')
