@@ -118,7 +118,7 @@ def train_model(batches, test_batches, device, args, params):
     loss_function = nn.BCELoss()
     # Set model with relevant parameters
     if args['siamese'] is True:
-        model = SiameseLSTMClassifier(10, 10, device)
+        model = SiameseLSTMClassifier(10, 10, device)  # todo
     else:
         model = DoubleLSTMClassifier(10, 10, device)
     # Move to GPU
@@ -278,7 +278,7 @@ def grid(lrs, wds):
             test_auc = evaluate(model, test_batches, device)
             with open(grid_file, 'a+') as c:
                 c = csv.writer(c, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-                c.writerow(key, option, [params['lr'], params['wd'], train_auc, test_auc])
+                c.writerow([key, option, params['lr'], params['wd'], train_auc, test_auc])
     pass
 
 
