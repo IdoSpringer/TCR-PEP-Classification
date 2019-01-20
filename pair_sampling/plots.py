@@ -88,4 +88,3 @@ plot_mul_auc(['train_auc_lr0.01_wd0', 'train_auc_lr0.01_wd0.001', 'train_auc_lr0
 plot_mul_auc(['train_auc_s', 'train_auc_d', 'test_auc_s', 'test_auc_d'],
              ['siamese model train', 'double model train', 'siamese model test', 'double model test'],
              'Train and test AUC for different models')
-#fff

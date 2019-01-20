@@ -218,15 +218,33 @@ def grid(lrs, wds):
     amino_to_ix = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
 
     # Set all parameters and program arguments
-    device = sys.argv[1]
+    device = sys.argv[3]
     args = {}
+    args['siamese'] = bool(sys.argv[1] == 'siamese')
     params = {}
     params['epochs'] = 500
     params['batch_size'] = 100
 
     # Load data
-    pairs_file = 'pairs_data/weizmann_pairs.txt'
-    train, test = d.load_data(pairs_file)
+    w_file = 'pairs_data/weizmann_pairs.txt'
+    c_file = 'pairs_data/cancer_pairs.txt'
+    train_w, test_w = d.load_data(w_file)
+    train_c, test_c = d.load_data(c_file)
+    option = int(sys.argv[2])
+    if option == 1:
+        # train on other data, test on cancer
+        train = train_w + test_w
+        test = train_c + test_c
+    elif option == 2:
+        # train on all data, test on all data
+        train = train_w + train_c
+        shuffle(train)
+        test = test_w + test_c
+        shuffle(test)
+    elif option == 3:
+        # train on cancer data, test on cancer data
+        train = train_c
+        test = test_c
 
     # train
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
@@ -239,16 +257,20 @@ def grid(lrs, wds):
     test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
 
     # Grid csv file
-    grid_file = sys.argv[2]
+    grid_file = sys.argv[4]
     with open(grid_file, 'a+') as c:
         c = csv.writer(c, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-        c.writerow(['learning rate', 'weight decay', 'train auc score', 'test auc score'])
+        c.writerow(['model type', 'option', 'learning rate', 'weight decay', 'train auc score', 'test auc score'])
 
     # Grid run
     for lr in lrs:
         for wd in wds:
-            args['train_auc_file'] = 'train_auc' + '_lr' + str(lr) + '_wd' + str(wd)
-            args['test_auc_file'] = 'test_auc' + '_lr' + str(lr) + '_wd' + str(wd)
+            if args['siamese']:
+                key = 's'
+            else:
+                key = 'd'
+            args['train_auc_file'] = 'train_auc_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd)
+            args['test_auc_file'] = 'test_auc_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd)
             params['lr'] = lr
             params['wd'] = wd
             model = train_model(train_batches, test_batches, device, args, params)
@@ -256,13 +278,76 @@ def grid(lrs, wds):
             test_auc = evaluate(model, test_batches, device)
             with open(grid_file, 'a+') as c:
                 c = csv.writer(c, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-                c.writerow([params['lr'], params['wd'], train_auc, test_auc])
+                c.writerow(key, option, [params['lr'], params['wd'], train_auc, test_auc])
+    pass
+
+
+def eval_with_cancer(argv, train_file, test_file):
+    # Word to index dictionary
+    amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
+    amino_to_ix = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
+
+    # Set all parameters and program arguments
+    device = argv[4]
+    args = {}
+    args['train_auc_file'] = argv[5]
+    args['test_auc_file'] = argv[6]
+    args['siamese'] = bool(argv[1] == 'siamese')
+    params = {}
+    params['lr'] = 1e-3
+    params['wd'] = 0
+    params['epochs'] = 10
+    params['batch_size'] = 100
+
+    # Load data
+    train_file1, test_file1 = d.load_data(train_file)
+    # Do not split (all is train)
+
+    train_file2, test_file2 = d.load_data(test_file)
+    # Do not split (all is test)
+    option = int(argv[2])
+    if option == 1:
+        # train on other data, test on cancer
+        train = train_file1 + test_file1
+        test = train_file2 + test_file2
+    elif option == 2:
+        # train on all data, test on all data
+        train = train_file1 + train_file2
+        shuffle(train)
+        test = test_file1 + test_file2
+        shuffle(test)
+    elif option == 3:
+        # train on cancer data, test on cancer data
+        train = train_file2
+        test = test_file2
+
+    print(len(train), len(test))
+
+    # train
+    train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
+    convert_data(train_tcrs, train_peps, amino_to_ix)
+    train_batches = get_batches(train_tcrs, train_peps, train_signs, params['batch_size'])
+
+    # test
+    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
+    convert_data(test_tcrs, test_peps, amino_to_ix)
+    test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
+
+    # Train the model
+    model = train_model(train_batches, test_batches, device, args, params)
+
+    # Save trained model
+    torch.save({
+        'model_state_dict': model.state_dict(),
+        'amino_to_ix': amino_to_ix
+    }, argv[3])
     pass
 
 
 if __name__ == '__main__':
-    main(sys.argv)
-    # grid(lrs=[1e-2, 1e-1], wds=[0, 1e-5, 1e-4, 1e-3])
+    # main(sys.argv)
+    grid(lrs=[1e-3, 1e-2], wds=[0, 1e-5, 1e-4, 1e-3])
+    # eval_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
 
 # run:
 #   source activate tf_gpu

@@ -39,14 +39,14 @@ def take_pairs_s(s, out):
 
 def take_pairs_c(c, out):
     with open(c, 'r') as data_csv:
-        # next(data)
+        next(data_csv)
         reader = csv.reader(data_csv, delimiter=',')
         for line in reader:
-            print(line)
-            tcr_beta = line[2]
+            # print(line)
+            tcr_beta = line[1]
             if tcr_beta == 'NA':
                 continue
-            peptide = line[3]
+            peptide = line[2]
             if peptide == 'NA':
                 continue
             with open(out, 'a+') as file:
