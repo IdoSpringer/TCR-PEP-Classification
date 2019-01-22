@@ -347,6 +347,7 @@ def eval_with_cancer(argv, train_file, test_file):
 if __name__ == '__main__':
     # main(sys.argv)
     grid(lrs=[1e-3, 1e-2], wds=[0, 1e-5, 1e-4, 1e-3])
+    # todo plots/csv for grid
     # eval_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
 
 # run:
