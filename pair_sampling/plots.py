@@ -84,7 +84,26 @@ plot_mul_auc(['train_auc_lr0.01_wd0', 'train_auc_lr0.01_wd0.001', 'train_auc_lr0
              ['lr=1e-2, wd=0', 'lr=1e-2, wd=1e-3', 'lr=1e-2, wd=1e-4', 'lr=1e-2, wd=1e-5',
               'lr=1e-1, wd=0', 'lr=1e-1, wd=1e-3', 'lr=1e-1, wd=1e-4', 'lr=1e-1, wd=1e-5'])
 '''
-
+'''
 plot_mul_auc(['train_auc_s', 'train_auc_d', 'test_auc_s', 'test_auc_d'],
              ['siamese model train', 'double model train', 'siamese model test', 'double model test'],
              'Train and test AUC for different models')
+'''
+
+lrs = [1e-4, 1e-3, 1e-2, 1e-1]
+wds = [1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]
+models = ['siamese', 'double']
+for model in models:
+    for option in [3]:
+        files = []
+        labels = []
+        for lr in lrs:
+            for wd in wds:
+                if model == 'siamese':
+                    key = 's'
+                elif model == 'double':
+                    key = 'd'
+                files.append('cancer_grid_o3/cancer_grid_o3_auc/test_auc2_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd))
+                labels.append('lr=' + str(lr) + ', wd=' + str(wd))
+        title = 'Test auc score, ' + model + ' model, option ' + str(option)
+        plot_mul_auc(files, labels, title)

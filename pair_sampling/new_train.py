@@ -269,8 +269,8 @@ def grid(lrs, wds):
                 key = 's'
             else:
                 key = 'd'
-            args['train_auc_file'] = 'train_auc_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd)
-            args['test_auc_file'] = 'test_auc_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd)
+            args['train_auc_file'] = 'train_auc2_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd)
+            args['test_auc_file'] = 'test_auc2_' + key + str(option) + '_lr' + str(lr) + '_wd' + str(wd)
             params['lr'] = lr
             params['wd'] = wd
             model = train_model(train_batches, test_batches, device, args, params)
@@ -346,8 +346,10 @@ def eval_with_cancer(argv, train_file, test_file):
 
 if __name__ == '__main__':
     # main(sys.argv)
-    grid(lrs=[1e-3, 1e-2], wds=[0, 1e-5, 1e-4, 1e-3])
-    # todo plots/csv for grid
+    grid(lrs=[1e-4, 1e-3, 1e-2, 1e-1], wds=[1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5])
+    # todo plots/csv for cancer_grid1 - report
+    # todo solve problem in option 3 (regularization?)
+    # todo dimensions grid
     # eval_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
 
 # run:
