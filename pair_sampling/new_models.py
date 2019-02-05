@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
+# todo dropout (in MLP? more layers in LSTM?)
 
 class SiameseLSTMClassifier(nn.Module):
     def __init__(self, embedding_dim, lstm_dim, device):
@@ -81,17 +82,17 @@ class DoubleLSTMClassifier(nn.Module):
         self.tcr_embedding = nn.Embedding(20 + 1, embedding_dim, padding_idx=0)
         self.pep_embedding = nn.Embedding(20 + 1, embedding_dim, padding_idx=0)
         # RNN - LSTM
-        self.tcr_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=1, batch_first=True)
-        self.pep_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=1, batch_first=True)
+        self.tcr_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=2, batch_first=True, dropout=0.5)
+        self.pep_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=2, batch_first=True, dropout=0.5)
         # MLP
         self.hidden_layer = nn.Linear(lstm_dim * 2, lstm_dim)
         self.relu = torch.nn.LeakyReLU()
         self.output_layer = nn.Linear(lstm_dim, 1)
-        # self.hidden = self.init_hidden()
+        self.dropout = nn.Dropout(p=0.5)
 
     def init_hidden(self, batch_size):
-        return (autograd.Variable(torch.zeros(1, batch_size, self.lstm_dim)).to(self.device),
-                autograd.Variable(torch.zeros(1, batch_size, self.lstm_dim)).to(self.device))
+        return (autograd.Variable(torch.zeros(2, batch_size, self.lstm_dim)).to(self.device),
+                autograd.Variable(torch.zeros(2, batch_size, self.lstm_dim)).to(self.device))
 
     def lstm_pass(self, lstm, padded_embeds, lengths):
         # Before using PyTorch pack_padded_sequence we need to order the sequences batch by descending sequence length
@@ -129,7 +130,8 @@ class DoubleLSTMClassifier(nn.Module):
 
         # MLP Classifier
         tcr_pep_concat = torch.cat([tcr_last_cell, pep_last_cell], 1)
-        hidden_output = self.relu(self.hidden_layer(tcr_pep_concat))
+        # todo dropout
+        hidden_output = self.dropout(self.relu(self.hidden_layer(tcr_pep_concat)))
         mlp_output = self.output_layer(hidden_output)
         output = F.sigmoid(mlp_output)
         return output

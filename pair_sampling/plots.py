@@ -42,8 +42,8 @@ def plot_auc(train_auc, test_auc):
     plt.plot(list(range(len(tr_auc))), tr_auc, label='train')
     plt.plot(list(range(len(te_auc))), te_auc, label='test')
 
-    plt.title('AUC score per number of epochs')
-    plt.xlabel('epoch. batch_size=100')
+    plt.title('edited cancer data AUC score per number of epochs')
+    plt.xlabel('epoch')
     plt.ylabel('auc score')
     plt.legend()
     plt.show()
@@ -90,6 +90,7 @@ plot_mul_auc(['train_auc_s', 'train_auc_d', 'test_auc_s', 'test_auc_d'],
              'Train and test AUC for different models')
 '''
 
+'''
 lrs = [1e-4, 1e-3, 1e-2, 1e-1]
 wds = [1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]
 models = ['siamese', 'double']
@@ -107,3 +108,33 @@ for model in models:
                 labels.append('lr=' + str(lr) + ', wd=' + str(wd))
         title = 'Test auc score, ' + model + ' model, option ' + str(option)
         plot_mul_auc(files, labels, title)
+'''
+
+def plot_auc_option_2(train, test_w, test_c):
+    with open(train, 'r') as file:
+        tr_auc = []
+        for line in file:
+            tr_auc.append(float(line.strip()))
+    with open(test_w, 'r') as file:
+        te_auc_w = []
+        for line in file:
+            te_auc_w.append(float(line.strip()))
+    with open(test_c, 'r') as file:
+        te_auc_c = []
+        for line in file:
+            te_auc_c.append(float(line.strip()))
+
+    plt.plot(list(range(len(tr_auc))), tr_auc, label='train')
+    plt.plot(list(range(len(te_auc_w))), te_auc_w, label='weizmann test')
+    plt.plot(list(range(len(te_auc_c))), te_auc_c, label='cancer test')
+
+    plt.title('Option 2 AUC score per number of epochs')
+    plt.xlabel('epoch')
+    plt.ylabel('auc score')
+    plt.legend()
+    plt.show()
+
+#plot_auc_option_2('train_auc_2', 'test_auc_2_w', 'test_auc_2_c')
+#plot_auc('train_auc_3000', 'test_auc_3000')
+#plot_auc('train_auc_3_10tcr1000', 'test_auc_3_10tcr1000')
+

@@ -123,11 +123,19 @@ def train_with_cancer(argv, train_file, test_file):
     args = {}
     args['train_auc_file'] = argv[5]
     args['test_auc_file'] = argv[6]
+    # option 2
+    try:
+        args['test_auc_file_w'] = argv[6]
+        args['test_auc_file_c'] = argv[7]
+    except IndexError:
+        pass
     args['siamese'] = bool(argv[1] == 'siamese')
     params = {}
     params['lr'] = 1e-3
     params['wd'] = 0
-    params['epochs'] = 10
+    params['emb_dim'] = 10
+    params['lstm_dim'] = 10
+    params['epochs'] = 1000
     params['batch_size'] = 100
 
     # Load data
@@ -137,6 +145,7 @@ def train_with_cancer(argv, train_file, test_file):
     train_file2, test_file2 = d.load_data(test_file)
     # Do not split (all is test)
     option = int(argv[2])
+    params['option'] = option
     if option == 1:
         # train on other data, test on cancer
         train = train_file1 + test_file1
@@ -145,24 +154,38 @@ def train_with_cancer(argv, train_file, test_file):
         # train on all data, test on all data
         train = train_file1 + train_file2
         shuffle(train)
-        test = test_file1 + test_file2
-        shuffle(test)
+        test_w = test_file1
+        shuffle(test_w)
+        test_c = test_file2
+        shuffle(test_c)
     elif option == 3:
         # train on cancer data, test on cancer data
         train = train_file2
         test = test_file2
 
-    print(len(train), len(test))
+    # print(len(train), len(test))
 
     # train
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
     convert_data(train_tcrs, train_peps, amino_to_ix)
     train_batches = get_batches(train_tcrs, train_peps, train_signs, params['batch_size'])
 
-    # test
-    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
-    convert_data(test_tcrs, test_peps, amino_to_ix)
-    test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
+    if option == 2:
+        # test w
+        test_tcrs_w, test_peps_w, test_signs_w = get_lists_from_pairs(test_w)
+        convert_data(test_tcrs_w, test_peps_w, amino_to_ix)
+        test_batches_w = get_batches(test_tcrs_w, test_peps_w, test_signs_w, params['batch_size'])
+        # test c
+        test_tcrs_c, test_peps_c, test_signs_c = get_lists_from_pairs(test_c)
+        convert_data(test_tcrs_c, test_peps_c, amino_to_ix)
+        test_batches_c = get_batches(test_tcrs_c, test_peps_c, test_signs_c, params['batch_size'])
+        test_batches = (test_batches_w, test_batches_c)
+        pass
+    else:
+        # test
+        test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
+        convert_data(test_tcrs, test_peps, amino_to_ix)
+        test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
 
     # Train the model
     model = train_model(train_batches, test_batches, device, args, params)
@@ -239,12 +262,13 @@ if __name__ == '__main__':
     # main(sys.argv)
     # grid(lrs=[1e-4, 1e-3, 1e-2, 1e-1], wds=[1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5])
     # todo solve problem in option 3 (regularization?)
-    # todo dimensions grid for weizmann
+    # todo dimensions grid for weizmann (7, 10)
     # todo add dropout
     # todo more epochs
     # todo separate test evals for weizmann and cancer in option 2
-    # eval_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
-    w_grid(lrs=[1e-3, 1e-2], wds=[0, 1e-5, 1e-6, 1e-4], emb_dims=[3, 5, 7, 10], lstm_dims=[3, 5, 7, 10])
+    #train_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
+    train_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_10tcr.txt')
+    # w_grid(lrs=[1e-3, 1e-2], wds=[0, 1e-5, 1e-6, 1e-4], emb_dims=[7, 10], lstm_dims=[3, 5, 7, 10])
 
 # run:
 #   source activate tf_gpu

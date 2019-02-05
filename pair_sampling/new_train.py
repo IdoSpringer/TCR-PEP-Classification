@@ -118,9 +118,9 @@ def train_model(batches, test_batches, device, args, params):
     loss_function = nn.BCELoss()
     # Set model with relevant parameters
     if args['siamese'] is True:
-        model = SiameseLSTMClassifier(10, 10, device)
+        model = SiameseLSTMClassifier(params['emb_dim'], params['lstm_dim'], device)
     else:
-        model = DoubleLSTMClassifier(10, 10, device)
+        model = DoubleLSTMClassifier(params['emb_dim'], params['lstm_dim'], device)
     # Move to GPU
     model.to(device)
     # We use Adam optimizer
@@ -137,13 +137,22 @@ def train_model(batches, test_batches, device, args, params):
         print('train auc:', train_auc)
         with open(args['train_auc_file'], 'a+') as file:
             file.write(str(train_auc) + '\n')
-        test_auc = evaluate(model, test_batches, device)
-        print('test auc:', test_auc)
-        with open(args['test_auc_file'], 'a+') as file:
-            file.write(str(test_auc) + '\n')
+        if params['option'] == 2:
+            test_w, test_c = test_batches
+            test_auc_w = evaluate(model, test_w, device)
+            print('test auc w:', test_auc_w)
+            with open(args['test_auc_file_w'], 'a+') as file:
+                file.write(str(test_auc_w) + '\n')
+            test_auc_c = evaluate(model, test_c, device)
+            print('test auc c:', test_auc_c)
+            with open(args['test_auc_file_c'], 'a+') as file:
+                file.write(str(test_auc_c) + '\n')
+        else:
+            test_auc = evaluate(model, test_batches, device)
+            print('test auc:', test_auc)
+            with open(args['test_auc_file'], 'a+') as file:
+                file.write(str(test_auc) + '\n')
         print('one epoch time:', time.time() - epoch_time)
-    # Print train losses
-    # print(losses)
     return model
 
 
