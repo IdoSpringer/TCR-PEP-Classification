@@ -214,7 +214,7 @@ def main():
         'max_len': max_len,
         'model_state_dict': model.state_dict(),
     }, 'pad_full_data_autoencoder_model2.pt')
-
+    # todo save also encoding dim
 
 if __name__ == '__main__':
     main()

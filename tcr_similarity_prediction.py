@@ -1,17 +1,4 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import sys
-from random import shuffle
-import time
-import numpy as np
-import torch.autograd as autograd
-from new_models import SiameseLSTMClassifier, DoubleLSTMClassifier
-import load_data as d
-from sklearn.metrics import roc_auc_score, roc_curve
-import csv
-
+from pair_sampling.plots import plot_mul_auc
 
 def read_data():
     pass
@@ -35,3 +22,6 @@ def predict_peptide(tcr):
 # find the closest TCR (that binds to peptide)
 # take this peptide for prediction
 
+plot_mul_auc(['ae_w_train_auc', 'ae_w_test_auc', 'w_train_auc_d_ed10_od10_lr0.001_wd0', 'w_test_auc_d_ed10_od10_lr0.001_wd0'],
+             ['train tcr autoencoder', 'test tcr autoencoder', 'train tcr lstm', 'test tcr lstm'],
+             'Different TCR encoding models on Weizmann data')
