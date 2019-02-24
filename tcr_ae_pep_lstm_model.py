@@ -29,12 +29,12 @@ class AutoencoderLSTMClassifier(nn.Module):
         # Embedding matrices - 20 amino acids + padding
         self.pep_embedding = nn.Embedding(20 + 1, embedding_dim, padding_idx=0)
         # RNN - LSTM
-        self.pep_lstm = nn.LSTM(embedding_dim, self.lstm_dim, num_layers=2, batch_first=True, dropout=0.5)
+        self.pep_lstm = nn.LSTM(embedding_dim, self.lstm_dim, num_layers=2, batch_first=True, dropout=0.05)
         # MLP
         self.hidden_layer = nn.Linear(self.lstm_dim * 2, self.lstm_dim)
         self.relu = torch.nn.LeakyReLU()
         self.output_layer = nn.Linear(self.lstm_dim, 1)
-        self.dropout = nn.Dropout(p=0.5)
+        self.dropout = nn.Dropout(p=0.05)
 
     def init_hidden(self, batch_size):
         return (autograd.Variable(torch.zeros(2, batch_size, self.lstm_dim)).to(self.device),

@@ -206,7 +206,7 @@ def main(argv):
     params = {}
     params['lr'] = 1e-3
     params['wd'] = 0
-    params['epochs'] = 50
+    params['epochs'] = 1000
     params['emb_dim'] = 10
     params['enc_dim'] = 30
     # Load autoencoder params
@@ -215,8 +215,8 @@ def main(argv):
     params['batch_size'] = checkpoint['batch_size']
 
     # Load data
-    # pairs_file = 'pair_sampling/pairs_data/weizmann_pairs.txt'
-    pairs_file = 'pair_sampling/pairs_data/cancer_pairs.txt'
+    pairs_file = 'pair_sampling/pairs_data/weizmann_pairs.txt'
+    # pairs_file = 'pair_sampling/pairs_data/cancer_pairs.txt'
 
     train, test = d.load_data(pairs_file)
 
@@ -241,6 +241,8 @@ def main(argv):
 
 # python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore.pt cuda:0 train_auc test_auc
 # python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore_c.pt cuda:0 ae_c_train_auc ae_c_test_auc
+
+# nohup python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore.pt cuda:0 ae_c_train_auc_ep1000_d01 ae_c_test_auc_ep1000_do01
 
 
 if __name__ == '__main__':
