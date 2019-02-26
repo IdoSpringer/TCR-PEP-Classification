@@ -120,7 +120,7 @@ def train_model(batches, test_batches, device, args, params):
     if args['siamese'] is True:
         model = SiameseLSTMClassifier(params['emb_dim'], params['lstm_dim'], device)
     else:
-        model = DoubleLSTMClassifier(params['emb_dim'], params['lstm_dim'], device)
+        model = DoubleLSTMClassifier(params['emb_dim'], params['lstm_dim'], params['dropout'], device)
     # Move to GPU
     model.to(device)
     # We use Adam optimizer

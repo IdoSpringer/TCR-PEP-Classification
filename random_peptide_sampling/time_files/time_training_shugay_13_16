@@ -1,0 +1,12 @@
+pep:13, ed:10, lstmd:10, lr:0.01, wd:1e-06, train time: 26336.9821267128
+pep:13, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 22522.469820022583
+pep:13, ed:10, lstmd:10, lr:0.001, wd:1e-05, train time: 21995.953545093536
+pep:14, ed:10, lstmd:10, lr:0.01, wd:1e-06, train time: 23980.867547273636
+pep:14, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 24054.74617266655
+pep:14, ed:10, lstmd:10, lr:0.001, wd:1e-05, train time: 35292.978338479996
+pep:15, ed:10, lstmd:10, lr:0.01, wd:1e-06, train time: 31002.39713025093
+pep:15, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 26156.605635881424
+pep:15, ed:10, lstmd:10, lr:0.001, wd:1e-05, train time: 24947.16107058525
+pep:16, ed:10, lstmd:10, lr:0.01, wd:1e-06, train time: 26778.34717655182
+pep:16, ed:10, lstmd:10, lr:0.001, wd:1e-06, train time: 26458.963572502136
+pep:16, ed:10, lstmd:10, lr:0.001, wd:1e-05, train time: 26525.49177455902

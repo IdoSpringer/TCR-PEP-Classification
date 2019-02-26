@@ -138,3 +138,9 @@ def plot_auc_option_2(train, test_w, test_c):
 #plot_auc('train_auc_3000', 'test_auc_3000')
 #plot_auc('train_auc_3_10tcr1000', 'test_auc_3_10tcr1000')
 
+# todo plots
+
+
+plot_mul_auc(['train_w_d01_hdim30', 'test_w_d01_hdim30', 'train_w_d01_hdim30_wd-5', 'test_w_d01_hdim30_wd-5'],
+             ['train, wd=0', 'test, wd=0', 'train, wd=1e-5', 'test, wd=1e-5'],
+             'LSTM based model with different regularization, Weizmann data')

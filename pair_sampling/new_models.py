@@ -71,24 +71,25 @@ class SiameseLSTMClassifier(nn.Module):
 
 
 class DoubleLSTMClassifier(nn.Module):
-    def __init__(self, embedding_dim, lstm_dim, device):
+    def __init__(self, embedding_dim, lstm_dim, dropout, device):
         super(DoubleLSTMClassifier, self).__init__()
         # GPU
         self.device = device
         # Dimensions
         self.embedding_dim = embedding_dim
         self.lstm_dim = lstm_dim
+        self.dropout = dropout
         # Embedding matrices - 20 amino acids + padding
         self.tcr_embedding = nn.Embedding(20 + 1, embedding_dim, padding_idx=0)
         self.pep_embedding = nn.Embedding(20 + 1, embedding_dim, padding_idx=0)
         # RNN - LSTM
-        self.tcr_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=2, batch_first=True, dropout=0.5)
-        self.pep_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=2, batch_first=True, dropout=0.5)
+        self.tcr_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=2, batch_first=True, dropout=dropout)
+        self.pep_lstm = nn.LSTM(embedding_dim, lstm_dim, num_layers=2, batch_first=True, dropout=dropout)
         # MLP
         self.hidden_layer = nn.Linear(lstm_dim * 2, lstm_dim)
         self.relu = torch.nn.LeakyReLU()
         self.output_layer = nn.Linear(lstm_dim, 1)
-        self.dropout = nn.Dropout(p=0.5)
+        self.dropout = nn.Dropout(p=dropout)
 
     def init_hidden(self, batch_size):
         return (autograd.Variable(torch.zeros(2, batch_size, self.lstm_dim)).to(self.device),

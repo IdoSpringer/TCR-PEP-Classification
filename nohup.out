@@ -1,0 +1,1682 @@
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+Traceback (most recent call last):
+  File "tcr_ae_pep_lstm_train.py", line 249, in <module>
+    main(sys.argv)
+  File "tcr_ae_pep_lstm_train.py", line 213, in main
+    checkpoint = torch.load(args['ae_file'])
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 358, in load
+    return _load(f, map_location, pickle_module)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 542, in _load
+    result = unpickler.load()
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 508, in persistent_load
+    data_type(size), location)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 104, in default_restore_location
+    result = fn(storage, location)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 86, in _cuda_deserialize
+    return obj.cuda(device)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/_utils.py", line 76, in _cuda
+    return new_type(self.size()).copy_(self, non_blocking)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/cuda/__init__.py", line 495, in _lazy_new
+    return super(_CudaBase, cls).__new__(cls, *args, **kwargs)
+RuntimeError: CUDA error: out of memory
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+Traceback (most recent call last):
+  File "tcr_ae_pep_lstm_train.py", line 249, in <module>
+    main(sys.argv)
+  File "tcr_ae_pep_lstm_train.py", line 213, in main
+    checkpoint = torch.load(args['ae_file'])
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 358, in load
+    return _load(f, map_location, pickle_module)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 542, in _load
+    result = unpickler.load()
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 508, in persistent_load
+    data_type(size), location)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 104, in default_restore_location
+    result = fn(storage, location)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 86, in _cuda_deserialize
+    return obj.cuda(device)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/_utils.py", line 76, in _cuda
+    return new_type(self.size()).copy_(self, non_blocking)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/cuda/__init__.py", line 495, in _lazy_new
+    return super(_CudaBase, cls).__new__(cls, *args, **kwargs)
+RuntimeError: CUDA error: out of memory
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+Traceback (most recent call last):
+  File "tcr_ae_pep_lstm_train.py", line 249, in <module>
+    main(sys.argv)
+  File "tcr_ae_pep_lstm_train.py", line 213, in main
+    checkpoint = torch.load(args['ae_file'])
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 358, in load
+    return _load(f, map_location, pickle_module)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 542, in _load
+    result = unpickler.load()
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 508, in persistent_load
+    data_type(size), location)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 104, in default_restore_location
+    result = fn(storage, location)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/serialization.py", line 86, in _cuda_deserialize
+    return obj.cuda(device)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/_utils.py", line 76, in _cuda
+    return new_type(self.size()).copy_(self, non_blocking)
+  File "/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/cuda/__init__.py", line 495, in _lazy_new
+    return super(_CudaBase, cls).__new__(cls, *args, **kwargs)
+RuntimeError: CUDA error: out of memory
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/nn/functional.py:1006: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/nn/functional.py:1594: UserWarning: Using a target size (torch.Size([50])) that is different to the input size (torch.Size([50, 1])) is deprecated. Please ensure they have the same size.
+  "Please ensure they have the same size.".format(target.size(), input.size()))
+epoch: 1
+train auc: 0.5298094952273171
+test auc: 0.5097028999992211
+one epoch time: 10.401297092437744
+epoch: 2
+train auc: 0.5365930633758043
+test auc: 0.5144740360377668
+one epoch time: 19.09346055984497
+epoch: 3
+train auc: 0.5381703171062285
+test auc: 0.5130517487999958
+one epoch time: 12.428871870040894
+epoch: 4
+train auc: 0.5396496132202131
+test auc: 0.5140473174163501
+one epoch time: 12.26797866821289
+epoch: 5
+train auc: 0.541832890623715
+test auc: 0.510294681387756
+one epoch time: 12.243014812469482
+epoch: 6
+train auc: 0.5428136480832633
+test auc: 0.5144231975708299
+one epoch time: 12.45536470413208
+epoch: 7
+train auc: 0.5443531324692442
+test auc: 0.5118698085271902
+one epoch time: 20.829739332199097
+epoch: 8
+train auc: 0.5461671652566817
+test auc: 0.5117199973001529
+one epoch time: 12.806897163391113
+epoch: 9
+train auc: 0.5452846735775257
+test auc: 0.5116489316133923
+one epoch time: 12.80742359161377
+epoch: 10
+train auc: 0.5457555095766379
+test auc: 0.5108535800232084
+one epoch time: 10.677712202072144
+epoch: 11
+train auc: 0.5468017903966123
+test auc: 0.5110314064905362
+one epoch time: 24.978124141693115
+epoch: 12
+train auc: 0.5457023705550577
+test auc: 0.509940759124315
+one epoch time: 11.040459871292114
+epoch: 13
+train auc: 0.5468025094458351
+test auc: 0.5115143719264361
+one epoch time: 17.088268518447876
+epoch: 14
+train auc: 0.5472902623619296
+test auc: 0.5114391958955401
+one epoch time: 10.604231119155884
+epoch: 15
+train auc: 0.5483408253768289
+test auc: 0.5108175604285488
+one epoch time: 13.720231771469116
+epoch: 16
+train auc: 0.5480757337566684
+test auc: 0.5082362643115692
+one epoch time: 12.286844968795776
+epoch: 17
+train auc: 0.5476865997254953
+test auc: 0.5092809407236456
+one epoch time: 12.011457681655884
+epoch: 18
+train auc: 0.5479616553134572
+test auc: 0.5104224265568037
+one epoch time: 12.094337224960327
+epoch: 19
+train auc: 0.5452510387661136
+test auc: 0.5084955404929471
+one epoch time: 11.474885702133179
+epoch: 20
+train auc: 0.548750221187887
+test auc: 0.5132769523918309
+one epoch time: 19.89700198173523
+epoch: 21
+train auc: 0.5461757874272728
+test auc: 0.5103715880898668
+one epoch time: 13.334389925003052
+epoch: 22
+train auc: 0.5498763806724141
+test auc: 0.5115109105840063
+one epoch time: 12.643349647521973
+epoch: 23
+train auc: 0.5495599861742242
+test auc: 0.5089469211791755
+one epoch time: 12.095088243484497
+epoch: 24
+train auc: 0.5489238651551072
+test auc: 0.509191378488276
+one epoch time: 16.157954931259155
+epoch: 25
+train auc: 0.5509842493423364
+test auc: 0.5089597930463361
+one epoch time: 13.339902877807617
+epoch: 26
+train auc: 0.549956175875896
+test auc: 0.5109140453487779
+one epoch time: 10.305479049682617
+epoch: 27
+train auc: 0.5517751778070696
+test auc: 0.5126004762807184
+one epoch time: 14.913942575454712
+epoch: 28
+train auc: 0.5499156587362086
+test auc: 0.5096682865749238
+one epoch time: 16.88301992416382
+epoch: 29
+train auc: 0.5489125337097659
+test auc: 0.513912757729394
+one epoch time: 12.226337671279907
+epoch: 30
+train auc: 0.5526285865131968
+test auc: 0.5133863091792206
+one epoch time: 11.253355264663696
+epoch: 31
+train auc: 0.5497908587554792
+test auc: 0.5107994965477436
+one epoch time: 9.313141107559204
+epoch: 32
+train auc: 0.5522406145169284
+test auc: 0.5112858151591222
+one epoch time: 14.203327417373657
+epoch: 33
+train auc: 0.5497510670850969
+test auc: 0.5044695665793543
+one epoch time: 12.655765056610107
+epoch: 34
+train auc: 0.549823671796351
+test auc: 0.5105670457701963
+one epoch time: 11.954191446304321
+epoch: 35
+train auc: 0.5536533664773937
+test auc: 0.5113802449072836
+one epoch time: 11.819097995758057
+epoch: 36
+train auc: 0.5502439560670683
+test auc: 0.5099389202861492
+one epoch time: 11.178355932235718
+epoch: 37
+train auc: 0.5551379655793962
+test auc: 0.5105092846184
+one epoch time: 12.337527990341187
+epoch: 38
+train auc: 0.5548021246517795
+test auc: 0.5157963770128787
+one epoch time: 12.077268362045288
+epoch: 39
+train auc: 0.5546886111758149
+test auc: 0.5131094017848412
+one epoch time: 13.62258768081665
+epoch: 40
+train auc: 0.5554643433056344
+test auc: 0.5112836518201036
+one epoch time: 11.557319164276123
+epoch: 41
+train auc: 0.5551032136736557
+test auc: 0.5131248696588241
+one epoch time: 12.672443151473999
+epoch: 42
+train auc: 0.5532580627470857
+test auc: 0.5123132930260008
+one epoch time: 11.787253856658936
+epoch: 43
+train auc: 0.555800312634898
+test auc: 0.5117393591843693
+one epoch time: 11.8170166015625
+epoch: 44
+train auc: 0.5519396089561227
+test auc: 0.5086633074338386
+one epoch time: 20.99897813796997
+epoch: 45
+train auc: 0.5514024470862912
+test auc: 0.5081653067917595
+one epoch time: 12.32979941368103
+epoch: 46
+train auc: 0.553040357754723
+test auc: 0.5131210838155417
+one epoch time: 11.979747533798218
+epoch: 47
+train auc: 0.5543761650282681
+test auc: 0.5116547726287425
+one epoch time: 11.912717819213867
+epoch: 48
+train auc: 0.5565494784639686
+test auc: 0.5076398317441445
+one epoch time: 12.136836051940918
+epoch: 49
+train auc: 0.5520067373371356
+test auc: 0.5089025727292945
+one epoch time: 12.042483568191528
+epoch: 50
+train auc: 0.553264540610173
+test auc: 0.5107710486396492
+one epoch time: 9.38883638381958
+epoch: 51
+train auc: 0.5544776536899981
+test auc: 0.5102857035308288
+one epoch time: 10.574580430984497
+epoch: 52
+train auc: 0.5517513528814826
+test auc: 0.5083516784482109
+one epoch time: 11.85581350326538
+epoch: 53
+train auc: 0.5572457620747528
+test auc: 0.5075484306706091
+one epoch time: 12.13127088546753
+epoch: 54
+train auc: 0.5561113399442461
+test auc: 0.5082326948021886
+one epoch time: 12.231820821762085
+epoch: 55
+train auc: 0.5542117017788033
+test auc: 0.5099363242793269
+one epoch time: 14.916166543960571
+epoch: 56
+train auc: 0.5578377000871628
+test auc: 0.5092913247509347
+one epoch time: 11.959352970123291
+epoch: 57
+train auc: 0.556195507223806
+test auc: 0.5119363312020118
+one epoch time: 12.098595380783081
+epoch: 58
+train auc: 0.5546964821967715
+test auc: 0.5059783873778687
+one epoch time: 12.382434606552124
+epoch: 59
+train auc: 0.5567955602203019
+test auc: 0.5108903567865243
+one epoch time: 28.521660089492798
+epoch: 60
+train auc: 0.5509959724127007
+test auc: 0.5095984107246234
+one epoch time: 12.076366424560547
+epoch: 61
+train auc: 0.556741946112628
+test auc: 0.506902024971855
+one epoch time: 11.991263151168823
+epoch: 62
+train auc: 0.557528515341448
+test auc: 0.511387383926045
+one epoch time: 12.60593295097351
+epoch: 63
+train auc: 0.5566328175529058
+test auc: 0.505686769278163
+one epoch time: 11.671642541885376
+epoch: 64
+train auc: 0.5578941647113984
+test auc: 0.5125993946112091
+one epoch time: 10.034220933914185
+epoch: 65
+train auc: 0.5565623764094023
+test auc: 0.5123728930159628
+one epoch time: 12.256723880767822
+epoch: 66
+train auc: 0.5582862969210274
+test auc: 0.5096202604487111
+one epoch time: 20.741853713989258
+epoch: 67
+train auc: 0.5586535513115644
+test auc: 0.5106462239782766
+one epoch time: 12.259499549865723
+epoch: 68
+train auc: 0.5567225831442716
+test auc: 0.5090440551011102
+one epoch time: 11.126065731048584
+epoch: 69
+train auc: 0.5569186588792094
+test auc: 0.5128335760599712
+one epoch time: 14.49015736579895
+epoch: 70
+train auc: 0.5585545536417846
+test auc: 0.5109721310014269
+one epoch time: 12.302948236465454
+epoch: 71
+train auc: 0.5566787981826699
+test auc: 0.5130351992565036
+one epoch time: 12.294760465621948
+epoch: 72
+train auc: 0.5584532062218661
+test auc: 0.5093289668498582
+one epoch time: 11.977511167526245
+epoch: 73
+train auc: 0.5574816037997437
+test auc: 0.5090891607196477
+one epoch time: 13.125121116638184
+epoch: 74
+train auc: 0.5535541633649788
+test auc: 0.510374508597542
+one epoch time: 17.34244179725647
+epoch: 75
+train auc: 0.5578626485271605
+test auc: 0.5141242241184609
+one epoch time: 12.744584321975708
+epoch: 76
+train auc: 0.557982813208436
+test auc: 0.5140061058080461
+one epoch time: 12.264793872833252
+epoch: 77
+train auc: 0.5496581363931343
+test auc: 0.5055725449779815
+one epoch time: 14.511739492416382
+epoch: 78
+train auc: 0.5588045002876902
+test auc: 0.5134685160619269
+one epoch time: 12.463266849517822
+epoch: 79
+train auc: 0.5567779370942612
+test auc: 0.5070716307509122
+one epoch time: 15.586840391159058
+epoch: 80
+train auc: 0.5536258756847868
+test auc: 0.5108528228545518
+one epoch time: 16.032430410385132
+epoch: 81
+train auc: 0.5579729776422815
+test auc: 0.5100001427803752
+one epoch time: 10.693719148635864
+epoch: 82
+train auc: 0.5566253638373018
+test auc: 0.5120496901665857
+one epoch time: 11.190849781036377
+epoch: 83
+train auc: 0.559506446411104
+test auc: 0.5141422879992662
+one epoch time: 13.828354120254517
+epoch: 84
+train auc: 0.556623476333092
+test auc: 0.5102467634284942
+one epoch time: 12.362182855606079
+epoch: 85
+train auc: 0.5584616550502339
+test auc: 0.5123641314929376
+one epoch time: 13.071906566619873
+epoch: 86
+train auc: 0.5604780809336382
+test auc: 0.5099996019456207
+one epoch time: 10.829341173171997
+epoch: 87
+train auc: 0.5599812050805296
+test auc: 0.5116732691773513
+one epoch time: 10.96011996269226
+epoch: 88
+train auc: 0.5576477041702069
+test auc: 0.5135834975307649
+one epoch time: 13.136842966079712
+epoch: 89
+train auc: 0.5581049488549918
+test auc: 0.5098902451582309
+one epoch time: 12.614749431610107
+epoch: 90
+train auc: 0.5588115302778595
+test auc: 0.5099085253729381
+one epoch time: 17.78964352607727
+epoch: 91
+train auc: 0.5575528410334581
+test auc: 0.5137485602978831
+one epoch time: 9.904557704925537
+epoch: 92
+train auc: 0.5582895968433534
+test auc: 0.5070135450982631
+one epoch time: 12.258850812911987
+epoch: 93
+train auc: 0.5575408097991412
+test auc: 0.5110279451481066
+one epoch time: 17.756115436553955
+epoch: 94
+train auc: 0.5580302768772221
+test auc: 0.5099050640305083
+one epoch time: 12.357479333877563
+epoch: 95
+train auc: 0.5575872590949166
+test auc: 0.5092308594253653
+one epoch time: 10.784375429153442
+epoch: 96
+train auc: 0.5592339331757511
+test auc: 0.507565629215807
+one epoch time: 10.972858190536499
+epoch: 97
+train auc: 0.5582892886794008
+test auc: 0.5124020980927138
+one epoch time: 12.898761749267578
+epoch: 98
+train auc: 0.5548425519103142
+test auc: 0.5139565653445204
+one epoch time: 19.123417139053345
+epoch: 99
+train auc: 0.5539776448367046
+test auc: 0.5092146343827259
+one epoch time: 12.343415021896362
+epoch: 100
+train auc: 0.5564922562700161
+test auc: 0.5105764562949271
+one epoch time: 9.243205070495605
+epoch: 101
+train auc: 0.558675662075165
+test auc: 0.5108516330180916
+one epoch time: 12.025158882141113
+epoch: 102
+train auc: 0.5582961132269348
+test auc: 0.5110329208278492
+one epoch time: 12.214248418807983
+epoch: 103
+train auc: 0.5583320014872506
+test auc: 0.5102359467334013
+one epoch time: 13.192014455795288
+epoch: 104
+train auc: 0.5576927538880307
+test auc: 0.5094863497634605
+one epoch time: 12.15913724899292
+epoch: 105
+train auc: 0.5554242819917936
+test auc: 0.5099377304496889
+one epoch time: 9.575116634368896
+epoch: 106
+train auc: 0.5585172337031057
+test auc: 0.5071059196743569
+one epoch time: 11.93232798576355
+epoch: 107
+train auc: 0.5569010871138278
+test auc: 0.5080184160723975
+one epoch time: 12.237975835800171
+epoch: 108
+train auc: 0.5562147803110096
+test auc: 0.5086015441048579
+one epoch time: 12.007487058639526
+epoch: 109
+train auc: 0.5579465525833442
+test auc: 0.5095159875080152
+one epoch time: 12.172338962554932
+epoch: 110
+train auc: 0.5575745730122004
+test auc: 0.5069842318545613
+one epoch time: 10.315117835998535
+epoch: 111
+train auc: 0.5585338296159709
+test auc: 0.5072508633886024
+one epoch time: 12.25245451927185
+epoch: 112
+train auc: 0.5556928918170799
+test auc: 0.5127290867853734
+one epoch time: 12.344632387161255
+epoch: 113
+train auc: 0.555250220719221
+test auc: 0.5077590317240688
+one epoch time: 12.354795455932617
+epoch: 114
+train auc: 0.5573481752283409
+test auc: 0.5098715322757201
+one epoch time: 13.017726182937622
+epoch: 115
+train auc: 0.5581035043364639
+test auc: 0.5103100410947881
+one epoch time: 10.014887571334839
+epoch: 116
+train auc: 0.5542521226172554
+test auc: 0.5094621203664523
+one epoch time: 12.199047803878784
+epoch: 117
+train auc: 0.5548460187547811
+test auc: 0.5075299341220002
+one epoch time: 18.488301992416382
+epoch: 118
+train auc: 0.5559613090398958
+test auc: 0.5122774897652431
+one epoch time: 22.25314235687256
+epoch: 119
+train auc: 0.5588273943013372
+test auc: 0.513998642288432
+one epoch time: 10.195814847946167
+epoch: 120
+train auc: 0.5577981844803215
+test auc: 0.5115723494121343
+one epoch time: 12.259123802185059
+epoch: 121
+train auc: 0.5575431723894446
+test auc: 0.5119914963469857
+one epoch time: 12.18824553489685
+epoch: 122
+train auc: 0.5570735048453196
+test auc: 0.514573008797867
+one epoch time: 17.0886013507843
+epoch: 123
+train auc: 0.5583081444612518
+test auc: 0.5100105268076645
+one epoch time: 12.647086381912231
+epoch: 124
+train auc: 0.5582420304532497
+test auc: 0.5115025817287848
+one epoch time: 13.102428197860718
+epoch: 125
+train auc: 0.5566784193978114
+test auc: 0.511076187608221
+one epoch time: 12.170843601226807
+epoch: 126
+train auc: 0.554743509299958
+test auc: 0.5119321126909254
+one epoch time: 16.215850591659546
+epoch: 127
+train auc: 0.5560026864706176
+test auc: 0.5096082539171579
+one epoch time: 19.301053285598755
+epoch: 128
+train auc: 0.5563598934322826
+test auc: 0.5090628761505718
+one epoch time: 13.614511966705322
+epoch: 129
+train auc: 0.5561157698010651
+test auc: 0.5119594789295105
+one epoch time: 12.141532897949219
+epoch: 130
+train auc: 0.5567165354267014
+test auc: 0.5118017715150555
+one epoch time: 12.308830261230469
+epoch: 131
+train auc: 0.5573364649981412
+test auc: 0.5130585633179044
+one epoch time: 13.33018159866333
+epoch: 132
+train auc: 0.556366332774876
+test auc: 0.5101151242492132
+one epoch time: 21.511491298675537
+epoch: 133
+train auc: 0.5567298506774875
+test auc: 0.5083292878893686
+one epoch time: 11.715819835662842
+epoch: 134
+train auc: 0.5591887101157039
+test auc: 0.5088485974207807
+one epoch time: 12.287748575210571
+epoch: 135
+train auc: 0.5584713943151531
+test auc: 0.5121301663780773
+one epoch time: 12.095465898513794
+epoch: 136
+train auc: 0.5594089382004286
+test auc: 0.5125832777355206
+one epoch time: 18.030289888381958
+epoch: 137
+train auc: 0.5571215334813522
+test auc: 0.511440818399804
+one epoch time: 18.30014681816101
+epoch: 138
+train auc: 0.5573161197571858
+test auc: 0.5092175548904009
+one epoch time: 15.747145414352417
+epoch: 139
+train auc: 0.5595367427796961
+test auc: 0.5112643981028382
+one epoch time: 12.405844449996948
+epoch: 140
+train auc: 0.5573971732968077
+test auc: 0.5129418511778515
+one epoch time: 9.819310426712036
+epoch: 141
+train auc: 0.5578822105180696
+test auc: 0.5117641294161321
+one epoch time: 12.373362302780151
+epoch: 142
+train auc: 0.5604141946942103
+test auc: 0.5105687764414112
+one epoch time: 23.40448236465454
+epoch: 143
+train auc: 0.5599248495976938
+test auc: 0.5137414212791218
+one epoch time: 13.408048391342163
+epoch: 144
+train auc: 0.5578023896342583
+test auc: 0.5061839045846346
+one epoch time: 10.37653398513794
+epoch: 145
+train auc: 0.5581957159792036
+test auc: 0.5113246470945059
+one epoch time: 12.362454175949097
+epoch: 146
+train auc: 0.5590461072466282
+test auc: 0.5117541780566466
+one epoch time: 17.32657814025879
+epoch: 147
+train auc: 0.5589715444102583
+test auc: 0.5121834926848854
+one epoch time: 11.625297784805298
+epoch: 148
+train auc: 0.5595628468345162
+test auc: 0.5110212387971489
+one epoch time: 14.177812814712524
+epoch: 149
+train auc: 0.5591273533887204
+test auc: 0.5117732154400101
+one epoch time: 10.660278558731079
+epoch: 150
+train auc: 0.5577116096698818
+test auc: 0.5070384234969769
+one epoch time: 18.38054060935974
+epoch: 151
+train auc: 0.5575498043345083
+test auc: 0.5083619543085494
+one epoch time: 12.660052061080933
+epoch: 152
+train auc: 0.5601936648656153
+test auc: 0.5097290764013461
+one epoch time: 12.115002155303955
+epoch: 153
+train auc: 0.5594503734118915
+test auc: 0.5115894397903811
+one epoch time: 10.324300289154053
+epoch: 154
+train auc: 0.5582831125601836
+test auc: 0.5103721289246215
+one epoch time: 10.876478672027588
+epoch: 155
+train auc: 0.5601045669628135
+test auc: 0.5089012747258833
+one epoch time: 17.976679801940918
+epoch: 156
+train auc: 0.5580179310588702
+test auc: 0.5078747703615631
+one epoch time: 14.887465000152588
+epoch: 157
+train auc: 0.5608984422453436
+test auc: 0.5058424215205504
+one epoch time: 12.198837518692017
+epoch: 158
+train auc: 0.5602182666211662
+test auc: 0.5065518885516964
+one epoch time: 10.319011688232422
+epoch: 159
+train auc: 0.557617041856921
+test auc: 0.5056520476869146
+one epoch time: 12.435679912567139
+epoch: 160
+train auc: 0.5603152933256657
+test auc: 0.50977840053097
+one epoch time: 15.016487121582031
+epoch: 161
+train auc: 0.5565822016236875
+test auc: 0.5059054828529423
+one epoch time: 12.884744882583618
+epoch: 162
+train auc: 0.5570984019246585
+test auc: 0.5057461529342233
+one epoch time: 20.51875329017639
+epoch: 163
+train auc: 0.5595213024816533
+test auc: 0.5060517245705989
+one epoch time: 14.684006690979004
+epoch: 164
+train auc: 0.5568975881689491
+test auc: 0.5070132205974104
+one epoch time: 12.971333503723145
+epoch: 165
+train auc: 0.558882658370174
+test auc: 0.5066754152096579
+one epoch time: 12.560403823852539
+epoch: 166
+train auc: 0.5577062681613697
+test auc: 0.5090409182595331
+one epoch time: 11.239278316497803
+epoch: 167
+train auc: 0.5562501357044906
+test auc: 0.5105653150989814
+one epoch time: 10.723614692687988
+epoch: 168
+train auc: 0.5576259465111353
+test auc: 0.5121291928755188
+one epoch time: 31.764406442642212
+epoch: 169
+train auc: 0.5553064349602451
+test auc: 0.5092942452586099
+one epoch time: 13.34979248046875
+epoch: 170
+train auc: 0.5591144811236161
+test auc: 0.5112523915712851
+one epoch time: 10.630509614944458
+epoch: 171
+train auc: 0.5568369312309412
+test auc: 0.5074753098117808
+one epoch time: 12.140749216079712
+epoch: 172
+train auc: 0.5543944751031198
+test auc: 0.5014874037422303
+one epoch time: 15.141408920288086
+epoch: 173
+train auc: 0.55632795352261
+test auc: 0.5097026836653193
+one epoch time: 15.283094644546509
+epoch: 174
+train auc: 0.5570776136980212
+test auc: 0.5090296688966365
+one epoch time: 13.901665687561035
+epoch: 175
+train auc: 0.5573493180029985
+test auc: 0.5066885034107204
+one epoch time: 12.08283019065857
+epoch: 176
+train auc: 0.5581439187548338
+test auc: 0.5091111186106864
+one epoch time: 12.205801963806152
+epoch: 177
+train auc: 0.5592291951549795
+test auc: 0.5113340576192368
+one epoch time: 11.690502166748047
+epoch: 178
+train auc: 0.5599810253182239
+test auc: 0.5087669313728289
+one epoch time: 16.99376606941223
+epoch: 179
+train auc: 0.558977598547911
+test auc: 0.5112843008218092
+one epoch time: 19.13787603378296
+epoch: 180
+train auc: 0.5581357780904186
+test auc: 0.5076505402722866
+one epoch time: 11.513367652893066
+epoch: 181
+train auc: 0.5562194027702989
+test auc: 0.5106174515693294
+one epoch time: 12.74753475189209
+epoch: 182
+train auc: 0.556832886579063
+test auc: 0.5051416078454788
+one epoch time: 12.217957019805908
+epoch: 183
+train auc: 0.5592302994091432
+test auc: 0.5054549675023212
+one epoch time: 15.953011751174927
+epoch: 184
+train auc: 0.5573287031185845
+test auc: 0.5100254538468927
+one epoch time: 12.030807733535767
+epoch: 185
+train auc: 0.5586641251871887
+test auc: 0.5066730355367374
+one epoch time: 12.871386289596558
+epoch: 186
+train auc: 0.5584206949248646
+test auc: 0.5047867120794793
+one epoch time: 22.97472381591797
+epoch: 187
+train auc: 0.5590199775114788
+test auc: 0.5124641859225473
+one epoch time: 11.477465391159058
+epoch: 188
+train auc: 0.5595486135119544
+test auc: 0.5072458877088596
+one epoch time: 12.491507768630981
+epoch: 189
+train auc: 0.5585084381902913
+test auc: 0.5099540636592793
+one epoch time: 13.017283916473389
+epoch: 190
+train auc: 0.5581576127904784
+test auc: 0.5070202514492208
+one epoch time: 11.611927032470703
+epoch: 191
+train auc: 0.559176845803528
+test auc: 0.5091939744950984
+one epoch time: 11.800221681594849
+epoch: 192
+train auc: 0.5590562702369823
+test auc: 0.5109482261052716
+one epoch time: 11.141273021697998
+epoch: 193
+train auc: 0.5592707716082541
+test auc: 0.5103443300182327
+one epoch time: 12.610661268234253
+epoch: 194
+train auc: 0.5579225607356162
+test auc: 0.5049467991668548
+one epoch time: 12.416338205337524
+epoch: 195
+train auc: 0.5576213754125048
+test auc: 0.5088555201056402
+one epoch time: 11.943251371383667
+epoch: 196
+train auc: 0.5550572073635622
+test auc: 0.5054213275805821
+one epoch time: 12.23899245262146
+epoch: 197
+train auc: 0.5586940042504284
+test auc: 0.5047219200758726
+one epoch time: 11.174962282180786
+epoch: 198
+train auc: 0.554829442102163
+test auc: 0.5081582759399491
+one epoch time: 11.535421133041382
+epoch: 199
+train auc: 0.5564138285440738
+test auc: 0.5122890636289925
+one epoch time: 13.070927381515503
+epoch: 200
+train auc: 0.556124148008527
+test auc: 0.5079972153500153
+one epoch time: 11.687474489212036
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/nn/functional.py:1006: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+/home/dsi/speingi/anaconda3/envs/tf_gpu/lib/python3.6/site-packages/torch/nn/functional.py:1594: UserWarning: Using a target size (torch.Size([50])) that is different to the input size (torch.Size([50, 1])) is deprecated. Please ensure they have the same size.
+  "Please ensure they have the same size.".format(target.size(), input.size()))
+epoch: 1
+train auc: 0.5679997529860707
+test auc: 0.5374694320987654
+one epoch time: 16.433420419692993
+epoch: 2
+train auc: 0.5898824742938069
+test auc: 0.5535637530864198
+one epoch time: 12.109288930892944
+epoch: 3
+train auc: 0.6269753930658781
+test auc: 0.5974517530864197
+one epoch time: 11.951197147369385
+epoch: 4
+train auc: 0.6663473131305406
+test auc: 0.6426720987654322
+one epoch time: 12.047034740447998
+epoch: 5
+train auc: 0.6914164514307033
+test auc: 0.6589156543209875
+one epoch time: 12.512896060943604
+epoch: 6
+train auc: 0.7097073874980337
+test auc: 0.6761526913580247
+one epoch time: 21.776604413986206
+epoch: 7
+train auc: 0.7184690350433249
+test auc: 0.6782771358024692
+one epoch time: 12.559647798538208
+epoch: 8
+train auc: 0.7339323460299433
+test auc: 0.6900865185185184
+one epoch time: 12.807328701019287
+epoch: 9
+train auc: 0.737797796633662
+test auc: 0.6978025679012345
+one epoch time: 11.065592288970947
+epoch: 10
+train auc: 0.7458534717865215
+test auc: 0.7003953580246913
+one epoch time: 24.47648596763611
+epoch: 11
+train auc: 0.7520079808277904
+test auc: 0.7083804444444445
+one epoch time: 10.493667840957642
+epoch: 12
+train auc: 0.7557047456819713
+test auc: 0.7091893333333333
+one epoch time: 16.974223136901855
+epoch: 13
+train auc: 0.7629474769914726
+test auc: 0.7146159012345679
+one epoch time: 10.328797340393066
+epoch: 14
+train auc: 0.7633249987030202
+test auc: 0.7156772345679012
+one epoch time: 14.008829593658447
+epoch: 15
+train auc: 0.7683083401526002
+test auc: 0.7183036049382716
+one epoch time: 11.87247085571289
+epoch: 16
+train auc: 0.7730368635897445
+test auc: 0.7221513086419753
+one epoch time: 13.190226554870605
+epoch: 17
+train auc: 0.7719599066299887
+test auc: 0.7230603456790123
+one epoch time: 12.349270820617676
+epoch: 18
+train auc: 0.778241292432466
+test auc: 0.7300578765432099
+one epoch time: 15.645810842514038
+epoch: 19
+train auc: 0.7781015895461281
+test auc: 0.7280490864197531
+one epoch time: 16.821518421173096
+epoch: 20
+train auc: 0.7837183482709364
+test auc: 0.7324207407407406
+one epoch time: 13.521531581878662
+epoch: 21
+train auc: 0.7829365032095875
+test auc: 0.7346728888888889
+one epoch time: 12.82764720916748
+epoch: 22
+train auc: 0.7870462052929212
+test auc: 0.7373605925925926
+one epoch time: 12.202564239501953
+epoch: 23
+train auc: 0.79302306858278
+test auc: 0.7407527901234567
+one epoch time: 14.61776351928711
+epoch: 24
+train auc: 0.7907761652560803
+test auc: 0.7392531358024691
+one epoch time: 14.34683895111084
+epoch: 25
+train auc: 0.7921858047343395
+test auc: 0.7402480987654321
+one epoch time: 11.888218641281128
+epoch: 26
+train auc: 0.7966559313827906
+test auc: 0.7427098271604938
+one epoch time: 14.042715549468994
+epoch: 27
+train auc: 0.7998469785802665
+test auc: 0.7460771358024691
+one epoch time: 16.563749313354492
+epoch: 28
+train auc: 0.8006395273173217
+test auc: 0.7481495308641976
+one epoch time: 12.340619564056396
+epoch: 29
+train auc: 0.8036686022360507
+test auc: 0.7492450370370369
+one epoch time: 11.143505096435547
+epoch: 30
+train auc: 0.8020590345527453
+test auc: 0.7457015308641974
+one epoch time: 9.435556888580322
+epoch: 31
+train auc: 0.8058643251438917
+test auc: 0.7504677530864198
+one epoch time: 12.902681589126587
+epoch: 32
+train auc: 0.806708380830486
+test auc: 0.7483273086419753
+one epoch time: 13.211277484893799
+epoch: 33
+train auc: 0.8079534553763955
+test auc: 0.7522968888888888
+one epoch time: 12.265105485916138
+epoch: 34
+train auc: 0.8104050281336221
+test auc: 0.7507444938271605
+one epoch time: 11.317098140716553
+epoch: 35
+train auc: 0.8109668960061431
+test auc: 0.7504794074074073
+one epoch time: 12.732280731201172
+epoch: 36
+train auc: 0.8109864356020632
+test auc: 0.7516613333333333
+one epoch time: 12.392928123474121
+epoch: 37
+train auc: 0.8120325745961952
+test auc: 0.7533256296296297
+one epoch time: 12.396344661712646
+epoch: 38
+train auc: 0.812739853111349
+test auc: 0.7515990123456789
+one epoch time: 13.491840362548828
+epoch: 39
+train auc: 0.8138107235392206
+test auc: 0.7545453827160494
+one epoch time: 12.93567943572998
+epoch: 40
+train auc: 0.8160915272811682
+test auc: 0.7531998024691358
+one epoch time: 13.01155686378479
+epoch: 41
+train auc: 0.8169582376663747
+test auc: 0.7561445925925925
+one epoch time: 12.251575946807861
+epoch: 42
+train auc: 0.8164230930647444
+test auc: 0.7524524444444445
+one epoch time: 13.44610857963562
+epoch: 43
+train auc: 0.8175828451438435
+test auc: 0.7540745679012345
+one epoch time: 23.987211227416992
+epoch: 44
+train auc: 0.818613970257287
+test auc: 0.7544213333333334
+one epoch time: 11.198618650436401
+epoch: 45
+train auc: 0.8203235020431155
+test auc: 0.7563296790123457
+one epoch time: 12.480611562728882
+epoch: 46
+train auc: 0.821249288359035
+test auc: 0.7587940740740741
+one epoch time: 12.676191806793213
+epoch: 47
+train auc: 0.8201140391421992
+test auc: 0.7564874074074074
+one epoch time: 12.28035831451416
+epoch: 48
+train auc: 0.8226265098713359
+test auc: 0.758461037037037
+one epoch time: 9.239663362503052
+epoch: 49
+train auc: 0.8237516039840088
+test auc: 0.7589116049382716
+one epoch time: 9.343871116638184
+epoch: 50
+train auc: 0.8241897297898537
+test auc: 0.7558558024691359
+one epoch time: 13.052769422531128
+epoch: 51
+train auc: 0.8244910980160989
+test auc: 0.7598885925925927
+one epoch time: 12.644517421722412
+epoch: 52
+train auc: 0.8244449788227872
+test auc: 0.758352987654321
+one epoch time: 12.480993747711182
+epoch: 53
+train auc: 0.8258312648267785
+test auc: 0.7619032098765433
+one epoch time: 16.623860836029053
+epoch: 54
+train auc: 0.8274044765841192
+test auc: 0.7601256296296297
+one epoch time: 12.4980149269104
+epoch: 55
+train auc: 0.827105015297048
+test auc: 0.7609960493827161
+one epoch time: 12.169446229934692
+epoch: 56
+train auc: 0.827877593417685
+test auc: 0.7627158518518518
+one epoch time: 11.861185789108276
+epoch: 57
+train auc: 0.8281706677646457
+test auc: 0.7613723456790125
+one epoch time: 28.593403339385986
+epoch: 58
+train auc: 0.8294289341500466
+test auc: 0.7612294320987654
+one epoch time: 12.473035335540771
+epoch: 59
+train auc: 0.828306850650248
+test auc: 0.7583859753086419
+one epoch time: 12.251439094543457
+epoch: 60
+train auc: 0.8309667630428501
+test auc: 0.7613916049382716
+one epoch time: 13.506802558898926
+epoch: 61
+train auc: 0.8299460477275006
+test auc: 0.7613667160493827
+one epoch time: 11.616137981414795
+epoch: 62
+train auc: 0.8323757429291347
+test auc: 0.7659144691358024
+one epoch time: 10.692545890808105
+epoch: 63
+train auc: 0.8324087617115454
+test auc: 0.7622569876543209
+one epoch time: 12.333824872970581
+epoch: 64
+train auc: 0.8333127292473947
+test auc: 0.7630836543209876
+one epoch time: 18.895126581192017
+epoch: 65
+train auc: 0.834555198078474
+test auc: 0.7643648395061728
+one epoch time: 12.150595664978027
+epoch: 66
+train auc: 0.8349514626510811
+test auc: 0.7653256296296296
+one epoch time: 11.962676048278809
+epoch: 67
+train auc: 0.8332648076047271
+test auc: 0.7631332345679013
+one epoch time: 14.388728380203247
+epoch: 68
+train auc: 0.8339220093747219
+test auc: 0.7600493827160494
+one epoch time: 12.433365821838379
+epoch: 69
+train auc: 0.8350660096137946
+test auc: 0.7623055802469136
+one epoch time: 12.22756290435791
+epoch: 70
+train auc: 0.8343072959858512
+test auc: 0.7622192592592593
+one epoch time: 11.867363929748535
+epoch: 71
+train auc: 0.8366092980995756
+test auc: 0.7646255802469135
+one epoch time: 11.996223211288452
+epoch: 72
+train auc: 0.8377442469081855
+test auc: 0.7669232592592592
+one epoch time: 16.57235550880432
+epoch: 73
+train auc: 0.836555805843499
+test auc: 0.7646081975308642
+one epoch time: 12.281487703323364
+epoch: 74
+train auc: 0.8373543627450748
+test auc: 0.7643667160493827
+one epoch time: 12.345001220703125
+epoch: 75
+train auc: 0.8392763157997851
+test auc: 0.7642338765432097
+one epoch time: 15.695887804031372
+epoch: 76
+train auc: 0.8385452919735468
+test auc: 0.7644924444444445
+one epoch time: 12.143752098083496
+epoch: 77
+train auc: 0.840366542966396
+test auc: 0.7661852839506174
+one epoch time: 15.934551239013672
+epoch: 78
+train auc: 0.8406506703727116
+test auc: 0.7690311111111111
+one epoch time: 15.887526035308838
+epoch: 79
+train auc: 0.8414474052330904
+test auc: 0.7639936790123456
+one epoch time: 10.963411331176758
+epoch: 80
+train auc: 0.8420891163876031
+test auc: 0.7669169382716049
+one epoch time: 10.995844841003418
+epoch: 81
+train auc: 0.8413064158158713
+test auc: 0.7668727901234568
+one epoch time: 12.647954225540161
+epoch: 82
+train auc: 0.8427880879622454
+test auc: 0.7685572345679013
+one epoch time: 12.650619983673096
+epoch: 83
+train auc: 0.8416597546652222
+test auc: 0.7677811358024691
+one epoch time: 13.760844230651855
+epoch: 84
+train auc: 0.843667846513444
+test auc: 0.7667904197530864
+one epoch time: 10.749250411987305
+epoch: 85
+train auc: 0.8421862723262741
+test auc: 0.7704091851851852
+one epoch time: 10.10899019241333
+epoch: 86
+train auc: 0.8449771627054317
+test auc: 0.7672323950617285
+one epoch time: 12.49948787689209
+epoch: 87
+train auc: 0.8450295970021036
+test auc: 0.7661932839506171
+one epoch time: 12.040020942687988
+epoch: 88
+train auc: 0.8455069783263562
+test auc: 0.7680198518518518
+one epoch time: 12.784196853637695
+epoch: 89
+train auc: 0.8462016396960161
+test auc: 0.7696715061728395
+one epoch time: 10.477828025817871
+epoch: 90
+train auc: 0.8455969701818974
+test auc: 0.7664479012345679
+one epoch time: 12.300598382949829
+epoch: 91
+train auc: 0.8454421228025988
+test auc: 0.7673422222222221
+one epoch time: 24.5025577545166
+epoch: 92
+train auc: 0.8453275497174308
+test auc: 0.7670275555555555
+one epoch time: 12.357393264770508
+epoch: 93
+train auc: 0.8447783773577671
+test auc: 0.7675158518518518
+one epoch time: 10.785913705825806
+epoch: 94
+train auc: 0.8471234162151792
+test auc: 0.7682494814814814
+one epoch time: 11.04798674583435
+epoch: 95
+train auc: 0.8458724575864075
+test auc: 0.7689163456790125
+one epoch time: 12.830671310424805
+epoch: 96
+train auc: 0.8471918178621268
+test auc: 0.7686159012345679
+one epoch time: 19.129650592803955
+epoch: 97
+train auc: 0.8461688886687637
+test auc: 0.768430024691358
+one epoch time: 12.328993320465088
+epoch: 98
+train auc: 0.8486289904073645
+test auc: 0.7705684938271605
+one epoch time: 8.771816730499268
+epoch: 99
+train auc: 0.8451317227377313
+test auc: 0.7687124938271606
+one epoch time: 12.151830673217773
+epoch: 100
+train auc: 0.8498319882097869
+test auc: 0.7672366419753086
+one epoch time: 11.789073705673218
+epoch: 101
+train auc: 0.8494792109932066
+test auc: 0.7710253827160494
+one epoch time: 12.024664878845215
+epoch: 102
+train auc: 0.8486661887824851
+test auc: 0.7721039999999999
+one epoch time: 12.150934934616089
+epoch: 103
+train auc: 0.8504339540498712
+test auc: 0.767857975308642
+one epoch time: 10.861017227172852
+epoch: 104
+train auc: 0.848861506374323
+test auc: 0.7677441975308643
+one epoch time: 11.731122016906738
+epoch: 105
+train auc: 0.8480298849760413
+test auc: 0.7699342222222221
+one epoch time: 12.20064115524292
+epoch: 106
+train auc: 0.8511385419522177
+test auc: 0.7705418271604938
+one epoch time: 12.102683305740356
+epoch: 107
+train auc: 0.8501007294904382
+test auc: 0.7691451851851852
+one epoch time: 12.015089988708496
+epoch: 108
+train auc: 0.8507212357425603
+test auc: 0.7716973827160494
+one epoch time: 10.49208927154541
+epoch: 109
+train auc: 0.8513943852709899
+test auc: 0.7697408395061729
+one epoch time: 11.832412481307983
+epoch: 110
+train auc: 0.8509018398619356
+test auc: 0.7687788641975308
+one epoch time: 11.878660678863525
+epoch: 111
+train auc: 0.8515860065355245
+test auc: 0.7693843950617284
+one epoch time: 12.173444747924805
+epoch: 112
+train auc: 0.8510040635567676
+test auc: 0.7713874567901235
+one epoch time: 11.953826427459717
+epoch: 113
+train auc: 0.8516669012463075
+test auc: 0.7706943209876542
+one epoch time: 11.88943338394165
+epoch: 114
+train auc: 0.8510271884595594
+test auc: 0.7684948148148147
+one epoch time: 11.78943157196045
+epoch: 115
+train auc: 0.8517231102376458
+test auc: 0.766402962962963
+one epoch time: 16.232980728149414
+epoch: 116
+train auc: 0.8503887360812379
+test auc: 0.7715880493827161
+one epoch time: 23.439696788787842
+epoch: 117
+train auc: 0.8519745780452996
+test auc: 0.7702573827160494
+one epoch time: 9.859291553497314
+epoch: 118
+train auc: 0.8532755350518668
+test auc: 0.7702832592592592
+one epoch time: 9.570636749267578
+epoch: 119
+train auc: 0.8538358812914169
+test auc: 0.7674605432098766
+one epoch time: 12.464642763137817
+epoch: 120
+train auc: 0.8530589994964114
+test auc: 0.7702608395061729
+one epoch time: 17.976869106292725
+epoch: 121
+train auc: 0.8548371288475959
+test auc: 0.769903012345679
+one epoch time: 12.306209564208984
+epoch: 122
+train auc: 0.8534655040711584
+test auc: 0.7671559506172839
+one epoch time: 11.751322031021118
+epoch: 123
+train auc: 0.8551812072868482
+test auc: 0.7713473580246912
+one epoch time: 12.434701442718506
+epoch: 124
+train auc: 0.8559120939702007
+test auc: 0.7727415308641975
+one epoch time: 13.489478588104248
+epoch: 125
+train auc: 0.8539185588597151
+test auc: 0.7711834074074074
+one epoch time: 18.98324465751648
+epoch: 126
+train auc: 0.8555297134821278
+test auc: 0.7726218271604939
+one epoch time: 11.174675703048706
+epoch: 127
+train auc: 0.8548774096723404
+test auc: 0.7718386172839506
+one epoch time: 13.48731780052185
+epoch: 128
+train auc: 0.8534434501889986
+test auc: 0.7745704691358025
+one epoch time: 11.90636157989502
+epoch: 129
+train auc: 0.85716283055811
+test auc: 0.774410074074074
+one epoch time: 12.36670708656311
+epoch: 130
+train auc: 0.8572735962955434
+test auc: 0.7745381728395061
+one epoch time: 13.730775833129883
+epoch: 131
+train auc: 0.8552634538346483
+test auc: 0.7746858271604938
+one epoch time: 22.288752555847168
+epoch: 132
+train auc: 0.8563299814044696
+test auc: 0.774300049382716
+one epoch time: 12.188046216964722
+epoch: 133
+train auc: 0.8572612077215258
+test auc: 0.7756207407407406
+one epoch time: 12.68001937866211
+epoch: 134
+train auc: 0.8575217596127105
+test auc: 0.7752491851851853
+one epoch time: 14.591358661651611
+epoch: 135
+train auc: 0.8574179163257034
+test auc: 0.7738435555555555
+one epoch time: 14.69193720817566
+epoch: 136
+train auc: 0.8573448844737064
+test auc: 0.773509037037037
+one epoch time: 16.083038330078125
+epoch: 137
+train auc: 0.8583174234524575
+test auc: 0.7739351111111111
+one epoch time: 14.942602157592773
+epoch: 138
+train auc: 0.8574842673599775
+test auc: 0.7735812345679012
+one epoch time: 12.183080434799194
+epoch: 139
+train auc: 0.8586014398383417
+test auc: 0.7755172345679012
+one epoch time: 9.525238990783691
+epoch: 140
+train auc: 0.8582355099659513
+test auc: 0.7739822222222221
+one epoch time: 12.158316373825073
+epoch: 141
+train auc: 0.8582532601737426
+test auc: 0.7748703209876543
+one epoch time: 23.937782049179077
+epoch: 142
+train auc: 0.8582662495642122
+test auc: 0.7738328888888888
+one epoch time: 12.763871908187866
+epoch: 143
+train auc: 0.8564035683586233
+test auc: 0.7741705679012346
+one epoch time: 11.077489137649536
+epoch: 144
+train auc: 0.8593513828522075
+test auc: 0.774510913580247
+one epoch time: 12.436136484146118
+epoch: 145
+train auc: 0.8594651330800605
+test auc: 0.7763486419753086
+one epoch time: 22.5332133769989
+epoch: 146
+train auc: 0.8591127215778422
+test auc: 0.7768472098765432
+one epoch time: 12.079120397567749
+epoch: 147
+train auc: 0.8600057372746683
+test auc: 0.7751917037037037
+one epoch time: 11.032943725585938
+epoch: 148
+train auc: 0.8550981248205061
+test auc: 0.7769178271604938
+one epoch time: 9.044407606124878
+epoch: 149
+train auc: 0.8592493877288515
+test auc: 0.7764298271604938
+one epoch time: 17.350261926651
+epoch: 150
+train auc: 0.8592172962935738
+test auc: 0.7751253333333333
+one epoch time: 12.408648014068604
+epoch: 151
+train auc: 0.8593330057055099
+test auc: 0.7773993086419753
+one epoch time: 11.941874265670776
+epoch: 152
+train auc: 0.8602530254896119
+test auc: 0.7752045432098766
+one epoch time: 10.423572778701782
+epoch: 153
+train auc: 0.8605296100372083
+test auc: 0.778199901234568
+one epoch time: 11.063366651535034
+epoch: 154
+train auc: 0.8592750399791105
+test auc: 0.7750789135802468
+one epoch time: 16.84040093421936
+epoch: 155
+train auc: 0.8605629096360039
+test auc: 0.7758528395061729
+one epoch time: 15.9011869430542
+epoch: 156
+train auc: 0.8599552556314657
+test auc: 0.7761388641975309
+one epoch time: 12.491249561309814
+epoch: 157
+train auc: 0.8609457342058024
+test auc: 0.7771101234567901
+one epoch time: 9.653642177581787
+epoch: 158
+train auc: 0.8607849047844374
+test auc: 0.7752995555555556
+one epoch time: 12.835039138793945
+epoch: 159
+train auc: 0.8602508834483479
+test auc: 0.7739144691358024
+one epoch time: 15.508752822875977
+epoch: 160
+train auc: 0.8615287155521234
+test auc: 0.7763084444444444
+one epoch time: 13.163947105407715
+epoch: 161
+train auc: 0.8597514090582536
+test auc: 0.775539061728395
+one epoch time: 20.707305431365967
+epoch: 162
+train auc: 0.8618743417468012
+test auc: 0.7753131851851851
+one epoch time: 13.986309289932251
+epoch: 163
+train auc: 0.8606626059833692
+test auc: 0.774385975308642
+one epoch time: 11.998913049697876
+epoch: 164
+train auc: 0.861926645431201
+test auc: 0.7775095308641975
+one epoch time: 12.067755937576294
+epoch: 165
+train auc: 0.8621128201639853
+test auc: 0.7762322962962963
+one epoch time: 11.951009273529053
+epoch: 166
+train auc: 0.8623969606315282
+test auc: 0.7753145679012345
+one epoch time: 10.163485527038574
+epoch: 167
+train auc: 0.8614442420650824
+test auc: 0.774395950617284
+one epoch time: 31.844403982162476
+epoch: 168
+train auc: 0.8621121017964882
+test auc: 0.7751454814814814
+one epoch time: 11.763947010040283
+epoch: 169
+train auc: 0.8620655515826786
+test auc: 0.7772821728395061
+one epoch time: 11.97322702407837
+epoch: 170
+train auc: 0.8619650127861578
+test auc: 0.775894913580247
+one epoch time: 11.8969566822052
+epoch: 171
+train auc: 0.8626802194662335
+test auc: 0.7756752592592593
+one epoch time: 17.437803030014038
+epoch: 172
+train auc: 0.8630086897389588
+test auc: 0.7775770864197531
+one epoch time: 17.405723333358765
+epoch: 173
+train auc: 0.8630720497521998
+test auc: 0.7776118518518519
+one epoch time: 12.023406744003296
+epoch: 174
+train auc: 0.8631829787549736
+test auc: 0.7772772345679012
+one epoch time: 12.760280847549438
+epoch: 175
+train auc: 0.8622675957065343
+test auc: 0.7760537283950617
+one epoch time: 12.503209352493286
+epoch: 176
+train auc: 0.8630933068994991
+test auc: 0.7749242469135803
+one epoch time: 11.962786197662354
+epoch: 177
+train auc: 0.8637111747837231
+test auc: 0.7752604444444445
+one epoch time: 27.822088718414307
+epoch: 178
+train auc: 0.8629477656445943
+test auc: 0.7730614320987653
+one epoch time: 11.25238037109375
+epoch: 179
+train auc: 0.8635700155705502
+test auc: 0.7743776790123458
+one epoch time: 17.75597620010376
+epoch: 180
+train auc: 0.8629516905433737
+test auc: 0.7741981234567901
+one epoch time: 11.409383058547974
+epoch: 181
+train auc: 0.8641727650842677
+test auc: 0.7735132839506172
+one epoch time: 16.23867702484131
+epoch: 182
+train auc: 0.8641785773303802
+test auc: 0.7730074074074075
+one epoch time: 12.055267810821533
+epoch: 183
+train auc: 0.864348432059754
+test auc: 0.7722152098765431
+one epoch time: 11.822455406188965
+epoch: 184
+train auc: 0.8640202295421867
+test auc: 0.7741876543209877
+one epoch time: 24.325466632843018
+epoch: 185
+train auc: 0.8637203698876854
+test auc: 0.7731174320987654
+one epoch time: 10.791253805160522
+epoch: 186
+train auc: 0.8638610001211559
+test auc: 0.773646024691358
+one epoch time: 11.711552858352661
+epoch: 187
+train auc: 0.8647177839736757
+test auc: 0.7745979259259259
+one epoch time: 13.283286333084106
+epoch: 188
+train auc: 0.8649057546252026
+test auc: 0.7759982222222223
+one epoch time: 12.275165319442749
+epoch: 189
+train auc: 0.8642494997941811
+test auc: 0.7761452839506173
+one epoch time: 11.706450700759888
+epoch: 190
+train auc: 0.8645050492353409
+test auc: 0.7758076049382716
+one epoch time: 10.81618857383728
+epoch: 191
+train auc: 0.8658286544099065
+test auc: 0.7755243456790122
+one epoch time: 12.235769987106323
+epoch: 192
+train auc: 0.8656844976450868
+test auc: 0.7792035555555555
+one epoch time: 12.469028234481812
+epoch: 193
+train auc: 0.8652335979590212
+test auc: 0.7757611851851852
+one epoch time: 11.673886060714722
+epoch: 194
+train auc: 0.8654409253492873
+test auc: 0.7781355061728394
+one epoch time: 12.149490594863892
+epoch: 195
+train auc: 0.8626150243505684
+test auc: 0.7735799506172839
+one epoch time: 11.314948320388794
+epoch: 196
+train auc: 0.865841160534969
+test auc: 0.7779059753086419
+one epoch time: 12.567880868911743
+epoch: 197
+train auc: 0.8662075606115393
+test auc: 0.7754607407407408
+one epoch time: 13.18160104751587
+epoch: 198
+train auc: 0.866037712412779
+test auc: 0.7760515555555556
+one epoch time: 12.275142669677734
+epoch: 199
+train auc: 0.8668049354302559
+test auc: 0.775858962962963
+one epoch time: 10.724647998809814
+epoch: 200
+train auc: 0.8663579083980608
+test auc: 0.776592
+one epoch time: 15.707684516906738
+(null): can't open file 'main_options.py': [Errno 2] No such file or directory
+python: can't open file 'main_options.py': [Errno 2] No such file or directory
+python: can't open file 'main_options.py': [Errno 2] No such file or directory
+(null): can't open file 'main_options.py': [Errno 2] No such file or directory

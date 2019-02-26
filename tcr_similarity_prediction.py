@@ -25,7 +25,7 @@ def predict_peptide(tcr):
 plot_mul_auc(['ae_w_train_auc', 'ae_w_test_auc', 'w_train_auc_d_ed10_od10_lr0.001_wd0', 'w_test_auc_d_ed10_od10_lr0.001_wd0'],
              ['train tcr autoencoder', 'test tcr autoencoder', 'train tcr lstm', 'test tcr lstm'],
              'Different TCR encoding models on Weizmann data')
-'''
+
 
 
 plot_mul_auc(['ae_w_train_auc_ep1000', 'ae_w_test_auc_ep1000',
@@ -35,3 +35,11 @@ plot_mul_auc(['ae_w_train_auc_ep1000', 'ae_w_test_auc_ep1000',
               'train, dropout=0.1', 'test, dropout=0.1',
               'train, dropout=0.05', 'test, dropout=0.05'],
              'TCR Autoencoder based model on Weizmann data with different dropouts')
+'''
+
+plot_mul_auc(['ae_w_train_auc_wd-3', 'ae_w_test_auc_wd-3',
+              'ae_w_train_auc_wd-5', 'ae_w_test_auc_wd-5'],
+             ['train, wd=1e-3', 'test, wd=1e-3',
+              'train, wd=1e-5', 'test, wd=1e-5'],
+             'TCR Autoencoder based model on Weizmann data, different regularization')
+

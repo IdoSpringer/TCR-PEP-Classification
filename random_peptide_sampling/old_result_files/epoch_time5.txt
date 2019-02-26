@@ -1,0 +1,6 @@
+stopped early at epoch: 60train time: 1231.4821796417236
+stopped early at epoch: 60train time: 1277.078560590744
+stopped early at epoch: 60train time: 1306.3865342140198
+stopped early at epoch: 60train time: 1099.9582567214966
+stopped early at epoch: 60train time: 1085.5903465747833
+stopped early at epoch: 60train time: 1114.348088502884

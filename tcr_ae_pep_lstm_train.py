@@ -205,10 +205,11 @@ def main(argv):
     args['ae_file'] = argv[1]
     params = {}
     params['lr'] = 1e-3
-    params['wd'] = 0
-    params['epochs'] = 1000
+    params['wd'] = 1e-5
+    params['epochs'] = 200
     params['emb_dim'] = 10
     params['enc_dim'] = 30
+    params['dropout'] = 0.1
     # Load autoencoder params
     checkpoint = torch.load(args['ae_file'])
     params['max_len'] = checkpoint['max_len']

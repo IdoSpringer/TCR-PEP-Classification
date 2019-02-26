@@ -15,11 +15,18 @@ def main(argv):
     params = {}
     params['lr'] = 1e-3
     params['wd'] = 0
-    params['epochs'] = 500
-    params['batch_size'] = 100
-
+    params['epochs'] = 200
+    params['batch_size'] = 50
+    params['lstm_dim'] = 30
+    params['emb_dim'] = 10
+    params['dropout'] = 0.1
+    params['option'] = 0
     # Load data
     pairs_file = 'pairs_data/weizmann_pairs.txt'
+    if argv[-1] == 'cancer':
+        pairs_file = 'pairs_data/cancer_pairs.txt'
+    if argv[-1] == 'shugay':
+        pairs_file = 'pairs_data/shugay_pairs.txt'
     train, test = d.load_data(pairs_file)
 
     # train
@@ -259,15 +266,15 @@ def w_grid(lrs, wds, emb_dims, lstm_dims):
 
 
 if __name__ == '__main__':
-    # main(sys.argv)
+    main(sys.argv)
     # grid(lrs=[1e-4, 1e-3, 1e-2, 1e-1], wds=[1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5])
     # todo solve problem in option 3 (regularization?)
     # todo dimensions grid for weizmann (7, 10)
     # todo add dropout
     # todo more epochs
     # todo separate test evals for weizmann and cancer in option 2
-    #train_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
-    train_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_10tcr.txt')
+    # train_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_pairs.txt')
+    # train_with_cancer(sys.argv, 'pairs_data/weizmann_pairs.txt', 'pairs_data/cancer_10tcr.txt')
     # w_grid(lrs=[1e-3, 1e-2], wds=[0, 1e-5, 1e-6, 1e-4], emb_dims=[7, 10], lstm_dims=[3, 5, 7, 10])
 
 # run:
