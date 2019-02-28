@@ -2,6 +2,8 @@
   <dictionary name="speingi">
     <words>
       <w>autoencoder</w>
+      <w>datasets</w>
+      <w>hyperparameters</w>
       <w>lstm</w>
       <w>shugay</w>
     </words>

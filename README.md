@@ -66,7 +66,7 @@ Up to 1 mistake | 0.9826
 Up to 2 mistakes | 0.9935
 Up to 3 mistakes | 0.9972
 
-###The new model
+### The new model
 After we trained the TCR autoencoder, we used it in our model to
 predict TCR-peptide attachment. Instead of encoding the TCRs using
 LSTM, we use the pre-trained TCR autoencoder. The peptide is still
@@ -79,7 +79,49 @@ before.
 
 Code: [Autoencoder based model](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcr_ae_pep_lstm_model.py)
 
-###Results on Weizmann data
+### Results on Weizmann data
 Unfortunately, the new model with the TCR autoencoder did not
 improve the results on the Weizmann data.
 ![Weizmann Results](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_auc.png)
+
+(Report 24/2/19)
+
+### Different dropouts
+Our autoencoder based model for encoding the TCRs gave lower AUC
+results than the LSTM based model. We wanted to check the new model
+again with different dropout configurations. Dropout is set between the
+layers of the LSTM in the peptides encoding, and in the layers of the MLP
+classifier in the end. No regularization is used. We also increased the
+number of epochs, so the training algorithm will converge well.
+
+![ae different dropouts](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_do_auc.png)
+
+It seems like dropout rate of 0.1 gives the best results (about 0.87 auc on
+train, 0.78 on test), Yet in out LSTM based previous model we still reach
+better results (0.90 on train, 0.83 on test).
+
+(Report 26/2/19)
+
+### Better results with the LSTM based model
+In the TCR autoencoder the encoding dimension Is 30, which is larger
+than the current encoding model in our LSTM based model (it was 10
+before). We trained the LSTM based model again with better
+hyperparameters (dropout rate of 0.1, some regularization, and
+encoding dimension 30) and got better results than before.
+We checked it for all datasets, but mainly on the Weizmann data (so
+other parameters can be considered for different datasets)
+
+![Weizmann](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/auc_w_hdim30.png)
+![Shugay](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/auc_s_hdim30.png)
+![cancer](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/auc_c_hdim30.png)
+
+### Autoencoder based model
+We also tried some regularization in the autoencoder based model. We
+got slightly better results, but not as in the previous model.
+
+![ae weizmann reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_w_reg.png)
+
+The autoencoder based model also fails on the cancer data.
+
+![ae cancer](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_c.png)
+
