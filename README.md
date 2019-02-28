@@ -3,13 +3,11 @@
 (Report 22/2/19)
 
 ## Encoding TCRs
-
 In previous attempts to build a model for predicting TCR and peptide
 attachment, we used LSTM to encode both TCR and peptide. We tried a
 different approach, using TCR autoencoder (based on Shirit's work).
 
 ### The Autoencoder
-
 The autoencoder we use is based on zero-padding and linear layers, not
 RNNs. Given a TCR, we first add a stop signal to the end of its amino-acid
 sequence. Then, we convert the TCR to a sequence of one-hot vectors.
@@ -26,7 +24,6 @@ representing the TCR.
 The autoencoder (implemented in PyTorch) can be found here: [autoencoder](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/autoencoder_model.py)
 
 ### Autoencoder configurations
-
 (based on Shirit's code in Keras)
 
 **Dimensions:**  
@@ -50,3 +47,39 @@ epsilon = 1e-8, weight decay = 0.
 **Batch size:**  50 (the batch size is fixed).
 
 **Epochs:** the autoencoder is trained for 300 epochs
+
+### TCR Autoencoder Data
+The autoencoder is trained with the new CDR3 data given by Shirit,
+which can be found here: [BM_data_CDR3s](https://github.com/IdoSpringer/TCR-PEPClassification/tree/master/BM_data_CDR3s)
+
+### Autoencoder evaluation
+To evaluate the autoencoder, we read the decoded one-hot TCRs, and
+compare it to the input TCRs (80% of the TCRs are used to train the
+autoencoder, and 20% for evaluation). Measuring only completely
+correct decoding may be too harsh, so we also measure accuracy when
+we allow some decoding mismatches. The results:
+
+Number of mistakes allowed | accuracy
+--- | --- 
+Zero mistakes | 0.9203
+Up to 1 mistake | 0.9826
+Up to 2 mistakes | 0.9935
+Up to 3 mistakes | 0.9972
+
+###The new model
+After we trained the TCR autoencoder, we used it in our model to
+predict TCR-peptide attachment. Instead of encoding the TCRs using
+LSTM, we use the pre-trained TCR autoencoder. The peptide is still
+encoded using the LSTM. The encodings of the TCR and the peptide are
+concatenated and fed into a MLP to a probability prediction as before.
+(Notice that we use one-hots to represent the TCR, and an embedding
+matrix to represent the peptide). The autoencoder weights are not
+trained during this model training. All other configurations are same as
+before.
+
+Code: [Autoencoder based model](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcr_ae_pep_lstm_model.py)
+
+###Results on Weizmann data
+Unfortunately, the new model with the TCR autoencoder did not
+improve the results on the Weizmann data.
+![Weizmann Results](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_auc.png)
