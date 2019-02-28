@@ -125,3 +125,16 @@ The autoencoder based model also fails on the cancer data.
 
 ![ae cancer](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_c.png)
 
+(Report 27/2/19)
+### Autoencoder parameters training
+We tried to train the autoencoder based model again, but now we allow
+the algorithm to train also the TCR autoencoder parameters. It is more
+task specific, therefore we get better results for the TCR-peptide
+attachment prediction task.
+
+Results on Weizmann data with different regularizations:
+
+![ae with training weizmann](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_tr_w.png)
+
+The improvement we get is significant, and it competes the LSTM based
+model (about 0.85 AUC on test, 0.99 on train).
