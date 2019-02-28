@@ -8,7 +8,7 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 
 class AutoencoderLSTMClassifier(nn.Module):
-    def __init__(self, embedding_dim, device, max_len, input_dim, encoding_dim, batch_size, ae_file):
+    def __init__(self, embedding_dim, device, max_len, input_dim, encoding_dim, batch_size, ae_file, train_ae):
         super(AutoencoderLSTMClassifier, self).__init__()
         # GPU
         self.device = device
@@ -22,8 +22,9 @@ class AutoencoderLSTMClassifier(nn.Module):
         self.autoencoder = PaddingAutoencoder(max_len, input_dim, encoding_dim)
         checkpoint = torch.load(ae_file)
         self.autoencoder.load_state_dict(checkpoint['model_state_dict'])
-        for param in self.autoencoder.parameters():
-            param.requires_grad = False
+        if train_ae is False:
+            for param in self.autoencoder.parameters():
+                param.requires_grad = False
         self.autoencoder.eval()
         # todo make sure that we do not train again the autoencoder
         # Embedding matrices - 20 amino acids + padding

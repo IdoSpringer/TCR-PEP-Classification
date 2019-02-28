@@ -35,11 +35,24 @@ plot_mul_auc(['ae_w_train_auc_ep1000', 'ae_w_test_auc_ep1000',
               'train, dropout=0.1', 'test, dropout=0.1',
               'train, dropout=0.05', 'test, dropout=0.05'],
              'TCR Autoencoder based model on Weizmann data with different dropouts')
-'''
 
-plot_mul_auc(['ae_w_train_auc_wd-3', 'ae_w_test_auc_wd-3',
+
+plot_mul_auc(['ae_w_train_auc_ep200', 'ae_w_test_auc_ep200',
+              'ae_w_train_auc_wd-3', 'ae_w_test_auc_wd-3',
               'ae_w_train_auc_wd-5', 'ae_w_test_auc_wd-5'],
-             ['train, wd=1e-3', 'test, wd=1e-3',
+             ['train, wd=0', 'test, wd=0',
+              'train, wd=1e-3', 'test, wd=1e-3',
               'train, wd=1e-5', 'test, wd=1e-5'],
              'TCR Autoencoder based model on Weizmann data, different regularization')
 
+
+plot_mul_auc(['ae_auc/ae_c_train_auc_ep1000', 'ae_auc/ae_c_test_auc_ep1000'],
+             ['train', 'test'],
+             'TCR Autoencoder based model on cancer data')
+'''
+
+plot_mul_auc(['ae_w_train_auc_wd-5_tr_ae', 'ae_w_test_auc_wd-5_tr_ae',
+              'ae_w_train_auc_wd-4_tr_ae', 'ae_w_test_auc_wd-4_tr_ae'],
+             ['train wd=1e-5', 'test wd=1e-5',
+              'train wd=1e-4', 'test wd=1e-4'],
+             'TCR Autoencoder based model with autoencoder training, Weizmann data')

@@ -134,7 +134,7 @@ def train_model(batches, test_batches, device, args, params):
     # We use Binary-Cross-Entropy loss
     loss_function = nn.BCELoss()
     # Set model with relevant parameters
-    model = AutoencoderLSTMClassifier(params['emb_dim'], device, params['max_len'], 21, params['enc_dim'], params['batch_size'], args['ae_file'])
+    model = AutoencoderLSTMClassifier(params['emb_dim'], device, params['max_len'], 21, params['enc_dim'], params['batch_size'], args['ae_file'], params['train_ae'])
     # Move to GPU
     model.to(device)
     # We use Adam optimizer
@@ -205,11 +205,12 @@ def main(argv):
     args['ae_file'] = argv[1]
     params = {}
     params['lr'] = 1e-3
-    params['wd'] = 1e-5
+    params['wd'] = 1e-4
     params['epochs'] = 200
     params['emb_dim'] = 10
     params['enc_dim'] = 30
     params['dropout'] = 0.1
+    params['train_ae'] = True
     # Load autoencoder params
     checkpoint = torch.load(args['ae_file'])
     params['max_len'] = checkpoint['max_len']

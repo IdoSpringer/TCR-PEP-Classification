@@ -139,7 +139,7 @@ def train_with_cancer(argv, train_file, test_file):
     args['siamese'] = bool(argv[1] == 'siamese')
     params = {}
     params['lr'] = 1e-3
-    params['wd'] = 0
+    params['wd'] = 1e-5
     params['emb_dim'] = 10
     params['lstm_dim'] = 10
     params['epochs'] = 1000
