@@ -138,3 +138,4 @@ Results on Weizmann data with different regularizations:
 
 The improvement we get is significant, and it competes the LSTM based
 model (about 0.85 AUC on test, 0.99 on train).
+
