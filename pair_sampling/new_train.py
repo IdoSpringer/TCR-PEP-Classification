@@ -7,8 +7,8 @@ from random import shuffle
 import time
 import numpy as np
 import torch.autograd as autograd
-from new_models import SiameseLSTMClassifier, DoubleLSTMClassifier
-import load_data as d
+from pair_sampling.new_models import SiameseLSTMClassifier, DoubleLSTMClassifier
+import pair_sampling.load_data as d
 from sklearn.metrics import roc_auc_score, roc_curve
 import csv
 

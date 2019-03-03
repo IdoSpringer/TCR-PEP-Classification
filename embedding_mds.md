@@ -7,6 +7,8 @@ I tried to do the embedding scaling for different models with
 different embedding dimension, so we can see the embeddings with
 less degrees of freedom. The embedding dimensions are 3, 5 and 10.
 
+Here you can find how it is supposed to look like: [amino acids properties](http://www.jalview.org/help/html/misc/aaproperties.html)
+
 ## Embedding dimension of 3
 ![mds 3 all](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/emb_mds/emb_mds_graphs/emb3_mds_all.png)
 ![mds 3 hyd](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/emb_mds/emb_mds_graphs/emb3_mds_hyd.png)
@@ -24,3 +26,4 @@ less degrees of freedom. The embedding dimensions are 3, 5 and 10.
 ![mds 10 hyd](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/emb_mds/emb_mds_graphs/emb10_mds_hyd.png)
 ![mds 10 pol](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/emb_mds/emb_mds_graphs/emb10_mds_pol.png)
 ![mds 10 sml](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/pair_sampling/emb_mds/emb_mds_graphs/emb10_mds_sml.png)
+

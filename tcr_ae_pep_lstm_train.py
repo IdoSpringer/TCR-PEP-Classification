@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 import os
 import csv
 import pair_sampling.load_data as d
+import load_with_tcrgp as d2
 from tcr_ae_pep_lstm_model import AutoencoderLSTMClassifier
 
 
@@ -205,7 +206,7 @@ def main(argv):
     args['ae_file'] = argv[1]
     params = {}
     params['lr'] = 1e-3
-    params['wd'] = 1e-4
+    params['wd'] = 1e-5
     params['epochs'] = 200
     params['emb_dim'] = 10
     params['enc_dim'] = 30
@@ -218,9 +219,14 @@ def main(argv):
 
     # Load data
     pairs_file = 'pair_sampling/pairs_data/weizmann_pairs.txt'
-    # pairs_file = 'pair_sampling/pairs_data/cancer_pairs.txt'
+    if argv[-1] == 'cancer':
+        pairs_file = 'pair_sampling/pairs_data/cancer_pairs.txt'
+    if argv[-1] == 'shugay':
+        pairs_file = 'pair_sampling/pairs_data/shugay_pairs.txt'
 
     train, test = d.load_data(pairs_file)
+    if argv[6] == 'tcrgp':
+        train, test = d2.load_data(pairs_file)
 
     # train
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
