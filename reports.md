@@ -206,7 +206,23 @@ LSTM | Shugay | out of domain | 0.999| 0.980
 LSTM | cancer | in domain | 0.992| 0.638
 LSTM | cancer | out of domain | 0.999| 0.664
 
+We can see that indeed out-of-domain negative samplings make the TCR-peptide attachment predictions an easier task.
 
 ### NetTCR paper
-important note - I think its data has different sequencing
-might be a problem for the trained ae model
+Another paper for TCR-peptide attachment prediction is [NetTCR: sequence-based prediction of TCR binding
+to peptide-MHC complexes using convolutional
+neural networks](https://www.biorxiv.org/content/biorxiv/early/2018/10/02/433706.full.pdf)
+They used convolutional neural networks for this task.
+I tried to download their data so we can compare our model to their model.
+When I look at the data it seems like the TCRs have different sequencing,
+And it is not similar to our TCRs. it might be a problem for the Autoencoder based model,
+because the TCR autoencoder was trained with different sequencing of TCRs.
+The paper code and data can be found [here](https://github.com/mnielLab/netTCR).
+
+The authors use a negative sampling method similar to ours, but not the same, I need to figure this out precisely.
+When we use their data and our sampling method, we get this results:
+
+![netTCR](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_auc.png)
+
+The test results are not so high, but I think it is better than the AUC in the paper.
+I need to check it with the precise negative sampling method.

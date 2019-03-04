@@ -87,4 +87,9 @@ plot_mul_auc(['pair_sampling/train_c_d01_hdim30_wd-5', 'pair_sampling/test_c_d01
              ['train in domain negs', 'test in domain negs',
               'train out of domain negs', 'test out of domain negs'],
              'LSTM based model, Cancer data, different negative samplings')
+
+
+plot_mul_auc(['nettcr_lstm_train', 'nettcr_lstm_test'],
+             ['train', 'test'],
+             'LSTM based model results on NetTCR data')
 '''

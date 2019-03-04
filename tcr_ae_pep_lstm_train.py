@@ -14,6 +14,7 @@ import os
 import csv
 import pair_sampling.load_data as d
 import load_with_tcrgp as d2
+import load_netTCR_data as d3
 from tcr_ae_pep_lstm_model import AutoencoderLSTMClassifier
 
 
@@ -229,6 +230,9 @@ def main(argv):
     train, test = d.load_data(pairs_file)
     if argv[6] == 'tcrgp':
         train, test = d2.load_data(pairs_file)
+    if argv[6] == 'nettcr':
+        pairs_file = 'netTCR/parameters/iedb_mira_pos_uniq.txt'
+        train, test = d3.load_data(pairs_file)
 
     # train
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
