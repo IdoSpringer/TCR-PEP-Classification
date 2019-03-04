@@ -17,12 +17,14 @@ import load_with_tcrgp as d2
 from tcr_ae_pep_lstm_model import AutoencoderLSTMClassifier
 
 
-def get_lists_from_pairs(pairs):
+def get_lists_from_pairs(pairs, max_len):
     tcrs = []
     peps = []
     signs = []
     for pair in pairs:
         tcr, pep, label, weight = pair
+        if len(tcr) > max_len:
+            continue
         tcrs.append(tcr)
         peps.append(pep)
         if label == 'p':
@@ -229,12 +231,12 @@ def main(argv):
         train, test = d2.load_data(pairs_file)
 
     # train
-    train_tcrs, train_peps, train_signs = get_lists_from_pairs(train)
+    train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
     train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
 
 
     # test
-    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test)
+    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
     test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
 
     # Train the model
