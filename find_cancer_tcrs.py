@@ -43,4 +43,43 @@ def make_c_tcrs_file(filename):
     pass
 
 
-make_c_tcrs_file('cancer_tcrs_for_shirit')
+# make_c_tcrs_file('cancer_tcrs_for_shirit')
+
+
+def get_cancer_pairs(cancer_data):
+    pairs = []
+    with open(cancer_data, 'r') as file:
+        for line in file:
+            tcr, pep = line.strip().split('\t')
+            pair = (tcr, pep)
+            pairs.append(pair)
+    return set(pairs)
+
+
+def extract_cancer_pairs(data, c_peps):
+    pairs = []
+    with open(data, 'r') as file:
+        for line in file:
+            tcr, pep = line.strip().split('\t')
+            if pep in c_peps:
+                pair = (tcr, pep)
+                pairs.append(pair)
+    return set(pairs)
+
+
+def make_c_pairs_file(filename):
+    c_pairs_in_c = get_cancer_pairs('pair_sampling/pairs_data/cancer_pairs.txt')
+    c_peps = get_cancer_peps('pair_sampling/pairs_data/cancer_pairs.txt')
+    c_pairs_in_w = extract_cancer_pairs('pair_sampling/pairs_data/weizmann_pairs.txt', c_peps)
+    c_pairs_in_s = extract_cancer_pairs('pair_sampling/pairs_data/shugay_pairs.txt', c_peps)
+    print(len(c_pairs_in_c), len(c_pairs_in_w), len(c_pairs_in_s))
+    c_pairs = set(list(c_pairs_in_c) + list(c_pairs_in_w) + list(c_pairs_in_s))
+    print(len(c_pairs))
+    with open(filename, 'a+') as file:
+        for pair in c_pairs:
+            print(pair)
+            tcr, pep = pair
+            file.write(tcr + '\t' + pep + '\n')
+    pass
+
+make_c_pairs_file('extended_cancer_pairs.txt')
