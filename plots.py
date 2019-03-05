@@ -112,4 +112,20 @@ plot_mul_auc(['nettcr_lstm_train', 'nettcr_lstm_test',
              ['train, wd=1e-5', 'test, wd=1e-5',
               'train, wd=1e-4', 'test, wd=1e-4'],
              'LSTM based model results on NetTCR data with different regularizations')
+
+
+
+plot_mul_auc(['ae_exc_train_wd-5', 'ae_exc_test_wd-5',
+              'ae_exc_train_wd-4', 'ae_exc_test_wd-4'],
+             ['train, wd=1e-5', 'test, wd=1e-5',
+              'train, wd=1e-4', 'test, wd=1e-4'],
+             'Autoencoder based model on extended cancer with different regularizations')
+
+
+plot_mul_auc(['lstm_exc_train_wd-5', 'lstm_exc_test_wd-5',
+              'lstm_exc_train_wd-4', 'lstm_exc_test_wd-4'],
+             ['train, wd=1e-5', 'test, wd=1e-5',
+              'train, wd=1e-4', 'test, wd=1e-4'],
+             'LSTM based model on extended cancer with different regularizations')
 '''
+

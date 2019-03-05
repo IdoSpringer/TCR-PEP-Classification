@@ -249,5 +249,20 @@ It seems like the model still overfits.
 ...
 
 ### Extended Cancer Dataset
+So far, we used the cancer dataset for evaluating the model performance on cancerous epitope peptides.
+Some of the cancerous peptides appear also in other datasets, as Weizmann and Shugay datasets.
+I extracted those peptides with their matching TCRs to create an
+[extended cancer dataset](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/extended_cancer_pairs.txt).
+
+Now we would like to check our model performance on the new cancer dataset.
+I tried our 2 models on that dataset with different regularizations:
+
+![new cancer ae reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_exc.png)
+![new cancer lstm reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/lstm_exc.png)
+
+Now that we have more data, the results are slightly better, but lower than the results
+on other datasets as Weizmann and Shugay.
+We can add early stopping in the LSTM based model.
+
 
 
