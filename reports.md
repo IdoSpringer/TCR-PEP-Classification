@@ -245,14 +245,13 @@ I tried running the models with higher regularization:
 It seems like the model still overfits.
 
 
-#### (New Negative Sampling)
-...
-
 ### Extended Cancer Dataset
 So far, we used the cancer dataset for evaluating the model performance on cancerous epitope peptides.
 Some of the cancerous peptides appear also in other datasets, as Weizmann and Shugay datasets.
 I extracted those peptides with their matching TCRs to create an
 [extended cancer dataset](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/extended_cancer_pairs.txt).
+
+(this dataset includes low-scoring pairs from Shugay data. I will make a safer cancer dataset)
 
 Now we would like to check our model performance on the new cancer dataset.
 I tried our 2 models on that dataset with different regularizations:

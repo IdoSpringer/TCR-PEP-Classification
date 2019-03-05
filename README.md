@@ -12,12 +12,13 @@
 - [x] CNN paper results
 - [x] CNN results with less regularization
 - [x] find cancer peptides in weizmann and shugay datasets
-- [ ] models on extended cancer graph
-- [ ] check for accurate negative sampling methods in papers
+- [ ] extended cancer with confidence level shugay
+- [x] models on extended cancer graph
+- [x] check for accurate negative sampling methods in papers
 - [ ] find paper for lab meeting
 - [ ] result graphs for wednesday
 - [ ] writing - see file in google docs
-- [ ] today report
+- [x] today report
 
 # TCR-peptide attachment prediction
 

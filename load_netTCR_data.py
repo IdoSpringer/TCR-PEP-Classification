@@ -93,4 +93,7 @@ def check():
     print(len(test), test)
 
 
-# check()
+# check() k
+
+
+#  get paper data sets, build sampling as in paper
