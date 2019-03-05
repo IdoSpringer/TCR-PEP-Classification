@@ -19,8 +19,6 @@ def read_data(datafile):
                 continue
             if any(l in tcr for l in ['O', 'B', 'X', '_', '1']):
                 continue
-            # if 'O' in tcr or 'B' in tcr or 'X' in tcr or '_' in tcr:
-            #    continue
             tcrs.add(tcr)
             peps.add(pep)
             all_pairs.append((tcr, pep))

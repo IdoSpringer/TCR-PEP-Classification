@@ -87,7 +87,7 @@ Code: [Autoencoder based model](https://github.com/IdoSpringer/TCR-PEP-Classific
 #### Results on Weizmann data
 Unfortunately, the new model with the TCR autoencoder did not
 improve the results on the Weizmann data.
-![Weizmann Results](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_auc.png)
+![Weizmann Results](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/ae_auc.png)
 
 ## Report 24/2/19
 
@@ -99,7 +99,7 @@ layers of the LSTM in the peptides encoding, and in the layers of the MLP
 classifier in the end. No regularization is used. We also increased the
 number of epochs, so the training algorithm will converge well.
 
-![ae different dropouts](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_do_auc.png)
+![ae different dropouts](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/ae_do_auc.png)
 
 It seems like dropout rate of 0.1 gives the best results (about 0.87 auc on
 train, 0.78 on test), Yet in out LSTM based previous model we still reach

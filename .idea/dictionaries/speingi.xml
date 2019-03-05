@@ -2,9 +2,15 @@
   <dictionary name="speingi">
     <words>
       <w>autoencoder</w>
+      <w>convolutional</w>
+      <w>dataset</w>
       <w>datasets</w>
+      <w>epitope</w>
       <w>hyperparameters</w>
       <w>lstm</w>
+      <w>overfits</w>
+      <w>overfitting</w>
+      <w>regularizations</w>
       <w>shugay</w>
     </words>
   </dictionary>
