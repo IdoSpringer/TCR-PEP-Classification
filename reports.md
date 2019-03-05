@@ -183,12 +183,12 @@ assuming those TCRs do not bind the peptides.
 We compared both negative sampling methods for our 2 models (autoencoder based and LSTM based),
 with all datasets (Weizmann, Shugay, cancer):
 
-![ae weizmann gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_ae_w.png)
-![ae shugay gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_ae_s.png)
-![ae cancer gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_ae_c.png)
-![lstm weizmann gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_lstm_w.png)
-![lstm shugay gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_lstm_s.png)
-![lstm cancer gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_lstm_c.png)
+![ae weizmann gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_graphs/tcrgp_ae_w.png)
+![ae shugay gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_graphs/tcrgp_ae_s.png)
+![ae cancer gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_graphs/tcrgp_ae_c.png)
+![lstm weizmann gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_graphs/tcrgp_lstm_w.png)
+![lstm shugay gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_graphs/tcrgp_lstm_s.png)
+![lstm cancer gp/not](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/tcrgp_graphs/tcrgp_lstm_c.png)
 
 
 Model | Dataset | Negative Sampling Method | Train AUC | Test AUC
@@ -234,14 +234,20 @@ I need to check it with the precise negative sampling method.
 Yesterday we tried running the LSTM based model on the NetTCR data.
 We checked also the Autoencoder based model performance on this dataset:
 
-![netTCR ae](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_ae_auc.png)
+![netTCR ae](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/nettcr_ae_auc.png)
 
 As we can see, the model highly overfits the training data, so we need to increase the regularization.
 I tried running the models with higher regularization:
 
-![NetTCR ae reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_ae_auc_reg.png)
-![NetTCR lstm reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_lstm_auc_reg.png)
+![NetTCR ae reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_graphs/nettcr_ae_auc_reg.png)
+![NetTCR lstm reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_graphs/nettcr_lstm_auc_reg.png)
 
 It seems like the model still overfits.
 
-#### New Negative Sampling
+
+#### (New Negative Sampling)
+...
+
+### Extended Cancer Dataset
+
+
