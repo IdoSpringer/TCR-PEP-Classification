@@ -124,11 +124,11 @@ other parameters can be considered for different datasets)
 We also tried some regularization in the autoencoder based model. We
 got slightly better results, but not as in the previous model.
 
-![ae weizmann reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_w_reg.png)
+![ae weizmann reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/ae_w_reg.png)
 
 The autoencoder based model also fails on the cancer data.
 
-![ae cancer](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_c.png)
+![ae cancer](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/ae_c.png)
 
 ## Report 27/2/19
 
@@ -140,7 +140,7 @@ attachment prediction task.
 
 Results on Weizmann data with different regularizations:
 
-![ae with training weizmann](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_tr_w.png)
+![ae with training weizmann](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/ae_tr_w.png)
 
 The improvement we get is significant, and it competes the LSTM based
 model (about 0.85 AUC on test, 0.99 on train).
@@ -152,7 +152,7 @@ We saw that when we also allow to train the autoencoder parameters in the autoen
 we get better results, because the parameters are trained to solve the specific TCR-Peptide attachment task.
 We checked that model also on the cancer data:
 
-![ae cancer graph, different wd](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_tr_c_reg.png)
+![ae cancer graph, different wd](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/ae_tr_c_reg.png)
 
 The results are still low but better than before.
 
@@ -222,7 +222,7 @@ The paper code and data can be found [here](https://github.com/mnielLab/netTCR).
 The authors use a negative sampling method similar to ours, but not the same, I need to figure this out precisely.
 When we use their data and our sampling method, we get this results:
 
-![netTCR lstm](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_lstm_auc.png)
+![netTCR lstm](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_graphs/nettcr_lstm_auc.png)
 
 The test results are not so high, but I think it is better than the AUC in the paper.
 I need to check it with the precise negative sampling method.
@@ -234,7 +234,7 @@ I need to check it with the precise negative sampling method.
 Yesterday we tried running the LSTM based model on the NetTCR data.
 We checked also the Autoencoder based model performance on this dataset:
 
-![netTCR ae](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_graphs/nettcr_ae_auc.png)
+![netTCR ae](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_graphs/nettcr_ae_auc.png)
 
 As we can see, the model highly overfits the training data, so we need to increase the regularization.
 I tried running the models with higher regularization:
