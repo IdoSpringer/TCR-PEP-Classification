@@ -92,4 +92,24 @@ plot_mul_auc(['pair_sampling/train_c_d01_hdim30_wd-5', 'pair_sampling/test_c_d01
 plot_mul_auc(['nettcr_lstm_train', 'nettcr_lstm_test'],
              ['train', 'test'],
              'LSTM based model results on NetTCR data')
+
+
+
+plot_mul_auc(['nettcr_ae_train', 'nettcr_ae_test'],
+             ['train', 'test'],
+             'Autoencoder based model results on NetTCR data')
+
+
+plot_mul_auc(['nettcr_ae_train', 'nettcr_ae_test',
+              'nettcr_ae_train_wd-4', 'nettcr_ae_test_wd-4'],
+             ['train, wd=1e-5', 'test, wd=1e-5',
+              'train, wd=1e-4', 'test, wd=1e-4'],
+             'Autoencoder based model results on NetTCR data with different regularizations')
+
+
+plot_mul_auc(['nettcr_lstm_train', 'nettcr_lstm_test',
+              'nettcr_lstm_train_wd-4', 'nettcr_lstm_test_wd-4'],
+             ['train, wd=1e-5', 'test, wd=1e-5',
+              'train, wd=1e-4', 'test, wd=1e-4'],
+             'LSTM based model results on NetTCR data with different regularizations')
 '''

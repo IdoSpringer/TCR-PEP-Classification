@@ -222,7 +222,26 @@ The paper code and data can be found [here](https://github.com/mnielLab/netTCR).
 The authors use a negative sampling method similar to ours, but not the same, I need to figure this out precisely.
 When we use their data and our sampling method, we get this results:
 
-![netTCR](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_auc.png)
+![netTCR lstm](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_lstm_auc.png)
 
 The test results are not so high, but I think it is better than the AUC in the paper.
 I need to check it with the precise negative sampling method.
+
+## Report 5/3/19
+
+### NetTCR Paper
+
+Yesterday we tried running the LSTM based model on the NetTCR data.
+We checked also the Autoencoder based model performance on this dataset:
+
+![netTCR ae](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_ae_auc.png)
+
+As we can see, the model highly overfits the training data, so we need to increase the regularization.
+I tried running the models with higher regularization:
+
+![NetTCR ae reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_ae_auc_reg.png)
+![NetTCR lstm reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/nettcr_lstm_auc_reg.png)
+
+It seems like the model still overfits.
+
+#### New Negative Sampling

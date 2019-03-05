@@ -2,15 +2,17 @@
 ### Todo:
 - [x] ae on cancer with different regularizations graph
 - [x] try load tcrgp negative examples 
-- [x] tcr gp weizmann ae vs tcr weizmann ae graph
-- [x] tcr gp shugay ae vs tcr shugay ae graph
-- [x] tcr gp cancer ae vs tcr cancer ae graph
-- [x] tcr gp weizmann lstm vs tcr weizmann lstm graph
-- [x] tcr gp shugay lstm vs tcr shugay lstm graph
-- [x] tcr gp cancer lstm vs tcr cancer lstm graph
+- [x] tcrgp weizmann ae vs tcr weizmann ae graph
+- [x] tcrgp shugay ae vs tcr shugay ae graph
+- [x] tcrgp cancer ae vs tcr cancer ae graph
+- [x] tcrgp weizmann lstm vs tcr weizmann lstm graph
+- [x] tcrgp shugay lstm vs tcr shugay lstm graph
+- [x] tcrgp cancer lstm vs tcr cancer lstm graph
 - [x] download CNN paper data
-- [ ] CNN paper results
-- [ ] find cancer peptides in weizmann and shugay datasets
+- [x] CNN paper results
+- [x] CNN results with less regularization
+- [x] find cancer peptides in weizmann and shugay datasets
+- [ ] check for accurate negative sampling methods in papers
 - [ ] find paper for lab meeting
 - [ ] result graphs for wednesday
 - [ ] today report

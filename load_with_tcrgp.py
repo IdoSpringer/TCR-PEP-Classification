@@ -4,6 +4,14 @@ import sklearn.model_selection as skl
 import os
 import csv
 
+# ===============
+# Note: in Dash data,
+# BMLF = 'GLCTLVAML'
+# M1 = 'GILGFVFTL'
+# pp65 = 'NLVPMVATV'
+# ================
+
+
 def read_data(pairs_file):
     with open(pairs_file, 'r') as file:
         tcrs = set()
