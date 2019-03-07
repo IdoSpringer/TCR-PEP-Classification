@@ -209,7 +209,7 @@ def main(argv):
     args['ae_file'] = argv[1]
     params = {}
     params['lr'] = 1e-3
-    params['wd'] = 1e-4
+    params['wd'] = 1e-5
     params['epochs'] = 200
     params['emb_dim'] = 10
     params['enc_dim'] = 30
@@ -228,6 +228,8 @@ def main(argv):
         pairs_file = 'pair_sampling/pairs_data/shugay_pairs.txt'
     if argv[-1] == 'ex_cancer':
         pairs_file = 'extended_cancer_pairs.txt'
+    if argv[-1] == 'exs_cancer':
+        pairs_file = 'safe_extended_cancer_pairs.txt'
 
     train, test = d.load_data(pairs_file)
     if argv[6] == 'tcrgp':

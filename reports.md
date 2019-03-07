@@ -263,5 +263,27 @@ Now that we have more data, the results are slightly better, but lower than the 
 on other datasets as Weizmann and Shugay.
 We can add early stopping in the LSTM based model.
 
+## Report 7/3/19
 
+### Safer cancer file
+
+Previously we tried to collect all cancerous TCR-peptide pairs from all datasets and make a large cancer file.
+Since most of the data came from the Shugay dataset which is not always reliable,
+We took from Shugay dataset only high confidence level cancerous pairs, to create a safe cancer data.
+
+Our model performance on the new cancer dataset:
+
+
+![new safe cancer ae reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/ae_exsc.png)
+![new safe cancer lstm reg](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/lstm_exsc.png)
+
+Definitely the LSTM based model did not converge, so we tried running more epochs:
+
+![new safe cancer lstm reg ep500](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/lstm_exsc_ep500.png)
+
+Now we can see that the regularization was to harsh.
+Our performance on the first extended cancer data was better, because it contains more examples
+(although some of it might be unreliable).
+
+I will organize all the results we have on cancer next week.
 

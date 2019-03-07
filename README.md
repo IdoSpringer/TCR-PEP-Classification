@@ -1,24 +1,14 @@
 
 ### Todo:
-- [x] ae on cancer with different regularizations graph
-- [x] try load tcrgp negative examples 
-- [x] tcrgp weizmann ae vs tcr weizmann ae graph
-- [x] tcrgp shugay ae vs tcr shugay ae graph
-- [x] tcrgp cancer ae vs tcr cancer ae graph
-- [x] tcrgp weizmann lstm vs tcr weizmann lstm graph
-- [x] tcrgp shugay lstm vs tcr shugay lstm graph
-- [x] tcrgp cancer lstm vs tcr cancer lstm graph
-- [x] download CNN paper data
-- [x] CNN paper results
-- [x] CNN results with less regularization
-- [x] find cancer peptides in weizmann and shugay datasets
-- [ ] extended cancer with confidence level shugay
+- [ ] TCRGP
+- [ ] NetTCR
 - [x] models on extended cancer graph
-- [x] check for accurate negative sampling methods in papers
-- [ ] find paper for lab meeting
-- [ ] result graphs for wednesday
+- [ ] models on safe extended cancer graph
+- [ ] result graphs for wednesday (docs)
 - [ ] writing - see file in google docs
-- [x] today report
+- [ ] think how to do the figures
+- [ ] model figure
+- [ ] today report
 
 # TCR-peptide attachment prediction
 
