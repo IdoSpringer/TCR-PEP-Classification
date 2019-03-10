@@ -230,6 +230,8 @@ def main(argv):
         pairs_file = 'extended_cancer_pairs.txt'
     if argv[-1] == 'exs_cancer':
         pairs_file = 'safe_extended_cancer_pairs.txt'
+    if argv[-1] == 'exnos_cancer':
+        pairs_file = 'no_shugay_extended_cancer_pairs.txt'
 
     train, test = d.load_data(pairs_file)
     if argv[6] == 'tcrgp':

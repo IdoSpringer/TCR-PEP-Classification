@@ -287,3 +287,17 @@ Our performance on the first extended cancer data was better, because it contain
 
 I will organize all the results we have on cancer next week.
 
+## Report 10/3/19
+
+### Cancer data
+
+We've built a new cancer dataset, without Shugay cancerous TCR-peptide pairs.
+Models performance on that data:
+
+![models on cancer without shugay](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/exnos.png)  
+
+So far, to summarize our trials on the cancer datasets:
+ 
+ Model | dataset | regularization | last train AUC | last test AUC | best test AUC
+ --- | --- | --- | --- | --- | ---
+ 

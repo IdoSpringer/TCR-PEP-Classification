@@ -16,10 +16,13 @@ def main(argv):
     args['siamese'] = False
     params = {}
     params['lr'] = 1e-3
-    params['wd'] = 1e-4
-    params['epochs'] = 500
+    params['wd'] = 1e-5
+    params['epochs'] = 200
     params['batch_size'] = 50
     params['lstm_dim'] = 30
+
+
+
     params['emb_dim'] = 10
     params['dropout'] = 0.1
     params['option'] = 0
@@ -33,6 +36,8 @@ def main(argv):
         pairs_file = 'extended_cancer_pairs.txt'
     if argv[-1] == 'exs_cancer':
         pairs_file = 'safe_extended_cancer_pairs.txt'
+    if argv[-1] == 'exnos_cancer':
+        pairs_file = 'no_shugay_extended_cancer_pairs.txt'
 
     train, test = d.load_data(pairs_file)
     if argv[5] == 'tcrgp':

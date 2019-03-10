@@ -2,12 +2,15 @@
 ### Todo:
 - [ ] TCRGP
 - [ ] NetTCR
+- [ ] data from more papers?
 - [x] models on extended cancer graph
-- [ ] models on safe extended cancer graph
+- [x] models on safe extended cancer graph
 - [ ] result graphs for wednesday (docs)
 - [ ] writing - see file in google docs
 - [ ] think how to do the figures
 - [ ] model figure
+- [x] extended cancer without shugay
+- [ ] cancer TCRs with V-genes for Shirit
 - [ ] today report
 
 # TCR-peptide attachment prediction

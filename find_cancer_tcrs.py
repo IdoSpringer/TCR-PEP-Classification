@@ -117,3 +117,19 @@ def make_safe_c_pairs_file(filename):
 
 
 # make_safe_c_pairs_file('safe_extended_cancer_pairs.txt')
+
+def make_no_shugay_c_pairs_file(filename):
+    c_pairs_in_c = get_cancer_pairs('pair_sampling/pairs_data/cancer_pairs.txt')
+    c_peps = get_cancer_peps('pair_sampling/pairs_data/cancer_pairs.txt')
+    c_pairs_in_w = extract_cancer_pairs('pair_sampling/pairs_data/weizmann_pairs.txt', c_peps)
+    print(len(c_pairs_in_c), len(c_pairs_in_w))
+    c_pairs = set(list(c_pairs_in_c) + list(c_pairs_in_w))
+    print(len(c_pairs))
+    with open(filename, 'a+') as file:
+        for pair in c_pairs:
+            print(pair)
+            tcr, pep = pair
+            file.write(tcr + '\t' + pep + '\n')
+    pass
+
+# make_no_shugay_c_pairs_file('no_shugay_extended_cancer_pairs.txt')
