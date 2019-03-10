@@ -1,6 +1,19 @@
 from pair_sampling.plots import plot_mul_auc
 
 
+def max_auc(auc_file):
+    with open(auc_file, 'r') as file:
+        aucs = []
+        for line in file:
+            aucs.append(float(line.strip()))
+        max_auc = max(aucs)
+        last_auc = aucs[-1]
+        print(auc_file)
+        print('last auc:', last_auc)
+        print('max auc:', max_auc)
+    pass
+
+
 '''
 plot_mul_auc(['ae_w_train_auc', 'ae_w_test_auc', 'w_train_auc_d_ed10_od10_lr0.001_wd0', 'w_test_auc_d_ed10_od10_lr0.001_wd0'],
              ['train tcr autoencoder', 'test tcr autoencoder', 'train tcr lstm', 'test tcr lstm'],
@@ -156,3 +169,9 @@ plot_mul_auc(['ae_exnos_train_wd-5', 'ae_exnos_test_wd-5',
               'lstm train', 'lstm test'],
              'Extended cancer data (without Shugay) with both models')
 '''
+
+max_auc('ae_exnos_train_wd-5')
+max_auc('ae_exnos_test_wd-5')
+max_auc('lstm_exnos_train_wd-5')
+max_auc('lstm_exnos_test_wd-5')
+

@@ -266,7 +266,6 @@ We can add early stopping in the LSTM based model.
 ## Report 7/3/19
 
 ### Safer cancer file
-
 Previously we tried to collect all cancerous TCR-peptide pairs from all datasets and make a large cancer file.
 Since most of the data came from the Shugay dataset which is not always reliable,
 We took from Shugay dataset only high confidence level cancerous pairs, to create a safe cancer data.
@@ -290,7 +289,6 @@ I will organize all the results we have on cancer next week.
 ## Report 10/3/19
 
 ### Cancer data
-
 We've built a new cancer dataset, without Shugay cancerous TCR-peptide pairs.
 Models performance on that data:
 
@@ -298,6 +296,30 @@ Models performance on that data:
 
 So far, to summarize our trials on the cancer datasets:
  
- Model | dataset | regularization | last train AUC | last test AUC | best test AUC
- --- | --- | --- | --- | --- | ---
+**Original cancer** - The original dataset we got, about 1000 examples.
+
+**Extended cancer** - All cancerous TCR-peptide pairs in original cancer, Weizmann and Shugay datasets. About 10000 examples.
+
+**Safe extended cancer** - All cancerous TCR-peptide pairs in original cancer, Weizmann and Shugay datasets
+when we take only pairs with maximum score (3) from Shugay data. About 3000 examples
+
+No shugay extended cancer - All cancerous TCR-peptide pairs in original cancer and Weizmann datasets. About 3000 examples
  
+Model | dataset | regularization | last train AUC | last test AUC | best test AUC
+--- | --- | --- | --- | --- | ---
+Autoencoder | original cancer | 1e-5 | 0.999 | 0.566 | 0.605
+LSTM | original cancer | 1e-5 | 0.992 | 0.638 | 0.644
+Autoencoder | extended cancer | 1e-5 | 0.999 | 0.65 | 0.699
+Autoencoder | extended cancer | 1e-4 | 0.980 | 0.668 | 0.704
+LSTM | extended cancer | 1e-5 | 0.980 | 0.629 | 0.677
+LSTM | extended cancer | 1e-4 | 0.906 | 0.649 | 0.686
+Autoencoder | safe extended cancer | 1e-5 | 0.999 | 0.662 | 0.671
+Autoencoder | safe extended cancer | 1e-4 | 0.991 | 0.648 | 0.665
+LSTM (500 epochs) | safe extended cancer | 1e-5 | 0.999 | 0.641 | 0.656
+LSTM (500 epochs) | safe extended cancer | 1e-4 | 0.643 | 0.550 | 0.573
+Autoencoder | no Shugay extended cancer | 1e-5 | 0.999 | 0.669 | 0.685
+LSTM | no Shugay extended cancer | 1e-5 | 0.995 | 0.556 | 0.623
+
+### Model figures
+I used this online tool to draw a diagram of our models - [draw.io](https://www.draw.io/)
+Some sketches are in the google docs file.
