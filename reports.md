@@ -303,7 +303,7 @@ So far, to summarize our trials on the cancer datasets:
 **Safe extended cancer** - All cancerous TCR-peptide pairs in original cancer, Weizmann and Shugay datasets
 when we take only pairs with maximum score (3) from Shugay data. About 3000 examples
 
-No shugay extended cancer - All cancerous TCR-peptide pairs in original cancer and Weizmann datasets. About 3000 examples
+**No shugay extended cancer** - All cancerous TCR-peptide pairs in original cancer and Weizmann datasets. About 3000 examples
  
 Model | dataset | regularization | last train AUC | last test AUC | best test AUC
 --- | --- | --- | --- | --- | ---
