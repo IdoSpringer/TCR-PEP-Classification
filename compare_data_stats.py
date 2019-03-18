@@ -5,7 +5,7 @@ w = 'McPAS-TCR_with_V'
 t = 'TCRGP_with_V'
 
 
-def tcr_length_dist_comp(data1, data2, title):
+def tcr_length_dist_comp(data1, data2, title, normalize=False):
     with open(data1, 'r') as data:
         lens1 = {}
         for line in data:
@@ -26,6 +26,9 @@ def tcr_length_dist_comp(data1, data2, title):
     y1 = [lens1[k] for k in sorted(lens1)]
     x2 = [k for k in sorted(lens2)]
     y2 = [lens2[k] for k in sorted(lens2)]
+    if normalize:
+        y1 = [y/sum(y1) for y in y1]
+        y2 = [y/sum(y2) for y in y2]
     fig, ax = plt.subplots()
     width = 0.35
     plot1 = ax.bar([x + width for x in x1], y1, width,
@@ -39,6 +42,7 @@ def tcr_length_dist_comp(data1, data2, title):
     plt.show()
 
 # tcr_length_dist_comp(w, t, 'TCR Length Distribution')
+# tcr_length_dist_comp(w, t, 'Normalized TCR Length Distribution', normalize=True)
 
 
 def amino_corr_map(datafile, c, title):
@@ -75,8 +79,54 @@ def amino_corr_map(datafile, c, title):
 
 w = 'McPAS-TCR_with_V'
 t = 'TCRGP_with_V'
-amino_corr_map(w, 'tcr', 'Amino acids correlation map in McPAS data')
-amino_corr_map(t, 'tcr', 'Amino acids correlation map in TCRGP data')
+# amino_corr_map(w, 'tcr', 'Amino acids correlation map in McPAS data')
+# amino_corr_map(t, 'tcr', 'Amino acids correlation map in TCRGP data')
+
+
+def amino_acids_distribution(data1, data2, title, normalize=False):
+    amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
+    with open(data2, 'r') as data:
+        amino_count2 = {aa: 0 for aa in amino_acids}
+        for line in data:
+            t = line.strip().split()[0]
+            if '*' in t or '*' in t:
+                continue
+            if '/' in t:
+                continue
+            for aa in t:
+                amino_count2[aa] += 1
+    with open(data1, 'r') as data:
+        amino_count1 = {aa: 0 for aa in amino_acids}
+        for line in data:
+            t = line.strip().split()[0]
+            if '*' in t or '*' in t:
+                continue
+            if '/' in t:
+                continue
+            for aa in t:
+                amino_count1[aa] += 1
+    x = np.arange(len(amino_acids))
+    y1 = [amino_count1[k] for k in amino_acids]
+    y2 = [amino_count2[k] for k in amino_acids]
+    if normalize:
+        y1 = [y/sum(y1) for y in y1]
+        y2 = [y/sum(y2) for y in y2]
+    fig, ax = plt.subplots()
+    width = 0.35
+    plot1 = ax.bar([key + width for key in x], y1, width,
+                   color='SkyBlue', label='McPAS (Weizmann) data')
+    plot2 = ax.bar(x, y2, width,
+                   color='IndianRed', label='TCRGP paper data')
+    ax.set_ylabel('Number of amino acids')
+    ax.set_title(title)
+    plt.xticks(x, amino_acids)
+    ax.legend()
+    plt.show()
+
+
+# amino_acids_distribution(w, t, 'Animo Acids Distribution')
+amino_acids_distribution(w, t, 'Normalized Animo Acids Distribution', normalize=True)
+
 
 def v_gene_dist(data):
-    with open()
+    pass
