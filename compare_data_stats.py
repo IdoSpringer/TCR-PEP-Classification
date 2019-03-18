@@ -77,10 +77,62 @@ def amino_corr_map(datafile, c, title):
     pass
 
 
+def amino_corr_map_comp(data1, data2, c, title):
+    amino_acids = ['start'] + [letter for letter in 'ARNDCEQGHILKMFPSTWYV'] + ['end']
+    amino_to_ix = {aa: index for index, aa in enumerate(amino_acids)}
+    # P[i, j] = p(j | i) stochastic transition matrix as in markov models
+    with open(data1, 'r') as data:
+        P1 = np.zeros([22, 22])
+        for line in data:
+            if c == 'tcr':
+                t = line.strip().split()[0]
+            if c == 'pep':
+                t = line.strip().split()[1]
+            if '*' in t or '*' in t:
+                continue
+            if '/' in t:
+                continue
+            # REMOVE INITIAL 'CAS' AND 'F' SUFFIX
+            t = t[3:-1]
+            P1[amino_to_ix['start'], amino_to_ix[t[0]]] += 1
+            for i in range(len(t) - 1):
+                P1[amino_to_ix[t[i]], amino_to_ix[t[i+1]]] += 1
+            P1[amino_to_ix[t[-1]], amino_to_ix['end']] += 1
+        P1 = P1.astype('float') / P1.sum(axis=1)[:, np.newaxis]
+        print(P1)
+    with open(data2, 'r') as data:
+        P2 = np.zeros([22, 22])
+        for line in data:
+            if c == 'tcr':
+                t = line.strip().split()[0]
+            if c == 'pep':
+                t = line.strip().split()[1]
+            if '*' in t or '*' in t:
+                continue
+            if '/' in t:
+                continue
+            # REMOVE INITIAL 'CAS' AND 'F' SUFFIX
+            t = t[3:-1]
+            P2[amino_to_ix['start'], amino_to_ix[t[0]]] += 1
+            for i in range(len(t) - 1):
+                P2[amino_to_ix[t[i]], amino_to_ix[t[i+1]]] += 1
+            P2[amino_to_ix[t[-1]], amino_to_ix['end']] += 1
+        P2 = P2.astype('float') / P2.sum(axis=1)[:, np.newaxis]
+        print(P2)
+    P = np.log(P1 / P2)
+    plt.matshow(P)
+    plt.xticks(range(22), amino_acids)
+    plt.yticks(range(22), amino_acids)
+    plt.colorbar()
+    plt.title(title)
+    plt.show()
+
+
 w = 'McPAS-TCR_with_V'
 t = 'TCRGP_with_V'
 # amino_corr_map(w, 'tcr', 'Amino acids correlation map in McPAS data')
 # amino_corr_map(t, 'tcr', 'Amino acids correlation map in TCRGP data')
+amino_corr_map_comp(w, t, 'tcr', 'Amino acids correlation maps, log(P1/P2)')
 
 
 def amino_acids_distribution(data1, data2, title, normalize=False):
@@ -125,7 +177,7 @@ def amino_acids_distribution(data1, data2, title, normalize=False):
 
 
 # amino_acids_distribution(w, t, 'Animo Acids Distribution')
-amino_acids_distribution(w, t, 'Normalized Animo Acids Distribution', normalize=True)
+# amino_acids_distribution(w, t, 'Normalized Animo Acids Distribution', normalize=True)
 
 
 def v_gene_dist(data):
