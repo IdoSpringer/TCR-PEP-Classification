@@ -216,5 +216,6 @@ def main():
     }, 'pad_full_data_autoencoder_model2.pt')
     # todo save also encoding dim
 
+
 if __name__ == '__main__':
     main()

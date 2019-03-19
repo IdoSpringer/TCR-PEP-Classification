@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
-# todo dropout (in MLP? more layers in LSTM?)
 
 class SiameseLSTMClassifier(nn.Module):
     def __init__(self, embedding_dim, lstm_dim, device):
@@ -131,7 +130,6 @@ class DoubleLSTMClassifier(nn.Module):
 
         # MLP Classifier
         tcr_pep_concat = torch.cat([tcr_last_cell, pep_last_cell], 1)
-        # todo dropout
         hidden_output = self.dropout(self.relu(self.hidden_layer(tcr_pep_concat)))
         mlp_output = self.output_layer(hidden_output)
         output = F.sigmoid(mlp_output)

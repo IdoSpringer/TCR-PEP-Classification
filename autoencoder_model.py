@@ -37,13 +37,3 @@ class PaddingAutoencoder(nn.Module):
         decoding = F.softmax(decoding, dim=2)
         return decoding
     pass
-
-
-# word = 'ABC' + 'XX'
-# converted = torch.FloatTensor([[1,0,0],[0,1,0],[0,0,1],[0,0,0],[0,0,0]])
-# model = PaddingAutoencoder(input_len=5, input_dim=3, encoding_dim=5)
-# model(converted)
-
-
-class LSTMAutoencoder(nn.Module):
-    pass

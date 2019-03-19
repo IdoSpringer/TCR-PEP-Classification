@@ -26,7 +26,6 @@ class AutoencoderLSTMClassifier(nn.Module):
             for param in self.autoencoder.parameters():
                 param.requires_grad = False
         self.autoencoder.eval()
-        # todo make sure that we do not train again the autoencoder
         # Embedding matrices - 20 amino acids + padding
         self.pep_embedding = nn.Embedding(20 + 1, embedding_dim, padding_idx=0)
         # RNN - LSTM
