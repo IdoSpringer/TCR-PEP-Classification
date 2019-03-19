@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from Kidera import kidera
 
 w = 'McPAS-TCR_with_V'
 t = 'TCRGP_with_V'
+nt = 'TCRGP_negs_with_V'
 
 
 def tcr_length_dist_comp(data1, data2, title, normalize=False):
@@ -43,6 +45,7 @@ def tcr_length_dist_comp(data1, data2, title, normalize=False):
 
 # tcr_length_dist_comp(w, t, 'TCR Length Distribution')
 # tcr_length_dist_comp(w, t, 'Normalized TCR Length Distribution', normalize=True)
+# tcr_length_dist_comp(w, nt, 'Normalized TCR Length Distribution' ,normalize=True)
 
 
 def amino_corr_map(datafile, c, title):
@@ -119,7 +122,8 @@ def amino_corr_map_comp(data1, data2, c, title):
             P2[amino_to_ix[t[-1]], amino_to_ix['end']] += 1
         P2 = P2.astype('float') / P2.sum(axis=1)[:, np.newaxis]
         print(P2)
-    P = np.log(P1 / P2)
+    # P = np.log(P1 / P2)
+    P = P1 - P2
     plt.matshow(P)
     plt.xticks(range(22), amino_acids)
     plt.yticks(range(22), amino_acids)
@@ -128,11 +132,13 @@ def amino_corr_map_comp(data1, data2, c, title):
     plt.show()
 
 
-w = 'McPAS-TCR_with_V'
-t = 'TCRGP_with_V'
 # amino_corr_map(w, 'tcr', 'Amino acids correlation map in McPAS data')
 # amino_corr_map(t, 'tcr', 'Amino acids correlation map in TCRGP data')
-amino_corr_map_comp(w, t, 'tcr', 'Amino acids correlation maps, log(P1/P2)')
+# amino_corr_map_comp(w, t, 'tcr', 'Amino acids correlation maps, P1 - P2')
+
+# amino_corr_map(w, 'tcr', 'Amino acids correlation map in McPAS data')
+# amino_corr_map(nt, 'tcr', 'Amino acids correlation map in TCRGP data')
+# amino_corr_map_comp(w, nt, 'tcr', 'Amino acids correlation maps, P1 - P2')
 
 
 def amino_acids_distribution(data1, data2, title, normalize=False):
@@ -178,7 +184,88 @@ def amino_acids_distribution(data1, data2, title, normalize=False):
 
 # amino_acids_distribution(w, t, 'Animo Acids Distribution')
 # amino_acids_distribution(w, t, 'Normalized Animo Acids Distribution', normalize=True)
+# amino_acids_distribution(w, nt, 'Normalized Animo Acids Distribution', normalize=True)
 
 
-def v_gene_dist(data):
+def v_gene_dist(data1, data2, title, normalize=False):
+    with open(data2, 'r') as data:
+        v_count2 = {}
+        for line in data:
+            v = line.strip().split()[1]
+            #if '*' in t or '*' in t:
+            #    continue
+            #if '/' in t:
+            #    continue
+            try:
+                v_count2[v] += 1
+            except KeyError:
+                v_count2[v] = 1
+    '''
+    with open(data1, 'r') as data:
+        amino_count1 = {aa: 0 for aa in amino_acids}
+        for line in data:
+            t = line.strip().split()[0]
+            if '*' in t or '*' in t:
+                continue
+            if '/' in t:
+                continue
+            for aa in t:
+                amino_count1[aa] += 1
+    '''
+    print(v_count2)
+    x = np.arange(len(v_count2))
+    y1 = [amino_count1[k] for k in amino_acids]
+    y2 = [amino_count2[k] for k in amino_acids]
+    if normalize:
+        y1 = [y/sum(y1) for y in y1]
+        y2 = [y/sum(y2) for y in y2]
+    fig, ax = plt.subplots()
+    width = 0.35
+    plot1 = ax.bar([key + width for key in x], y1, width,
+                   color='SkyBlue', label='McPAS (Weizmann) data')
+    plot2 = ax.bar(x, y2, width,
+                   color='IndianRed', label='TCRGP paper data')
+    ax.set_ylabel('Number of amino acids')
+    ax.set_title(title)
+    plt.xticks(x, amino_acids)
+    ax.legend()
+    plt.show()
     pass
+
+
+def avg_kidera_score(datafile):
+    with open(datafile, 'r') as data:
+        index = 0
+        avg = np.zeros((10))
+        for line in data:
+            line = line.split('\t')
+            tcr = line[0]
+            tcr = tcr[3:-1]
+            v = kidera.score_sequence(tcr)
+            v = v.values
+            avg += v
+            index += 1
+    avg /= index
+    return avg
+
+
+def plot_kidera():
+    w_avg = avg_kidera_score(w)
+    nt_avg = avg_kidera_score(nt)
+    print('weizmann avg:', w_avg)
+    print('TCRGP avg:', nt_avg)
+    x = np.arange(10)
+    fig, ax = plt.subplots()
+    width = 0.35
+    plot1 = ax.bar([t + width for t in x], w_avg, width,
+                   color='SkyBlue', label='McPAS (Weizmann) data')
+    plot2 = ax.bar(x, nt_avg, width,
+                   color='IndianRed', label='TCRGP paper data')
+    ax.set_ylabel('Average Kidera score')
+    ax.set_title('Average Kidera Score')
+    ax.set_xticks(x)
+    ax.set_xlabel('Kidera factor')
+    ax.legend()
+    plt.show()
+
+plot_kidera()
