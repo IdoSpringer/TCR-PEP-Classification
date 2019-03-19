@@ -170,8 +170,17 @@ plot_mul_auc(['ae_exnos_train_wd-5', 'ae_exnos_test_wd-5',
              'Extended cancer data (without Shugay) with both models')
 '''
 
-max_auc('ae_exnos_train_wd-5')
-max_auc('ae_exnos_test_wd-5')
-max_auc('lstm_exnos_train_wd-5')
-max_auc('lstm_exnos_test_wd-5')
+# max_auc('ae_exnos_train_wd-5')
+# max_auc('ae_exnos_test_wd-5')
+# max_auc('lstm_exnos_train_wd-5')
+# max_auc('lstm_exnos_test_wd-5')
+
+max_auc('nettcr_auc/nettcr_ae_train')
+max_auc('nettcr_auc/nettcr_ae_test')
+max_auc('nettcr_auc/nettcr_ae_train_wd-4')
+max_auc('nettcr_auc/nettcr_ae_test_wd-4')
+max_auc('nettcr_auc/nettcr_lstm_train')
+max_auc('nettcr_auc/nettcr_lstm_test')
+max_auc('nettcr_auc/nettcr_lstm_train_wd-4')
+max_auc('nettcr_auc/nettcr_lstm_test_wd-4')
 

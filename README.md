@@ -5,35 +5,12 @@
 - [ ] data from more papers?
 - [x] models on extended cancer graph
 - [x] models on safe extended cancer graph
-- [ ] result graphs for wednesday (docs)
+- [x] stats compare graphs
 - [ ] writing - see file in google docs
-- [ ] think how to do the figures
-- [ ] model figure
+- [x] model figure
 - [x] extended cancer without shugay
 - [ ] cancer TCRs with V-genes for Shirit
 - [ ] today report
-
-# TCR-peptide attachment prediction
-
-We aim to know, given a pair of a T-Cell Receptor (TCR) and an epitope peptide,
-if the TCR will bind the peptide. This is a binary classification problem.
-Our models use the data to predict a probability of attachment between a given TCR and a peptide.
-
-## Datasets
-
-- [ ] details for 3 datasets - Weizmann, VDJdb (Shugay), cancer
-- [ ] data_stats.md
-
-## Models
-
-### LSTM encoding
-### TCR Autoencoder  
-### MLP Classifier
-
-## Results
-
-###  AUC Results (3 datasets, 2 models)
-
-### (more results needed)
-
-
+- [ ] add missing 'C' in the dash data TCRs
+- [ ] neat git repository
+- [ ] website

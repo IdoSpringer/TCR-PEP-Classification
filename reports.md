@@ -323,3 +323,36 @@ LSTM | no Shugay extended cancer | 1e-5 | 0.995 | 0.556 | 0.623
 ### Model figures
 I used this online tool to draw a diagram of our models - [draw.io](https://www.draw.io/)
 Some sketches are in the google docs file.
+
+## Report 19/3/19
+
+### NetTCR table
+We had a table comparing our model to the TCRGP paper (using the out of domain samplings).
+I collected the results we have also for the NetTCR paper data, so we can compare our model to theirs.
+
+Model | dataset | regularization | last train AUC | last test AUC | best test AUC
+--- | --- | --- | --- | --- | ---
+Autoencoder | NetTCR data (IEDB + MIRA) | 1e-5 | 0.999 | 0.750 | 0.766
+Autoencoder | NetTCR data (IEDB + MIRA) | 1e-4 | 0.998 | 0.744 | 0.767
+LSTM | NetTCR data (IEDB + MIRA) | 1e-5 | 0.998 | 0.735 | 0.754
+LSTM | NetTCR data (IEDB + MIRA) | 1e-4 | 0.994 | 0.710 | 0.749
+NetTCR add_neg model | NetTCR data (IEDB + MIRA) | - | - | - | 0.727
+NetTCR int_neg model | NetTCR data (IEDB + MIRA) | - | - | - | 0.697
+
+(They also measure AUC per peptide which is higher)
+
+### Model figures
+As mentioned before, I made some figures for describing the models architecture.
+
+#### Dual LSTM Based Model
+![lstm](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/lstm_draft.png)  
+
+#### Autoencoder Based Model
+![autoencoder](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/autoencoder_draft.png)  
+
+### Datasets statistical comparison
+ 
+#### TCR length distribution
+#### Amino-acids correlation maps
+#### Amino-acids distribution 
+#### Kidera score
