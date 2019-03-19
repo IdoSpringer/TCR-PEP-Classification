@@ -386,4 +386,17 @@ Kidera factors are 10 amino-acids statistical properties presented in the paper
 by Kidera et al. We use [this](https://github.com/djhogan/Kidera)
 repository for scoring a TCR sequence average Kidera factors.
 We took the average score for every Kidera factor in both datasets.
+(This is without 'CAS' prefix and 'F' suffix)
 ![average Kidera factors](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/avg_kidera.png)
+
+We also checked for the distribution of every Kidera factor separately.
+![kidera factor 1](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_1.png)
+![kidera factor 2](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_2.png)
+![kidera factor 3](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_3.png)
+![kidera factor 4](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_4.png)
+![kidera factor 5](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_5.png)
+![kidera factor 6](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_6.png)
+![kidera factor 7](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_7.png)
+![kidera factor 8](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_8.png)
+![kidera factor 9](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_9.png)
+![kidera factor 10](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/kidera_factors/kidera_bins10_10.png)

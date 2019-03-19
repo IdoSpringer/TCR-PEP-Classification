@@ -299,16 +299,17 @@ def kidera_hist(data1, data2):
         b = factor_observations2[i]
         weights1 = np.ones_like(a) / float(len(a))
         weights2 = np.ones_like(b) / float(len(b))
-        plot1 = ax.hist(a, weights=weights1,
+        bins = np.linspace(-1.0, 1.0, 10)
+        plot1 = ax.hist(a, weights=weights1, bins=bins,
                        color='SkyBlue', alpha=0.5, label='McPAS (Weizmann) data')
-        plot2 = ax.hist(b, weights=weights2,
+        plot2 = ax.hist(b, weights=weights2, bins=bins,
                        color='IndianRed', alpha=0.5, label='TCRGP paper data')
         #ax.set_ylabel('Number of TCRs')
         ax.set_title('Kidera ' + str(i+1) + ' factor normalized histogram')
         #ax.set_xticks(x1)
         ax.legend()
         # plt.show()
-        plt.savefig('stats_compare_plots/kidera_factors/kidera_' + str(i+1))
+        plt.savefig('stats_compare_plots/kidera_factors/kidera_bins10_' + str(i+1))
 
 
-kidera_hist(w, nt)
+# kidera_hist(w, nt)
