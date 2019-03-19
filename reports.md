@@ -351,8 +351,39 @@ As mentioned before, I made some figures for describing the models architecture.
 ![autoencoder](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/autoencoder_draft.png)  
 
 ### Datasets statistical comparison
- 
+When we take negative examples from the TCRGP paper, our model can distinguish
+easily between positive and negative pairs.
+But when we take internal wrong examples, our model performs well but worse than the out of domain task.
+It is a harder task, because now the TCRs have the same distribution.
+
+We would like to show that active TCRs (for examples the Weizmann TCRs)
+have different distribution from the inactive TCRs (as the negative examples in the TCRGP paper).
+We compared some statistical results in the two datasets
+(the weizmann dataset and the negative examples in the TCRGP paper).
+
 #### TCR length distribution
+We made a normalized histogram for the TCR length distribution.
+![tcr length distribution](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/tcr_len_dist_w_nt_norm.png)
+
 #### Amino-acids correlation maps
-#### Amino-acids distribution 
-#### Kidera score
+We computed the transition matrix of the TCR sequences. P(i, j) is the probability to move from amino acid i
+to amino acid j, including 'start' and 'end' symbols. The computation is based on data observation,
+as in hidden markov models. The matrix is normalized to a stochastic matrix (sum of every row is 1).
+
+![amino acids correlation map weizmann](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/aa_cor_w.png)
+![amino acids correlation map tcrgp](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/aa_cor_nt.png)
+
+We can compare the two transition matrices in various ways, for example taking the element-wise difference.
+![amino acids correlation maps difference](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/aa_cor_dif_w_nt.png)
+
+#### Amino-acids distribution
+We also checked for the usage of the amino acids in both datasets. The histogram is again normalized.
+![amino acids distribution](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/aa_dist_w_nt_norm.png)
+
+#### Kidera factors
+Kidera factors are 10 amino-acids statistical properties presented in the paper
+[Statistical analysis of the physical properties of the 20 naturally occurring amino acids](https://link.springer.com/content/pdf/10.1007%2FBF01025492.pdf),
+by Kidera et al. We use [this](https://github.com/djhogan/Kidera)
+repository for scoring a TCR sequence average Kidera factors.
+We took the average score for every Kidera factor in both datasets.
+![average Kidera factors](https://github.com/IdoSpringer/TCR-PEP-Classification/blob/master/stats_compare_plots/avg_kidera.png)
