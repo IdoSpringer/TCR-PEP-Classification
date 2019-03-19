@@ -62,4 +62,4 @@ def extract_negs_tcrgp(path, filename):
 
 
 # extract_tcrgp(path, filename)
-extract_negs_tcrgp(path, 'TCRGP_negs_with_v')
+# extract_negs_tcrgp(path, 'TCRGP_negs_with_v')

@@ -268,4 +268,47 @@ def plot_kidera():
     ax.legend()
     plt.show()
 
-plot_kidera()
+
+# plot_kidera()
+
+
+def kidera_hist(data1, data2):
+    factor_observations1 = [[] for i in range(10)]
+    with open(data1, 'r') as data:
+        for line in data:
+            line = line.split('\t')
+            tcr = line[0]
+            tcr = tcr[3:-1]
+            v = kidera.score_sequence(tcr)
+            v = v.values
+            for i in range(len(v)):
+                factor_observations1[i].append(v[i])
+    factor_observations2 = [[] for i in range(10)]
+    with open(data2, 'r') as data:
+        for line in data:
+            line = line.split('\t')
+            tcr = line[0]
+            tcr = tcr[3:-1]
+            v = kidera.score_sequence(tcr)
+            v = v.values
+            for i in range(len(v)):
+                factor_observations2[i].append(v[i])
+    for i in range(len(factor_observations1)):
+        fig, ax = plt.subplots()
+        a = factor_observations1[i]
+        b = factor_observations2[i]
+        weights1 = np.ones_like(a) / float(len(a))
+        weights2 = np.ones_like(b) / float(len(b))
+        plot1 = ax.hist(a, weights=weights1,
+                       color='SkyBlue', alpha=0.5, label='McPAS (Weizmann) data')
+        plot2 = ax.hist(b, weights=weights2,
+                       color='IndianRed', alpha=0.5, label='TCRGP paper data')
+        #ax.set_ylabel('Number of TCRs')
+        ax.set_title('Kidera ' + str(i+1) + ' factor normalized histogram')
+        #ax.set_xticks(x1)
+        ax.legend()
+        # plt.show()
+        plt.savefig('stats_compare_plots/kidera_factors/kidera_' + str(i+1))
+
+
+kidera_hist(w, nt)
