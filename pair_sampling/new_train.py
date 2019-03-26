@@ -126,6 +126,8 @@ def train_model(batches, test_batches, device, args, params):
     # We use Adam optimizer
     optimizer = optim.Adam(model.parameters(), lr=params['lr'], weight_decay=params['wd'])
     # Train several epochs
+    best_auc = 0
+    best_roc = None
     for epoch in range(params['epochs']):
         print('epoch:', epoch + 1)
         epoch_time = time.time()
@@ -133,7 +135,7 @@ def train_model(batches, test_batches, device, args, params):
         loss = train_epoch(batches, model, loss_function, optimizer, device)
         losses.append(loss)
         # Compute auc
-        train_auc = evaluate(model, batches, device)
+        train_auc = evaluate(model, batches, device)[0]
         print('train auc:', train_auc)
         with open(args['train_auc_file'], 'a+') as file:
             file.write(str(train_auc) + '\n')
@@ -148,12 +150,15 @@ def train_model(batches, test_batches, device, args, params):
             with open(args['test_auc_file_c'], 'a+') as file:
                 file.write(str(test_auc_c) + '\n')
         else:
-            test_auc = evaluate(model, test_batches, device)
+            test_auc, roc = evaluate(model, test_batches, device)
+            if test_auc > best_auc:
+                best_auc = test_auc
+                best_roc = roc
             print('test auc:', test_auc)
             with open(args['test_auc_file'], 'a+') as file:
                 file.write(str(test_auc) + '\n')
         print('one epoch time:', time.time() - epoch_time)
-    return model
+    return model, best_auc, best_roc
 
 
 def evaluate(model, batches, device):
@@ -175,5 +180,5 @@ def evaluate(model, batches, device):
         scores.extend(probs.cpu().data.numpy())
     # Return auc score
     auc = roc_auc_score(true, scores)
-    # print('auc:', auc)
-    return auc
+    fpr, tpr, thresholds = roc_curve(true, scores)
+    return auc, (fpr, tpr, thresholds)

@@ -13,6 +13,7 @@ def main(argv):
     args = {}
     args['train_auc_file'] = argv[3]
     args['test_auc_file'] = argv[4]
+    args['roc_file'] = argv[5]
     args['siamese'] = False
     params = {}
     params['lr'] = 1e-3
@@ -20,9 +21,6 @@ def main(argv):
     params['epochs'] = 200
     params['batch_size'] = 50
     params['lstm_dim'] = 30
-
-
-
     params['emb_dim'] = 10
     params['dropout'] = 0.1
     params['option'] = 0
@@ -40,9 +38,9 @@ def main(argv):
         pairs_file = 'no_shugay_extended_cancer_pairs.txt'
 
     train, test = d.load_data(pairs_file)
-    if argv[5] == 'tcrgp':
+    if argv[6] == 'tcrgp':
         train, test = d2.load_data(pairs_file)
-    if argv[5] == 'nettcr':
+    if argv[6] == 'nettcr':
         pairs_file = 'netTCR/parameters/iedb_mira_pos_uniq.txt'
         train, test = d3.load_data(pairs_file)
 
@@ -57,13 +55,15 @@ def main(argv):
     test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
 
     # Train the model
-    model = train_model(train_batches, test_batches, device, args, params)
+    model, best_auc, best_roc = train_model(train_batches, test_batches, device, args, params)
 
     # Save trained model
     torch.save({
                 'model_state_dict': model.state_dict(),
                 'amino_to_ix': amino_to_ix
                 }, argv[1])
+    # Save best ROC curve and AUC
+    np.savez(args['roc_file'], fpr=best_roc[0], tpr=best_roc[1], auc=np.array(best_auc))
     pass
 
 

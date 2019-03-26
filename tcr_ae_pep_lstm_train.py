@@ -16,7 +16,7 @@ import pair_sampling.load_data as d
 import load_with_tcrgp as d2
 import load_netTCR_data as d3
 from tcr_ae_pep_lstm_model import AutoencoderLSTMClassifier
-
+import matplotlib.pyplot as plt
 
 def get_lists_from_pairs(pairs, max_len):
     tcrs = []
@@ -144,6 +144,8 @@ def train_model(batches, test_batches, device, args, params):
     # We use Adam optimizer
     optimizer = optim.Adam(model.parameters(), lr=params['lr'], weight_decay=params['wd'])
     # Train several epochs
+    best_auc = 0
+    best_roc = None
     for epoch in range(params['epochs']):
         print('epoch:', epoch + 1)
         epoch_time = time.time()
@@ -151,28 +153,22 @@ def train_model(batches, test_batches, device, args, params):
         loss = train_epoch(batches, model, loss_function, optimizer, device)
         losses.append(loss)
         # Compute auc
-        train_auc = evaluate(model, batches, device)
+        train_auc = evaluate(model, batches, device)[0]
         print('train auc:', train_auc)
         with open(args['train_auc_file'], 'a+') as file:
             file.write(str(train_auc) + '\n')
-        '''
-        if params['option'] == 2:
-            test_w, test_c = test_batches
-            test_auc_w = evaluate(model, test_w, device)
-            print('test auc w:', test_auc_w)
-            with open(args['test_auc_file_w'], 'a+') as file:
-                file.write(str(test_auc_w) + '\n')
-            test_auc_c = evaluate(model, test_c, device)
-            print('test auc c:', test_auc_c)
-            with open(args['test_auc_file_c'], 'a+') as file:
-                file.write(str(test_auc_c) + '\n')
-        '''
-        test_auc = evaluate(model, test_batches, device)
+        test_auc, roc = evaluate(model, test_batches, device)
+        if test_auc > best_auc:
+            best_auc = test_auc
+            best_roc = roc
+        # print(roc)
+        # plt.plot(roc[0], roc[1])
+        # plt.show()
         print('test auc:', test_auc)
         with open(args['test_auc_file'], 'a+') as file:
             file.write(str(test_auc) + '\n')
         print('one epoch time:', time.time() - epoch_time)
-    return model
+    return model, best_auc, best_roc
 
 
 def evaluate(model, batches, device):
@@ -191,8 +187,8 @@ def evaluate(model, batches, device):
         scores.extend(probs.cpu().data.numpy())
     # Return auc score
     auc = roc_auc_score(true, scores)
-    # print('auc:', auc)
-    return auc
+    fpr, tpr, thresholds = roc_curve(true, scores)
+    return auc, (fpr, tpr, thresholds)
 
 
 def main(argv):
@@ -206,6 +202,7 @@ def main(argv):
     args = {}
     args['train_auc_file'] = argv[4]
     args['test_auc_file'] = argv[5]
+    args['roc_file'] = argv[6]
     args['ae_file'] = argv[1]
     params = {}
     params['lr'] = 1e-3
@@ -234,9 +231,9 @@ def main(argv):
         pairs_file = 'no_shugay_extended_cancer_pairs.txt'
 
     train, test = d.load_data(pairs_file)
-    if argv[6] == 'tcrgp':
+    if argv[7] == 'tcrgp':
         train, test = d2.load_data(pairs_file)
-    if argv[6] == 'nettcr':
+    if argv[7] == 'nettcr':
         pairs_file = 'netTCR/parameters/iedb_mira_pos_uniq.txt'
         train, test = d3.load_data(pairs_file)
 
@@ -244,26 +241,25 @@ def main(argv):
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
     train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
 
-
     # test
     test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
     test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
 
     # Train the model
-    model = train_model(train_batches, test_batches, device, args, params)
+    model, best_auc, best_roc = train_model(train_batches, test_batches, device, args, params)
 
     # Save trained model
     torch.save({
                 'model_state_dict': model.state_dict(),
                 }, argv[2])
+    # Save best ROC curve and AUC
+    np.savez(args['roc_file'], fpr=best_roc[0], tpr=best_roc[1], auc=np.array(best_auc))
+
     pass
 
 
 # python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore.pt cuda:0 train_auc test_auc
 # python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore_c.pt cuda:0 ae_c_train_auc ae_c_test_auc
-
-# nohup python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore.pt cuda:0 ae_c_train_auc_ep1000_d01 ae_c_test_auc_ep1000_do01
-
 
 if __name__ == '__main__':
     main(sys.argv)
