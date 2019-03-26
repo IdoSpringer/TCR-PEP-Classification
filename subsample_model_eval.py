@@ -1,5 +1,7 @@
 import torch
 import sys
+import os
+import matplotlib.pyplot as plt
 import load_data_subs as ds
 import tcr_ae_pep_lstm_train as tr
 
@@ -59,5 +61,43 @@ def main(argv):
         model = tr.train_model(train_batches, test_batches, device, args, params)
 
 
+def max_auc(auc_file):
+    with open(auc_file, 'r') as file:
+        aucs = []
+        for line in file:
+            aucs.append(float(line.strip()))
+        max_auc = max(aucs)
+        return max_auc
+
+
+def subsamples_auc_graph(key, dir):
+    directory = os.fsencode(dir)
+    aucs = []
+    iterations = []
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        if filename.startswith('ae_' + key + '_test'):
+            iteration = int(filename.split('_')[-1])
+            auc = max_auc(dir + '/' + filename)
+            print(iteration, auc)
+            iterations.append(iteration)
+            aucs.append(auc)
+    aucs = [auc for _, auc in sorted(zip(iterations, aucs))]
+    iterations = sorted(iterations)
+    plt.plot(iterations, aucs)
+    if key == 'w':
+        plt.title('Autoencoder model AUC score on sub-samples of McPAS-TCR data')
+    elif key == 's':
+        plt.title('Autoencoder model AUC score on sub-samples of VDJdb data')
+    plt.xlabel('Number of TCR-peptide pairs / 1000')
+    plt.xticks(iterations)
+    plt.ylabel('best AUC score')
+    plt.show()
+    pass
+
+
 if __name__ == '__main__':
-    main(sys.argv)
+    # main(sys.argv)
+    subsamples_auc_graph('w', 'subsamples_auc')
+    subsamples_auc_graph('s', 'subsamples_auc')
+    pass
