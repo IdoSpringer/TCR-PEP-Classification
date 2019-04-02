@@ -138,7 +138,7 @@ def amino_corr_map_comp(data1, data2, c, title):
 
 # amino_corr_map(w, 'tcr', 'Amino acids correlation map in McPAS data')
 # amino_corr_map(nt, 'tcr', 'Amino acids correlation map in TCRGP data')
-# amino_corr_map_comp(w, nt, 'tcr', 'Amino acids correlation maps, P1 - P2')
+# amino_corr_map_comp(w, nt, 'tcr', 'Amino acids correlation maps difference')
 
 
 def amino_acids_distribution(data1, data2, title, normalize=False):
