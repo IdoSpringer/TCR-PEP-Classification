@@ -21,7 +21,7 @@ def plot_roc(title, files, labels, colors):
     plt.show()
     pass
 
-
+'''
 plot_roc('Autoencoder model ROC curve, cancer data',
          ['ae_roc_exc2.npz', 'ae_roc_exc_gp2.npz'],
          ['internal negatives', 'external negatives'],
@@ -32,3 +32,4 @@ plot_roc('LSTM model ROC curve, cancer data',
          ['lstm_roc_exc2.npz', 'lstm_roc_exc_gp2.npz'],
          ['internal negatives', 'external negatives'],
          ['dodgerblue', 'salmon'])
+'''
