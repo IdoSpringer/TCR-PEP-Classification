@@ -1,5 +1,5 @@
 import pair_sampling.pairs_data.stats as st
-
+import matplotlib.pyplot as plt
 
 w = 'pair_sampling/pairs_data/weizmann_pairs.txt'
 s = 'pair_sampling/pairs_data/shugay_pairs.txt'
@@ -80,10 +80,50 @@ def tcr_per_pep_iedb(pair_file):
 
 m = 'netTCR/parameters/iedb_mira_pos_uniq.txt'
 
-print(num_of_peps_iedb(m))
-print()
-print(num_of_tcrs_iedb(m))
-print()
-tcr_per_pep_iedb(m)
+# print(num_of_peps_iedb(m))
+# print()
+# print(num_of_tcrs_iedb(m))
+# print()
+# tcr_per_pep_iedb(m)
 
 
+def tcr_length_dist(datafile,  title):
+    with open(datafile, 'r') as data:
+        lens = {}
+        for line in data:
+            t = line.strip()
+            try:
+                lens[len(t)] += 1
+            except KeyError:
+                lens[len(t)] = 1
+        # lens = sorted(lens)
+        print(lens)
+        m1 = min(key for key in lens)
+        m2 = max(key for key in lens)
+        l = [0] * len(range(m1, m2+1))
+        for key in sorted(lens):
+            l[key - m1] = lens[key]
+        plt.bar(range(m1, m2 + 1), l)
+        plt.xticks(list(range(m1, m2+1)))
+        plt.title(title)
+        plt.show()
+
+wtcr = 'McPAS-TCR_no_cas'
+ntcr = 'TCRGP_negs_no_cas'
+
+# tcr_length_dist(wtcr, '')
+# tcr_length_dist(ntcr, '')
+
+# 10 is a common length in both files
+
+def extract_10mers(tcr_file, out, length):
+    with open(tcr_file, 'r') as file:
+        for line in file:
+            t = line.strip()
+            if len(t) == length:
+                with open(out, 'a+') as file2:
+                    file2.write(t + '\n')
+    pass
+
+extract_10mers(wtcr, 'McPAS_10mers', 10)
+extract_10mers(ntcr, 'TCRGP_10mers', 10)
