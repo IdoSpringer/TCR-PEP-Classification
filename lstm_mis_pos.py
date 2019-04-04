@@ -224,24 +224,26 @@ def main(argv):
 
 
     dr = 'mis_pos_auc'
+    iterations = 10
 
     # Train the model
-    for i in range(tcr_max_len):
-        params['mis_index'] = i
+    for iteration in range(iterations):
+        for i in range(tcr_max_len):
+            params['mis_index'] = i
 
-        # train
-        train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, i)
-        convert_data(train_tcrs, train_peps, amino_to_ix)
-        train_batches = get_batches(train_tcrs, train_peps, train_signs, params['batch_size'])
+            # train
+            train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, i)
+            convert_data(train_tcrs, train_peps, amino_to_ix)
+            train_batches = get_batches(train_tcrs, train_peps, train_signs, params['batch_size'])
 
-        # test
-        test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, i)
-        convert_data(test_tcrs, test_peps, amino_to_ix)
-        test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
+            # test
+            test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, i)
+            convert_data(test_tcrs, test_peps, amino_to_ix)
+            test_batches = get_batches(test_tcrs, test_peps, test_signs, params['batch_size'])
 
-        args['train_auc_file'] = dr + '/' + argv[2] + '_' + str(i)
-        args['test_auc_file'] = dr + '/' + argv[3] + '_' + str(i)
-        train_model(train_batches, test_batches, device, args, params)
+            args['train_auc_file'] = dr + '/' + argv[2] + '_' + str(iteration) + '_' + str(i)
+            args['test_auc_file'] = dr + '/' + argv[3] + '_' + str(iteration) + '_' + str(i)
+            train_model(train_batches, test_batches, device, args, params)
     pass
 
 

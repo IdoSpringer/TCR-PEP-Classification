@@ -233,25 +233,29 @@ def main(argv):
     train, test = d.load_data(pairs_file)
 
     dr = 'mis_pos_auc'
+    iterations = 10
 
     # Train the model
-    for i in range(params['max_len']):
-        params['mis_index'] = i
+    for iteration in range(iterations):
+        for i in range(params['max_len']):
+            params['mis_index'] = i
 
-        # train
-        train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
-        train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox,
-                                    params['batch_size'], params['max_len'], params['mis_index'])
+            # train
+            train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
+            train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox,
+                                        params['batch_size'], params['max_len'], params['mis_index'])
 
-        # test
-        test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
-        test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox,
-                                   params['batch_size'], params['max_len'], params['mis_index'])
+            # test
+            test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
+            test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox,
+                                       params['batch_size'], params['max_len'], params['mis_index'])
 
-        args['train_auc_file'] = dr + '/' + argv[3] + '_' + str(i)
-        args['test_auc_file'] = dr + '/' + argv[4] + '_' + str(i)
-        # Train the model
-        train_model(train_batches, test_batches, device, args, params)
+            args['train_auc_file'] = dr + '/' + argv[3] + '_' + str(iteration) + '_' + str(i)
+            args['test_auc_file'] = dr + '/' + argv[4] + '_' + str(iteration) + '_' + str(i)
+            # Train the model
+            train_model(train_batches, test_batches, device, args, params)
+        pass
+
     pass
 
 
