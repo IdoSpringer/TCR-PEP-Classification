@@ -61,8 +61,6 @@ def subsamples_auc(ax, key1, key2, title):
         if filename.startswith('ae_' + key1 + '_test_sub'):
             sub_index = int(filename.split('_')[-1])
             iteration = int(filename.split('_')[-2])
-            if iteration > 5:
-                continue
             auc = max_auc(dir + '/' + filename)
             aucs1.append((iteration, sub_index, auc))
     max_index1 = max(t[1] for t in aucs1)
@@ -79,8 +77,6 @@ def subsamples_auc(ax, key1, key2, title):
         if filename.startswith('ae_' + key2 + '_test_sub'):
             sub_index = int(filename.split('_')[-1])
             iteration = int(filename.split('_')[-2])
-            if iteration > 0:
-                continue
             auc = max_auc(dir + '/' + filename)
             aucs2.append((iteration, sub_index, auc))
     max_index2 = max(t[1] for t in aucs2)
@@ -110,6 +106,61 @@ def plot_roc(ax, title, files, labels, colors):
     ax.legend()
 
 
+def comp_logos():
+    # image from website
+    pass
+
+
+def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
+    dir = 'mis_pos_auc'
+    mkeys = {'ae': 0, 'lstm': 1}
+    dkeys = {'w': 0, 's': 1}
+    directory = os.fsencode(dir)
+    aucs = []
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        name = filename.split('_')
+        if not len(name) is 6:
+            continue
+        mkey = name[0]
+        dkey = name[1]
+        mis = int(name[-1])
+        iteration = int(name[-2])
+        if iteration > 0:
+           continue
+        state = name[-3]
+        if state == 'test':
+            auc = max_auc(dir + '/' + filename)
+            aucs.append((mkeys[mkey], dkeys[dkey], iteration, mis, auc))
+    max_index0 = max(t[3] for t in aucs if t[0] == 0)
+    max_index10 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 0)
+    max_index11 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 1)
+    max_index = max(max_index0, max_index10, max_index11)
+    max_iter = max(t[2] for t in aucs)
+    auc_tensor = np.zeros((2, 2, max_iter + 1, max_index + 1))
+    for auc in aucs:
+        auc_tensor[auc[0], auc[1], auc[2], auc[3]] = auc[4]
+    auc_tensor0 = auc_tensor[0, :, :, :max_index0 + 1]
+    auc_tensor10 = auc_tensor[1, 0, :, :max_index10 + 1]
+    auc_tensor11 = auc_tensor[1, 1, :, :max_index11 + 1]
+    means0 = np.mean(auc_tensor0, axis=1)
+    std0 = np.std(auc_tensor0, axis=1)
+    means10 = np.mean(auc_tensor10, axis=0)
+    std10 = np.std(auc_tensor10, axis=0)
+    means11 = np.mean(auc_tensor11, axis=0)
+    std11 = np.std(auc_tensor11, axis=0)
+    auc_means = [means0[0], means10, means0[1], means11]
+    auc_stds = [std0[0], std10, std0[1], std11]
+    labels = ['MsPAS, ae model', 'VDJdb, ae model', 'MsPAS, lstm model', 'VDJdb, lstm model']
+    for auc_mean, auc_std, label in zip(auc_means, auc_stds, labels):
+        ax.errorbar(range(1, len(auc_mean) + 1), auc_mean, yerr=auc_std, label=label)
+    ax.legend()
+    ax.set_xlabel('Missing index')
+    ax.set_ylabel('best AUC score')
+    ax.set_title(title)
+    pass
+
+
 def main():
     fig = plt.figure(2)
     ax = fig.add_subplot(231)
@@ -123,9 +174,11 @@ def main():
              ['salmon', 'dodgerblue', 'tomato', 'orchid'])
 
     ax = fig.add_subplot(234)
-    ax.axis
+    position_auc(ax, 'w', 's', 'ae', 'lstm', 'AUC per missing amino acids')
     ax = fig.add_subplot(235)
+    ax.axis('off')
     ax = fig.add_subplot(236)
+    ax.axis('off')
     # plt.tight_layout()
     plt.show()
     pass
