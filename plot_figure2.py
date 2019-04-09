@@ -126,8 +126,12 @@ def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
         dkey = name[1]
         mis = int(name[-1])
         iteration = int(name[-2])
-        if iteration > 0:
-           continue
+        if iteration > 4 and mkey == 'ae':
+            continue
+        if iteration > 4 and mkey == 'lstm' and dkey == 'w':
+            continue
+        if iteration > 0 and mkey == 'lstm' and dkey == 's':
+            continue
         state = name[-3]
         if state == 'test':
             auc = max_auc(dir + '/' + filename)
@@ -136,21 +140,31 @@ def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
     max_index10 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 0)
     max_index11 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 1)
     max_index = max(max_index0, max_index10, max_index11)
-    max_iter = max(t[2] for t in aucs)
+    max_iter0 = max(t[2] for t in aucs if t[0] == 0)
+    max_iter10 = max(t[2] for t in aucs if t[0] == 1 and t[1] == 0)
+    max_iter11 = max(t[2] for t in aucs if t[0] == 1 and t[1] == 1)
+    max_iter = max(max_iter0, max_iter10, max_iter11)
     auc_tensor = np.zeros((2, 2, max_iter + 1, max_index + 1))
     for auc in aucs:
         auc_tensor[auc[0], auc[1], auc[2], auc[3]] = auc[4]
-    auc_tensor0 = auc_tensor[0, :, :, :max_index0 + 1]
-    auc_tensor10 = auc_tensor[1, 0, :, :max_index10 + 1]
-    auc_tensor11 = auc_tensor[1, 1, :, :max_index11 + 1]
+    auc_tensor0 = auc_tensor[0, :, :max_iter0 + 1, :max_index0 + 1]
+    print('auc tensor 0')
+    print(auc_tensor0)
+    auc_tensor10 = auc_tensor[1, 0, :max_iter10 + 1, :max_index10 + 1]
+    print('auc tensor 10')
+    print(auc_tensor10)
+    auc_tensor11 = auc_tensor[1, 1, :max_iter11 + 1, :max_index11 + 1]
+    print('auc tensor 11')
+    print(auc_tensor11)
     means0 = np.mean(auc_tensor0, axis=1)
     std0 = np.std(auc_tensor0, axis=1)
     means10 = np.mean(auc_tensor10, axis=0)
     std10 = np.std(auc_tensor10, axis=0)
     means11 = np.mean(auc_tensor11, axis=0)
     std11 = np.std(auc_tensor11, axis=0)
-    auc_means = [means0[0], means10, means0[1], means11]
-    auc_stds = [std0[0], std10, std0[1], std11]
+    auc_means = [means0[0], means0[1], means10, means11]
+    print(auc_means)
+    auc_stds = [std0[0], std0[1], std10, std11]
     labels = ['MsPAS, ae model', 'VDJdb, ae model', 'MsPAS, lstm model', 'VDJdb, lstm model']
     for auc_mean, auc_std, label in zip(auc_means, auc_stds, labels):
         ax.errorbar(range(1, len(auc_mean) + 1), auc_mean, yerr=auc_std, label=label)
