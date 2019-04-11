@@ -47,8 +47,8 @@ def tcr_length_dist_comp(ax, data1, data2, title, normalize=False):
                     color='dodgerblue', label='McPAS')
     plot2 = ax.bar(x2, y2, width,
                     color='salmon', label='TCRGP')
-    ax.set_ylabel('Number of TCRs')
-    ax.set_title(title)
+    ax.set_ylabel('Number of TCRs', fontdict={'fontsize': 14})
+    ax.set_title(title, fontdict={'fontsize': 16})
     ax.set_xticks(x1)
     ax.legend()
 
@@ -97,13 +97,13 @@ def amino_corr_map_comp(ax, data1, data2, c, title):
         print(P2)
     # P = np.log(P1 / P2)
     P = P1 - P2
-    mat = ax.matshow(-P, cmap='bwr')
+    mat = ax.matshow(P, cmap='bwr', vmin=-0.2, vmax=0.2)
     ax.set_xticks(range(22))
     ax.set_xticklabels(amino_acids)
     ax.set_yticks(range(22))
     ax.set_yticklabels(amino_acids)
     plt.colorbar(mat)
-    ax.set_title(title)
+    ax.set_title(title, fontdict={'fontsize': 16})
 
 
 def amino_corr_map_comp_3d(ax, data1, data2, c, title):
@@ -213,9 +213,9 @@ def plot_roc(ax, title, files, labels, colors, lns):
         roc = np.load(file)
         ax.plot(roc['fpr'], roc['tpr'], label=label + ', AUC=' + str(format(roc['auc'].item(), '.3f')),
                  color=color, linestyle=ln)
-    plt.title(title)
-    ax.set_xlabel('False positive rate')
-    ax.set_ylabel('True positive rate')
+    plt.title(title, fontdict={'fontsize': 16})
+    ax.set_xlabel('False positive rate', fontdict={'fontsize': 14})
+    ax.set_ylabel('True positive rate', fontdict={'fontsize': 14})
     ax.legend()
 
 
