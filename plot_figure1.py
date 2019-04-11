@@ -97,12 +97,12 @@ def amino_corr_map_comp(ax, data1, data2, c, title):
         print(P2)
     # P = np.log(P1 / P2)
     P = P1 - P2
-    ax.matshow(P)
+    mat = ax.matshow(-P, cmap='bwr')
     ax.set_xticks(range(22))
     ax.set_xticklabels(amino_acids)
     ax.set_yticks(range(22))
     ax.set_yticklabels(amino_acids)
-    # plt.colorbar()
+    plt.colorbar(mat)
     ax.set_title(title)
 
 
@@ -208,11 +208,11 @@ def model_graph(ax, image):
     ax.axis('off')
 
 
-def plot_roc(ax, title, files, labels, colors):
-    for file, label, color in zip(files, labels, colors):
+def plot_roc(ax, title, files, labels, colors, lns):
+    for file, label, color, ln in zip(files, labels, colors, lns):
         roc = np.load(file)
         ax.plot(roc['fpr'], roc['tpr'], label=label + ', AUC=' + str(format(roc['auc'].item(), '.3f')),
-                 color=color)
+                 color=color, linestyle=ln)
     plt.title(title)
     ax.set_xlabel('False positive rate')
     ax.set_ylabel('True positive rate')
@@ -222,24 +222,26 @@ def plot_roc(ax, title, files, labels, colors):
 def main():
     fig = plt.figure(1)
     ax = fig.add_subplot(231)
-    model_graph(ax, 'lstm_draft.png')
+    # model_graph(ax, 'lstm_draft.png')
     ax.axis('off')
     ax = fig.add_subplot(232)
     ax.axis('off')
-    model_graph(ax, 'autoencoder_draft.png')
+    # model_graph(ax, 'autoencoder_draft.png')
     ax = fig.add_subplot(233)
     plot_roc(ax, 'Models ROC curve on McPAS-TCR',
              ['ae_roc_w_gp2.npz', 'ae_roc_w2.npz', 'lstm_roc_w_gp2.npz', 'lstm_roc_w2.npz'],
-             ['ae, externals', 'ae, internals', 'lstm, externals', 'lstm, internals'],
-             ['salmon', 'dodgerblue', 'springgreen', 'orchid'])
+             ['AE, externals', 'AE, internals', 'LSTM, externals', 'LSTM, internals'],
+             ['salmon', 'dodgerblue', 'salmon', 'dodgerblue'],
+             ['-', '-', '--', '--'])
     ax = fig.add_subplot(234)
     tcr_length_dist_comp(ax, w, nt, 'Normalized TCR Length Distribution', normalize=True)
     # ax = fig.add_subplot(235, projection='3d')
     # amino_corr_map_comp_3d(ax, w, nt, 'tcr', 'Amino acids correlation maps difference')
-    # ax = fig.add_subplot(235)
-    # amino_corr_map_comp(ax, w, nt, 'tcr', 'Amino acids correlation maps difference')
+    ax = fig.add_subplot(235)
+    amino_corr_map_comp(ax, w, nt, 'tcr', 'Amino acids correlation maps difference')
     ax = fig.add_subplot(236)
-    kidera_hist7(ax, w, nt)
+    ax.axis('off')
+    # kidera_hist7(ax, w, nt)
     plt.show()
     plt.tight_layout()
     plt.show()
