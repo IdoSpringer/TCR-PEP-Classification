@@ -1,6 +1,7 @@
 import pair_sampling.pairs_data.stats as st
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import stats
 import os
 
 w = 'pair_sampling/pairs_data/weizmann_pairs.txt'
@@ -31,14 +32,14 @@ def tcr_per_pep_dist(ax, data1, data2, title):
                 pep_tcr2[pep] = 1
     tcr_nums2 = sorted([pep_tcr2[pep] for pep in pep_tcr2], reverse=True)
 
-    ax.bar(range(len(tcr_nums1)), np.log(np.array(tcr_nums1)),
-           color='orchid', alpha=0.5, label='McPAS')
-    ax.bar(range(len(tcr_nums2)), np.log(np.array(tcr_nums2)),
-           color='springgreen', alpha=0.5, label='VDJdb')
+    ax.plot(range(len(tcr_nums1)), np.log(np.array(tcr_nums1)),
+           color='orchid', label='McPAS')
+    ax.plot(range(len(tcr_nums2)), np.log(np.array(tcr_nums2)),
+           color='springgreen', label='VDJdb')
 
-    ax.set_ylabel('log TCRs per peptide')
-    ax.set_xlabel('peptide index')
-    ax.set_title(title)
+    ax.set_ylabel('log TCRs per peptide', fontdict={'fontsize': 12})
+    ax.set_xlabel('peptide index', fontdict={'fontsize': 12})
+    ax.set_title(title, fontdict={'fontsize': 16})
     ax.legend()
     pass
 
@@ -69,7 +70,7 @@ def subsamples_auc(ax, key1, key2, title):
     for auc in aucs1:
         auc_matrix1[auc[0], auc[1] - 1] = auc[2]
     means1 = np.mean(auc_matrix1, axis=0)
-    stds1 = np.std(auc_matrix1, axis=0)
+    stds1 = stats.sem(auc_matrix1, axis=0)
 
     aucs2 = []
     for file in os.listdir(directory):
@@ -85,33 +86,28 @@ def subsamples_auc(ax, key1, key2, title):
     for auc in aucs2:
         auc_matrix2[auc[0], auc[1] - 1] = auc[2]
     means2 = np.mean(auc_matrix2, axis=0)
-    stds2 = np.std(auc_matrix2, axis=0)
+    stds2 = stats.sem(auc_matrix2, axis=0)
 
-    ax.errorbar(range(max_index1), means1, yerr=stds1, color='orchid', label='McPAS')
+    ax.errorbar(range(max_index1)[:-1], means1[:-1], yerr=stds1[:-1], color='dodgerblue', label='McPAS')
     ax.errorbar(range(max_index2), means2, yerr=stds2, color='springgreen', label='VDJdb')
-    ax.set_xlabel('Number of TCR-peptide pairs / 1000')
-    ax.set_ylabel('Mean AUC score')
-    ax.set_title(title)
+    ax.set_xlabel('Number of TCR-peptide pairs / 1000', fontdict={'fontsize': 12})
+    ax.set_ylabel('Mean AUC score', fontdict={'fontsize': 12})
+    ax.set_title(title, fontdict={'fontsize': 16})
     ax.legend()
 
 
-def plot_roc(ax, title, files, labels, colors):
-    for file, label, color in zip(files, labels, colors):
+def plot_roc(ax, title, files, labels, colors, lns):
+    for file, label, color, ln in zip(files, labels, colors, lns):
         roc = np.load(file)
         ax.plot(roc['fpr'], roc['tpr'], label=label + ', AUC=' + str(format(roc['auc'].item(), '.3f')),
-                 color=color)
-    plt.title(title)
-    ax.set_xlabel('False positive rate')
-    ax.set_ylabel('True positive rate')
+                 color=color, linestyle=ln)
+    plt.title(title, fontdict={'fontsize': 16})
+    ax.set_xlabel('False positive rate', fontdict={'fontsize': 12})
+    ax.set_ylabel('True positive rate', fontdict={'fontsize': 12})
     ax.legend()
 
 
-def comp_logos():
-    # image from website
-    pass
-
-
-def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
+def position_auc(ax, title):
     dir = 'mis_pos_auc'
     mkeys = {'ae': 0, 'lstm': 1}
     dkeys = {'w': 0, 's': 1}
@@ -126,10 +122,7 @@ def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
         dkey = name[1]
         mis = int(name[-1])
         iteration = int(name[-2])
-        if iteration > 4 and mkey == 'ae':
-            continue
-        if iteration > 4 and mkey == 'lstm' and dkey == 'w':
-            continue
+
         if iteration > 0 and mkey == 'lstm' and dkey == 's':
             continue
         state = name[-3]
@@ -148,22 +141,22 @@ def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
     for auc in aucs:
         auc_tensor[auc[0], auc[1], auc[2], auc[3]] = auc[4]
     auc_tensor0 = auc_tensor[0, :, :max_iter0 + 1, :max_index0 + 1]
-    print('auc tensor 0')
-    print(auc_tensor0)
+    # print('auc tensor 0')
+    # print(auc_tensor0)
     auc_tensor10 = auc_tensor[1, 0, :max_iter10 + 1, :max_index10 + 1]
-    print('auc tensor 10')
-    print(auc_tensor10)
+    # print('auc tensor 10')
+    # print(auc_tensor10)
     auc_tensor11 = auc_tensor[1, 1, :max_iter11 + 1, :max_index11 + 1]
-    print('auc tensor 11')
-    print(auc_tensor11)
+    # print('auc tensor 11')
+    # print(auc_tensor11)
     means0 = np.mean(auc_tensor0, axis=1)
-    std0 = np.std(auc_tensor0, axis=1)
+    std0 = stats.sem(auc_tensor0, axis=1)
     means10 = np.mean(auc_tensor10, axis=0)
-    std10 = np.std(auc_tensor10, axis=0)
+    std10 = stats.sem(auc_tensor10, axis=0)
     means11 = np.mean(auc_tensor11, axis=0)
-    std11 = np.std(auc_tensor11, axis=0)
+    std11 = stats.sem(auc_tensor11, axis=0)
     auc_means = [means0[0], means0[1], means10, means11]
-    print(auc_means)
+    # print(auc_means)
     auc_stds = [std0[0], std0[1], std10, std11]
     labels = ['MsPAS, ae model', 'VDJdb, ae model', 'MsPAS, lstm model', 'VDJdb, lstm model']
     for auc_mean, auc_std, label in zip(auc_means, auc_stds, labels):
@@ -177,22 +170,18 @@ def position_auc(ax, dkey1, dkey2, mkey1, mkey2, title):
 
 def main():
     fig = plt.figure(2)
-    ax = fig.add_subplot(231)
+    ax = fig.add_subplot(224)
     tcr_per_pep_dist(ax, w, s, 'Number of TCRs pep peptide')
-    ax = fig.add_subplot(232)
+    ax = fig.add_subplot(221)
     subsamples_auc(ax, 'w', 's', 'AUC per number of pairs')
-    ax = fig.add_subplot(233)
+    ax = fig.add_subplot(222)
     plot_roc(ax, 'Models ROC curve on cancer dataset',
              ['ae_roc_exc_gp2.npz', 'ae_roc_exc2.npz', 'lstm_roc_exc_gp2.npz', 'lstm_roc_exc2.npz'],
-             ['ae, externals', 'ae, internals', 'lstm, externals', 'lstm, internals'],
-             ['salmon', 'dodgerblue', 'tomato', 'orchid'])
-
-    ax = fig.add_subplot(234)
-    position_auc(ax, 'w', 's', 'ae', 'lstm', 'AUC per missing amino acids')
-    ax = fig.add_subplot(235)
-    ax.axis('off')
-    ax = fig.add_subplot(236)
-    ax.axis('off')
+             ['AE, externals', 'AE, internals', 'LSTM, externals', 'LSTM, internals'],
+             ['salmon', 'dodgerblue', 'salmon', 'dodgerblue'],
+             ['-', '-', '--', '--'])
+    ax = fig.add_subplot(223)
+    position_auc(ax, 'AUC per missing amino acids')
     # plt.tight_layout()
     plt.show()
     pass
