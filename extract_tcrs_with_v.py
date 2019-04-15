@@ -21,6 +21,22 @@ def extract_mcpas(read, filename):
                     file2.write('\t'.join([tcr_beta, v_beta_gene, peptide]) + '\n')
 
 
+def extract_mcpas_tcrs(read, filename):
+    with open(read, 'r') as file:
+        reader = csv.reader(file)
+        try:
+            for line in reader:
+                # print(line)
+                tcr_beta = line[1]
+                if not any(k == 'NA' for k in [tcr_beta]):
+                    tcr_beta = tcr_beta[3:-1]
+                    print(tcr_beta)
+                    with open(filename, 'a+') as file2:
+                        file2.write(tcr_beta + '\n')
+        except UnicodeDecodeError:
+            pass
+
+
 path = 'tcrgp_training_data'
 filename = 'TCRGP_with_V'
 
@@ -61,5 +77,26 @@ def extract_negs_tcrgp(path, filename):
                             file2.write('\t'.join([tcr_beta, v_beta_gene, peptide]) + '\n')
 
 
+def extract_negs_tcrgp_tcrs(path, filename):
+    for directory, subdirectories, files in os.walk(path):
+        for file in files:
+            print(file)
+            with open(os.path.join(directory, file), mode='r') as infile:
+                infile.readline()
+                reader = csv.reader(infile)
+                for line in reader:
+                    tcr_beta = line[5]
+                    peptide = line[0]
+                    if (not any(k == 'NA' for k in [tcr_beta])) and peptide == 'none':
+                        tcr_beta = tcr_beta[3:-1]
+                        print(tcr_beta)
+                        with open(filename, 'a+') as file2:
+                            file2.write(tcr_beta + '\n')
+
+
+
 # extract_tcrgp(path, filename)
 # extract_negs_tcrgp(path, 'TCRGP_negs_with_v')
+
+# extract_mcpas_tcrs(read, 'McPAS-TCR_no_cas')
+# extract_negs_tcrgp_tcrs('TCRGP/training_data', 'TCRGP_negs_no_cas')
