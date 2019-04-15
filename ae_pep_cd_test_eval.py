@@ -217,39 +217,37 @@ def main(argv):
     params['max_len'] = checkpoint['max_len']
     params['batch_size'] = checkpoint['batch_size']
 
-    # Load data
-    pairs_file = 'McPAS-with_CD'
-    if argv[-1] == 'shugay':
-        pairs_file = ''
-    train, test = d.load_data(pairs_file)
-    # save random test
-    with open(args['test_file'], 'wb') as fp:
-        pickle.dump(test, fp)
+    dir = 'test_and_models_with_cd/'
 
-    # train
-    train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
-    train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
+    iterations = 10
+    for iteration in range(iterations):
+        # Load data
+        pairs_file = 'McPAS-with_CD'
+        if argv[-1] == 'shugay':
+            pairs_file = ''
+        train, test = d.load_data(pairs_file)
+        # save random test
+        with open(dir + args['test_file'] + '_' + str(iteration), 'wb') as fp:
+            pickle.dump(test, fp)
 
-    # test
-    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
-    test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
+        # train
+        train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
+        train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox, params['batch_size'],
+                                    params['max_len'])
 
-    # Train the model
-    model, best_auc, best_roc = train_model(train_batches, test_batches, device, args, params)
+        # test
+        test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
+        test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox, params['batch_size'],
+                                   params['max_len'])
 
-    # Save trained model
-    torch.save({
-                'model_state_dict': model.state_dict(),
-                }, argv[2])
-    '''
-    with open('outfile', 'wb') as fp:
-        pickle.dump(itemlist, fp)
-    To read it back:
+        # Train the model
+        model, best_auc, best_roc = train_model(train_batches, test_batches, device, args, params)
 
-    with open('outfile', 'rb') as fp:
-        itemlist = pickle.load(fp)
-    '''
-
+        # Save trained model
+        torch.save({
+            'model_state_dict': model.state_dict(),
+        }, dir + argv[2] + '_' + str(iteration))
+        pass
     pass
 
 
