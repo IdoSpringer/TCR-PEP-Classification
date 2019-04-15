@@ -222,12 +222,13 @@ def main(argv):
     train, test = d.load_data(pairs_file)
     tcr_max_len = max([len(t[0]) for t in train + test])
 
+    tcr_max_len = 28
 
     dr = 'mis_pos_auc'
-    iterations = 10
+    # iterations = 10
 
     # Train the model
-    for iteration in range(iterations):
+    for iteration in range(9, 10):
         for i in range(tcr_max_len):
             params['mis_index'] = i
 
@@ -249,3 +250,4 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv)
+
