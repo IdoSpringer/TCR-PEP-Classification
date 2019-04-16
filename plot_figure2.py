@@ -122,16 +122,16 @@ def position_auc(ax, title):
         dkey = name[1]
         mis = int(name[-1])
         iteration = int(name[-2])
-
-        if iteration > 0 and mkey == 'lstm' and dkey == 's':
+        if mkey == 'lstm' and dkey == 's' and mis > 27:
             continue
         state = name[-3]
-        if state == 'test':
+        if state == 'test' or state == 'test2':
             auc = max_auc(dir + '/' + filename)
             aucs.append((mkeys[mkey], dkeys[dkey], iteration, mis, auc))
     max_index0 = max(t[3] for t in aucs if t[0] == 0)
     max_index10 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 0)
-    max_index11 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 1)
+    # max_index11 = max(t[3] for t in aucs if t[0] == 1 and t[1] == 1)
+    max_index11 = 27
     max_index = max(max_index0, max_index10, max_index11)
     max_iter0 = max(t[2] for t in aucs if t[0] == 0)
     max_iter10 = max(t[2] for t in aucs if t[0] == 1 and t[1] == 0)
@@ -158,13 +158,16 @@ def position_auc(ax, title):
     auc_means = [means0[0], means0[1], means10, means11]
     # print(auc_means)
     auc_stds = [std0[0], std0[1], std10, std11]
-    labels = ['MsPAS, ae model', 'VDJdb, ae model', 'MsPAS, lstm model', 'VDJdb, lstm model']
-    for auc_mean, auc_std, label in zip(auc_means, auc_stds, labels):
-        ax.errorbar(range(1, len(auc_mean) + 1), auc_mean, yerr=auc_std, label=label)
-    ax.legend()
-    ax.set_xlabel('Missing index')
-    ax.set_ylabel('best AUC score')
-    ax.set_title(title)
+    labels = ['MsPAS, AE model', 'VDJdb, AE model', 'MsPAS, LSTM model', 'VDJdb, LSTM model']
+    colors = ['dodgerblue', 'springgreen', 'dodgerblue', 'springgreen']
+    styles = ['-', '-', '--', '--']
+    for auc_mean, auc_std, label, color, style in zip(auc_means, auc_stds, labels, colors, styles):
+        ax.errorbar(range(1, len(auc_mean) + 1), auc_mean, yerr=auc_std, label=label,
+                    color=color, linestyle=style)
+    ax.legend(loc=4, prop={'size': 8})
+    ax.set_xlabel('missing amino acid index', fontdict={'fontsize': 12})
+    ax.set_ylabel('best AUC score', fontdict={'fontsize': 12})
+    ax.set_title(title, fontdict={'fontsize': 16})
     pass
 
 
@@ -178,7 +181,7 @@ def main():
     plot_roc(ax, 'Models ROC curve on cancer dataset',
              ['ae_roc_exc_gp2.npz', 'ae_roc_exc2.npz', 'lstm_roc_exc_gp2.npz', 'lstm_roc_exc2.npz'],
              ['AE, externals', 'AE, internals', 'LSTM, externals', 'LSTM, internals'],
-             ['salmon', 'dodgerblue', 'salmon', 'dodgerblue'],
+             ['salmon', 'orchid', 'salmon', 'orchid'],
              ['-', '-', '--', '--'])
     ax = fig.add_subplot(223)
     position_auc(ax, 'AUC per missing amino acids')
