@@ -34,7 +34,7 @@ def convert_data(tcrs, peps, amino_to_ix):
         peps[i] = [amino_to_ix[amino] for amino in peps[i]]
 
 
-def get_batches(tcrs, peps, batch_size):
+def get_batches(tcrs, peps, batch_size, amino_to_ix):
     """
     Get batches from the data
     """
@@ -57,7 +57,7 @@ def get_batches(tcrs, peps, batch_size):
     missing = batch_size - len(tcrs) + index
     padding_tcrs = ['A'] * missing
     padding_peps = ['A'] * missing
-    convert_data(padding_tcrs, padding_peps, tcr_atox, pep_atox, max_length)
+    convert_data(padding_tcrs, padding_peps, amino_to_ix)
     batch_tcrs = tcrs[index:] + padding_tcrs
     batch_peps = peps[index:] + padding_peps
     padded_tcrs, tcr_lens = pad_batch(batch_tcrs)
@@ -103,11 +103,11 @@ def predict(pairs_file, device, model_file):
     params['option'] = 0
 
     # test
-    test_tcrs, test_peps = get_lists_from_pairs(test)
+    test_tcrs, test_peps = get_lists_from_pairs(pairs_file)
     tcrs_copy = test_tcrs.copy()
     peps_copy = test_peps.copy()
     convert_data(test_tcrs, test_peps, amino_to_ix)
-    test_batches = get_batches(test_tcrs, test_peps, params['batch_size'])
+    test_batches = get_batches(test_tcrs, test_peps, params['batch_size'], amino_to_ix)
 
     # load model
     model = DoubleLSTMClassifier(params['emb_dim'], params['lstm_dim'], params['dropout'], device)
@@ -125,11 +125,11 @@ def predict(pairs_file, device, model_file):
         pep_lens = pep_lens.to(device)
         probs = model(padded_tcrs, tcr_lens, padded_peps, pep_lens)
         results.extend([prob.item() for prob in probs])
-    results = results[:len(tcrs)]
+    results = results[:len(test_tcrs)]
     for tcr, pep, prob in zip(tcrs_copy, peps_copy, results):
         print('\t'.join([tcr, pep, str(prob)]))
     pass
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    predict('pairs_example', 'cuda:0', 'lstm_model.pt')
