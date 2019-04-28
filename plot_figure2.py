@@ -3,6 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 import os
+import torch
+import pickle
+from ae_pep_cd_test_eval import *
+from scipy import stats
 
 w = 'pair_sampling/pairs_data/weizmann_pairs.txt'
 s = 'pair_sampling/pairs_data/shugay_pairs.txt'
@@ -37,8 +41,8 @@ def tcr_per_pep_dist(ax, data1, data2, title):
     ax.plot(range(len(tcr_nums2)), np.log(np.array(tcr_nums2)),
            color='springgreen', label='VDJdb')
 
-    ax.set_ylabel('log TCRs per peptide', fontdict={'fontsize': 12})
-    ax.set_xlabel('peptide index', fontdict={'fontsize': 12})
+    ax.set_ylabel('log TCRs per peptide', fontdict={'fontsize': 14})
+    ax.set_xlabel('peptide index', fontdict={'fontsize': 14})
     ax.set_title(title, fontdict={'fontsize': 16})
     ax.legend()
     pass
@@ -90,8 +94,8 @@ def subsamples_auc(ax, key1, key2, title):
 
     ax.errorbar(range(max_index1)[:-1], means1[:-1], yerr=stds1[:-1], color='dodgerblue', label='McPAS')
     ax.errorbar(range(max_index2), means2, yerr=stds2, color='springgreen', label='VDJdb')
-    ax.set_xlabel('Number of TCR-peptide pairs / 1000', fontdict={'fontsize': 12})
-    ax.set_ylabel('Mean AUC score', fontdict={'fontsize': 12})
+    ax.set_xlabel('Number of TCR-peptide pairs / 1000', fontdict={'fontsize': 11})
+    ax.set_ylabel('Mean AUC score', fontdict={'fontsize': 14})
     ax.set_title(title, fontdict={'fontsize': 16})
     ax.legend()
 
@@ -102,8 +106,8 @@ def plot_roc(ax, title, files, labels, colors, lns):
         ax.plot(roc['fpr'], roc['tpr'], label=label + ', AUC=' + str(format(roc['auc'].item(), '.3f')),
                  color=color, linestyle=ln)
     plt.title(title, fontdict={'fontsize': 16})
-    ax.set_xlabel('False positive rate', fontdict={'fontsize': 12})
-    ax.set_ylabel('True positive rate', fontdict={'fontsize': 12})
+    ax.set_xlabel('False positive rate', fontdict={'fontsize': 14})
+    ax.set_ylabel('True positive rate', fontdict={'fontsize': 14})
     ax.legend()
 
 
@@ -165,27 +169,125 @@ def position_auc(ax, title):
         ax.errorbar(range(1, len(auc_mean) + 1), auc_mean, yerr=auc_std, label=label,
                     color=color, linestyle=style)
     ax.legend(loc=4, prop={'size': 8})
-    ax.set_xlabel('missing amino acid index', fontdict={'fontsize': 12})
-    ax.set_ylabel('best AUC score', fontdict={'fontsize': 12})
+    ax.set_xlabel('missing amino acid index', fontdict={'fontsize': 11})
+    ax.set_ylabel('best AUC score', fontdict={'fontsize': 14})
     ax.set_title(title, fontdict={'fontsize': 16})
+    pass
+
+
+def auc_per_pep_num_tcrs(ax, device):
+    # Word to index dictionary
+    amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
+    pep_atox = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
+    tcr_atox = {amino: index for index, amino in enumerate(amino_acids + ['X'])}
+    args = {}
+    args['ae_file'] = 'pad_full_data_autoencoder_model1.pt'
+    params = {}
+    params['lr'] = 1e-3
+    params['wd'] = 1e-5
+    params['epochs'] = 200
+    params['emb_dim'] = 10
+    params['enc_dim'] = 30
+    params['dropout'] = 0.1
+    params['train_ae'] = False
+    # Load autoencoder params
+    checkpoint = torch.load(args['ae_file'])
+    params['max_len'] = checkpoint['max_len']
+    params['batch_size'] = checkpoint['batch_size']
+    batch_size = params['batch_size']
+
+    directory = 'test_and_models_with_cd/'
+    auc_mat = np.zeros((10, 8))
+    for iteration in range(10):
+        # load test
+        test_file = directory + 'ae_test_w_' + str(iteration)
+        model_file = directory + 'ae_model_w_' + str(iteration)
+        device = device
+        with open(test_file, 'rb') as fp:
+            test = pickle.load(fp)
+        # test
+        test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, params['max_len'])
+        test_batches = get_batches(test_tcrs, test_peps, test_signs, tcr_atox, pep_atox, params['batch_size'],
+                                   params['max_len'])
+        # load model
+        model = AutoencoderLSTMClassifier(params['emb_dim'], device, params['max_len'], 21, params['enc_dim'],
+                                          params['batch_size'], args['ae_file'], params['train_ae'])
+        trained_model = torch.load(model_file)
+        model.load_state_dict(trained_model['model_state_dict'])
+        model.eval()
+        model = model.to(device)
+
+        peps_pos_probs = {}
+        for i in range(len(test_batches)):
+            batch = test_batches[i]
+            batch_data = test[i * batch_size: (i + 1) * batch_size]
+            tcrs, padded_peps, pep_lens, batch_signs = batch
+            # Move to GPU
+            tcrs = torch.tensor(tcrs).to(device)
+            padded_peps = padded_peps.to(device)
+            pep_lens = pep_lens.to(device)
+            probs = model(tcrs, padded_peps, pep_lens)
+            peps = [data[1] for data in batch_data]
+            # cd = [data[2] for data in batch_data]
+            for pep, prob, sign in zip(peps, probs, batch_signs):
+                try:
+                    peps_pos_probs[pep].append((prob.item(), sign))
+                except KeyError:
+                    peps_pos_probs[pep] = [(prob.item(), sign)]
+        bins = {}
+        for pep in peps_pos_probs:
+            num_examples = len(peps_pos_probs[pep])
+            bin = int(np.floor(np.log2(num_examples)))
+            try:
+                bins[bin].extend(peps_pos_probs[pep])
+            except KeyError:
+                bins[bin] = peps_pos_probs[pep]
+        for bin in bins:
+            pass
+            # print(bin, len(bins[bin]))
+        bin_aucs = {}
+        for bin in bins:
+            try:
+                auc = roc_auc_score([p[1] for p in bins[bin]], [p[0] for p in bins[bin]])
+                bin_aucs[bin] = auc
+                # print(bin, auc)
+            except ValueError:
+                # print(bin, [p[1] for p in bins[bin]])
+                pass
+        bin_aucs = sorted(bin_aucs.items())
+        print(bin_aucs)
+        auc_mat[iteration] = np.array([t[1] for t in bin_aucs])
+        pass
+    # print(auc_mat)
+    means = np.mean(auc_mat, axis=0)
+    std = stats.sem(auc_mat, axis=0)
+    print(means, std)
+    ax.errorbar([j[0] for j in bin_aucs], means, yerr=std)
+    ax.set_xticks([j[0] for j in bin_aucs])
+    ax.set_xticklabels([2 ** j[0] for j in bin_aucs])
+    ax.set_xlabel('number of peptide TCRs bins', fontdict={'fontsize': 14})
+    ax.set_ylabel('averaged AUC score', fontdict={'fontsize': 14})
+    ax.set_title('AUC per number of TCRs per peptide', fontdict={'fontsize': 16})
     pass
 
 
 def main():
     fig = plt.figure(2)
-    ax = fig.add_subplot(224)
+    ax = fig.add_subplot(234)
     tcr_per_pep_dist(ax, w, s, 'Number of TCRs pep peptide')
-    ax = fig.add_subplot(221)
+    ax = fig.add_subplot(231)
     subsamples_auc(ax, 'w', 's', 'AUC per number of pairs')
-    ax = fig.add_subplot(222)
+    ax = fig.add_subplot(232)
     plot_roc(ax, 'Models ROC curve on cancer dataset',
              ['ae_roc_exc_gp2.npz', 'ae_roc_exc2.npz', 'lstm_roc_exc_gp2.npz', 'lstm_roc_exc2.npz'],
              ['AE, externals', 'AE, internals', 'LSTM, externals', 'LSTM, internals'],
              ['salmon', 'orchid', 'salmon', 'orchid'],
              ['-', '-', '--', '--'])
-    ax = fig.add_subplot(223)
+    ax = fig.add_subplot(233)
     position_auc(ax, 'AUC per missing amino acids')
-    # plt.tight_layout()
+    ax = fig.add_subplot(236)
+    auc_per_pep_num_tcrs(ax, 'cuda:0')
+    plt.tight_layout()
     plt.show()
     pass
 
