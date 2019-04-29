@@ -41,8 +41,8 @@ def tcr_per_pep_dist(ax, data1, data2, title):
     ax.plot(range(len(tcr_nums2)), np.log(np.array(tcr_nums2)),
            color='springgreen', label='VDJdb')
 
-    ax.set_ylabel('log TCRs per peptide', fontdict={'fontsize': 14})
-    ax.set_xlabel('peptide index', fontdict={'fontsize': 14})
+    ax.set_ylabel('Log TCRs per peptide', fontdict={'fontsize': 14})
+    ax.set_xlabel('Peptide index', fontdict={'fontsize': 14})
     ax.set_title(title, fontdict={'fontsize': 16})
     ax.legend()
     pass
@@ -94,7 +94,7 @@ def subsamples_auc(ax, key1, key2, title):
 
     ax.errorbar(range(max_index1)[:-1], means1[:-1], yerr=stds1[:-1], color='dodgerblue', label='McPAS')
     ax.errorbar(range(max_index2), means2, yerr=stds2, color='springgreen', label='VDJdb')
-    ax.set_xlabel('Number of TCR-peptide pairs / 1000', fontdict={'fontsize': 11})
+    ax.set_xlabel('Number of TCR-peptide pairs / 1000', fontdict={'fontsize': 11}, labelpad=1)
     ax.set_ylabel('Mean AUC score', fontdict={'fontsize': 14})
     ax.set_title(title, fontdict={'fontsize': 16})
     ax.legend()
@@ -169,8 +169,8 @@ def position_auc(ax, title):
         ax.errorbar(range(1, len(auc_mean) + 1), auc_mean, yerr=auc_std, label=label,
                     color=color, linestyle=style)
     ax.legend(loc=4, prop={'size': 8})
-    ax.set_xlabel('missing amino acid index', fontdict={'fontsize': 11})
-    ax.set_ylabel('best AUC score', fontdict={'fontsize': 14})
+    ax.set_xlabel('Missing amino acid index', fontdict={'fontsize': 11}, labelpad=1)
+    ax.set_ylabel('Best AUC score', fontdict={'fontsize': 14})
     ax.set_title(title, fontdict={'fontsize': 16})
     pass
 
@@ -262,11 +262,11 @@ def auc_per_pep_num_tcrs(ax, device):
     means = np.mean(auc_mat, axis=0)
     std = stats.sem(auc_mat, axis=0)
     print(means, std)
-    ax.errorbar([j[0] for j in bin_aucs], means, yerr=std)
+    ax.errorbar([j[0] for j in bin_aucs], means, yerr=std, color='dodgerblue')
     ax.set_xticks([j[0] for j in bin_aucs])
     ax.set_xticklabels([2 ** j[0] for j in bin_aucs])
-    ax.set_xlabel('number of peptide TCRs bins', fontdict={'fontsize': 14})
-    ax.set_ylabel('averaged AUC score', fontdict={'fontsize': 14})
+    ax.set_xlabel('Number of peptide TCRs bins', fontdict={'fontsize': 14})
+    ax.set_ylabel('Averaged AUC score', fontdict={'fontsize': 14})
     ax.set_title('AUC per number of TCRs per peptide', fontdict={'fontsize': 16})
     pass
 
