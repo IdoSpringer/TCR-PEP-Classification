@@ -94,7 +94,7 @@ def extract_negs_tcrgp_tcrs(path, filename):
                             file2.write(tcr_beta + '\n')
 
 
-def extract_10mers_common_peps(read, out1, out2):
+def extract_10mers_common_peps(read, out1, out2, length=10):
     pep_tcrs = {}
     with open(read, 'r') as file:
         file.readline()
@@ -106,7 +106,7 @@ def extract_10mers_common_peps(read, out1, out2):
                 peptide = line[11]
                 if not any(k == 'NA' for k in [tcr_beta, peptide]):
                     tcr_beta = tcr_beta[3:-1]
-                    print(tcr_beta, peptide)
+                    # print(tcr_beta, peptide)
                     try:
                         pep_tcrs[peptide].append(tcr_beta)
                     except KeyError:
@@ -114,23 +114,23 @@ def extract_10mers_common_peps(read, out1, out2):
         except UnicodeDecodeError:
             pass
     pep_tcrs = sorted(pep_tcrs.items(), key=lambda x: len(x[1]), reverse=True)
-    # print(tcr_beta)
-    # with open(filename, 'a+') as file2:
-    # file2.write(tcr_beta + '\n')
-    tcrs1 = [tcr for tcr in pep_tcrs[0][1] if len(tcr) == 10]
+    print(pep_tcrs[0][0], pep_tcrs[1][0])
+    tcrs1 = [tcr for tcr in pep_tcrs[0][1] if len(tcr) == length]
     with open(out1, 'a+') as file:
         for tcr in tcrs1:
             file.write(tcr + '\n')
-    tcrs2 = [tcr for tcr in pep_tcrs[1][1] if len(tcr) == 10]
+    tcrs2 = [tcr for tcr in pep_tcrs[1][1] if len(tcr) == length]
     with open(out2, 'a+') as file:
         for tcr in tcrs2:
             file.write(tcr + '\n')
     print(tcrs1)
     print(tcrs2)
-
     pass
 
-extract_10mers_common_peps(read, 'McPAS_1pep_10mers', 'McPAS_2pep_10mers')
+# extract_10mers_common_peps(read, 'McPAS_1pep_10mers', 'McPAS_2pep_10mers')
+extract_10mers_common_peps(read, 'McPAS_1pep_11mers', 'McPAS_2pep_11mers', length=11)
+extract_10mers_common_peps(read, 'McPAS_1pep_9mers', 'McPAS_2pep_9mers', length=9)
+extract_10mers_common_peps(read, 'McPAS_1pep_8mers', 'McPAS_2pep_8mers', length=8)
 
 
 # extract_tcrgp(path, filename)
