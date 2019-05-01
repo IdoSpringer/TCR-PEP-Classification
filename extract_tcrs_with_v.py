@@ -21,7 +21,7 @@ def extract_mcpas(read, filename):
                     file2.write('\t'.join([tcr_beta, v_beta_gene, peptide]) + '\n')
 
 
-def extract_mcpas_tcrs(read, filename):
+def extract_mcpas_tcrs(read, filename, length=10):
     with open(read, 'r') as file:
         reader = csv.reader(file)
         try:
@@ -30,9 +30,10 @@ def extract_mcpas_tcrs(read, filename):
                 tcr_beta = line[1]
                 if not any(k == 'NA' for k in [tcr_beta]):
                     tcr_beta = tcr_beta[3:-1]
-                    print(tcr_beta)
-                    with open(filename, 'a+') as file2:
-                        file2.write(tcr_beta + '\n')
+                    if len(tcr_beta) == length:
+                        # print(tcr_beta)
+                        with open(filename, 'a+') as file2:
+                            file2.write(tcr_beta + '\n')
         except UnicodeDecodeError:
             pass
 
@@ -77,7 +78,7 @@ def extract_negs_tcrgp(path, filename):
                             file2.write('\t'.join([tcr_beta, v_beta_gene, peptide]) + '\n')
 
 
-def extract_negs_tcrgp_tcrs(path, filename):
+def extract_negs_tcrgp_tcrs(path, filename, length=10):
     for directory, subdirectories, files in os.walk(path):
         for file in files:
             print(file)
@@ -89,9 +90,10 @@ def extract_negs_tcrgp_tcrs(path, filename):
                     peptide = line[0]
                     if (not any(k == 'NA' for k in [tcr_beta])) and peptide == 'none':
                         tcr_beta = tcr_beta[3:-1]
-                        print(tcr_beta)
-                        with open(filename, 'a+') as file2:
-                            file2.write(tcr_beta + '\n')
+                        if len(tcr_beta) == length:
+                            # print(tcr_beta)
+                            with open(filename, 'a+') as file2:
+                                file2.write(tcr_beta + '\n')
 
 
 def extract_10mers_common_peps(read, out1, out2, length=10):
@@ -128,9 +130,9 @@ def extract_10mers_common_peps(read, out1, out2, length=10):
     pass
 
 # extract_10mers_common_peps(read, 'McPAS_1pep_10mers', 'McPAS_2pep_10mers')
-extract_10mers_common_peps(read, 'McPAS_1pep_11mers', 'McPAS_2pep_11mers', length=11)
-extract_10mers_common_peps(read, 'McPAS_1pep_9mers', 'McPAS_2pep_9mers', length=9)
-extract_10mers_common_peps(read, 'McPAS_1pep_8mers', 'McPAS_2pep_8mers', length=8)
+# extract_10mers_common_peps(read, 'McPAS_1pep_11mers', 'McPAS_2pep_11mers', length=11)
+# extract_10mers_common_peps(read, 'McPAS_1pep_9mers', 'McPAS_2pep_9mers', length=9)
+# extract_10mers_common_peps(read, 'McPAS_1pep_8mers', 'McPAS_2pep_8mers', length=8)
 
 
 # extract_tcrgp(path, filename)
@@ -138,3 +140,13 @@ extract_10mers_common_peps(read, 'McPAS_1pep_8mers', 'McPAS_2pep_8mers', length=
 
 # extract_mcpas_tcrs(read, 'McPAS-TCR_no_cas')
 # extract_negs_tcrgp_tcrs('TCRGP/training_data', 'TCRGP_negs_no_cas')
+#
+#
+# extract_mcpas_tcrs(read, 'McPAS_8mers', length=8)
+# extract_negs_tcrgp_tcrs('TCRGP/training_data', 'TCRGP_8mers', length=8)
+#
+# extract_mcpas_tcrs(read, 'McPAS_9mers', length=9)
+# extract_negs_tcrgp_tcrs('TCRGP/training_data', 'TCRGP_9mers', length=9)
+#
+# extract_mcpas_tcrs(read, 'McPAS_11mers', length=11)
+# extract_negs_tcrgp_tcrs('TCRGP/training_data', 'TCRGP_11mers', length=11)
