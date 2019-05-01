@@ -255,13 +255,13 @@ def auc_per_pep_num_tcrs(ax, device):
                 # print(bin, [p[1] for p in bins[bin]])
                 pass
         bin_aucs = sorted(bin_aucs.items())
-        print(bin_aucs)
+        # print(bin_aucs)
         auc_mat[iteration] = np.array([t[1] for t in bin_aucs])
         pass
     # print(auc_mat)
     means = np.mean(auc_mat, axis=0)
     std = stats.sem(auc_mat, axis=0)
-    print(means, std)
+    # print(means, std)
     ax.errorbar([j[0] for j in bin_aucs], means, yerr=std, color='dodgerblue')
     ax.set_xticks([j[0] for j in bin_aucs])
     ax.set_xticklabels([2 ** j[0] for j in bin_aucs])
@@ -273,20 +273,28 @@ def auc_per_pep_num_tcrs(ax, device):
 
 def main():
     fig = plt.figure(2)
-    ax = fig.add_subplot(234)
-    tcr_per_pep_dist(ax, w, s, 'Number of TCRs pep peptide')
     ax = fig.add_subplot(231)
     subsamples_auc(ax, 'w', 's', 'AUC per number of pairs')
+    ax.text(-0.1, 1.1, 'A', transform=ax.transAxes, fontsize=20, fontweight='bold', va='top', ha='right')
     ax = fig.add_subplot(232)
     plot_roc(ax, 'Models ROC curve on cancer dataset',
              ['ae_roc_exc_gp2.npz', 'ae_roc_exc2.npz', 'lstm_roc_exc_gp2.npz', 'lstm_roc_exc2.npz'],
              ['AE, externals', 'AE, internals', 'LSTM, externals', 'LSTM, internals'],
              ['salmon', 'orchid', 'salmon', 'orchid'],
              ['-', '-', '--', '--'])
+    ax.text(-0.1, 1.1, 'B', transform=ax.transAxes, fontsize=20, fontweight='bold', va='top', ha='right')
     ax = fig.add_subplot(233)
     position_auc(ax, 'AUC per missing amino acids')
+    ax.text(-0.1, 1.1, 'C', transform=ax.transAxes, fontsize=20, fontweight='bold', va='top', ha='right')
+    ax = fig.add_subplot(234)
+    tcr_per_pep_dist(ax, w, s, 'Number of TCRs pep peptide')
+    ax.text(-0.1, 1.1, 'D', transform=ax.transAxes, fontsize=20, fontweight='bold', va='top', ha='right')
+    ax = fig.add_subplot(235)
+    ax.axis('off')
+    ax.text(-0.1, 1.1, 'E', transform=ax.transAxes, fontsize=20, fontweight='bold', va='top', ha='right')
     ax = fig.add_subplot(236)
     auc_per_pep_num_tcrs(ax, 'cuda:0')
+    ax.text(-0.1, 1.1, 'F', transform=ax.transAxes, fontsize=20, fontweight='bold', va='top', ha='right')
     plt.tight_layout()
     plt.show()
     pass
