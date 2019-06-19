@@ -17,6 +17,8 @@ import load_with_tcrgp as d2
 import load_netTCR_data as d3
 from tcr_ae_pep_lstm_model import AutoencoderLSTMClassifier
 import matplotlib.pyplot as plt
+import pickle
+
 
 def get_lists_from_pairs(pairs, max_len):
     tcrs = []
@@ -237,6 +239,9 @@ def main(argv):
         pairs_file = 'netTCR/parameters/iedb_mira_pos_uniq.txt'
         train, test = d3.load_data(pairs_file)
 
+    with open(argv[8] + '.pickle', 'wb') as handle:
+        pickle.dump(test, handle)
+
     # train
     train_tcrs, train_peps, train_signs = get_lists_from_pairs(train, params['max_len'])
     train_batches = get_batches(train_tcrs, train_peps, train_signs, tcr_atox, pep_atox, params['batch_size'], params['max_len'])
@@ -261,5 +266,68 @@ def main(argv):
 # python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore.pt cuda:0 train_auc test_auc
 # python tcr_ae_pep_lstm_train.py pad_full_data_autoencoder_model1.pt ignore_c.pt cuda:0 ae_c_train_auc ae_c_test_auc
 
+def pep_test(test_pickle, model_file):
+    # Word to index dictionary
+    amino_acids = [letter for letter in 'ARNDCEQGHILKMFPSTWYV']
+    pep_atox = {amino: index for index, amino in enumerate(['PAD'] + amino_acids)}
+    tcr_atox = {amino: index for index, amino in enumerate(amino_acids + ['X'])}
+    with open(test_pickle, 'rb') as handle:
+        test = pickle.load(handle)
+    # test
+    test_tcrs, test_peps, test_signs = get_lists_from_pairs(test, 28)
+    device = 'cuda:0'
+    model = AutoencoderLSTMClassifier(10, device, 28, 21, 30, 50, 'pad_full_data_autoencoder_model1.pt', False)
+    checkpoint = torch.load(model_file)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    model.to(device)
+    model.eval()
+    """
+    McPAS most frequent peps
+    LPRRSGAAGA 2145 Influenza
+    GILGFVFTL 1598 Influenza
+    GLCTLVAML 1071 Epstein Barr virus (EBV)	
+    NLVPMVATV 809 Cytomegalovirus (CMV)	
+    SSYRRPVGI 653 Influenza
+    """
+    rocs = []
+    for pep in ['LPRRSGAAGA', 'GILGFVFTL', 'GLCTLVAML', 'NLVPMVATV', 'SSYRRPVGI']:
+        pep_shows = [i for i in range(len(test_peps)) if pep == test_peps[i]]
+        test_tcrs_pep = [test_tcrs[i] for i in pep_shows]
+        test_peps_pep = [test_peps[i] for i in pep_shows]
+        test_signs_pep = [test_signs[i] for i in pep_shows]
+        test_batches_pep = get_batches(test_tcrs_pep, test_peps_pep, test_signs_pep, tcr_atox, pep_atox, 50, 28)
+        if len(pep_shows):
+            test_auc, roc = evaluate(model, test_batches_pep, device)
+            rocs.append((pep, roc))
+            print(pep, test_auc)
+    return rocs
+
+
+def plot_pep_test_rocs():
+    rocs = pep_test('test_data_mcpas_ae.pickle', 'mcpas_ae_model.pt')
+    naive_rocs = pep_test('test_data_mcpas_ae_naive.pickle', 'mcpas_naive_ae_model.pt')
+    colors = ['deepskyblue', 'orange', 'limegreen', 'gold', 'crimson']
+    for t1, t2, c in zip(rocs, naive_rocs, colors):
+        pep1, roc = t1
+        pep2, naive_roc = t2
+        assert pep1 == pep2
+        fpr, tpr, thresholds = roc
+        plt.plot(fpr, tpr, label=pep1, color=c)
+        fpr, tpr, thresholds = naive_roc
+        plt.plot(fpr, tpr, label='naïve ' + pep1, color=c)
+        pass
+    plt.legend()
+    plt.title('Distinguishing single peptide binders ROC curves')
+    plt.show()
+    pass
+
+
+def protein_test():
+    pass
+
+
 if __name__ == '__main__':
-    main(sys.argv)
+    if len(sys.argv) > 3:
+        main(sys.argv)
+    else:
+        plot_pep_test_rocs()
