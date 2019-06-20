@@ -254,5 +254,19 @@ def main():
     pass
 
 
+def figure_for_research_proposal():
+    fig = plt.figure(1)
+    ax = fig.add_subplot(111)
+    plot_roc(ax, 'Models ROC curve on McPAS-TCR',
+             ['ae_roc_w_gp2.npz', 'ae_roc_w2.npz', 'lstm_roc_w_gp2.npz', 'lstm_roc_w2.npz'],
+             ['AE, externals', 'AE, internals', 'LSTM, externals', 'LSTM, internals'],
+             ['salmon', 'dodgerblue', 'salmon', 'dodgerblue'],
+             ['-', '-', '--', '--'])
+    plt.tight_layout()
+    plt.show()
+    pass
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    figure_for_research_proposal()
